@@ -1,5 +1,6 @@
 #pragma systemFile //supress unreferenced function warning
 
+//variables & constants
 const float WHEEL_DIAMETER = 3.25;
 float gyroValue;
 
@@ -17,9 +18,12 @@ void setAllDrive(int speed) {
 */
 void driveInches(float distance) {
 
-	setAllDrive(0);
+	nMotorEncoder[backLeft] = 0;
+	nMotorEncoder[frontLeft] = 0;
+	nMotorEncoder[backRight] = 0;
+	nMotorEncoder[frontRight] = 0;
 
-	const float max = distance < 0 ? -128 : 128;
+	const float max = distance < 0 ? -96 : 127;
 	const float ticks = abs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
 
 	float leftAverage = 0;
@@ -29,13 +33,13 @@ void driveInches(float distance) {
 	float leftSpeed = 0;
 	float rightSpeed = 0;
 
-	do {
+	while(leftAverage < ticks || rightAverage < ticks) {
 
 		leftAverage = ( abs(nMotorEncoder[backLeft]) + abs(nMotorEncoder[frontLeft]) ) / 2.0;
 		rightAverage = ( abs(nMotorEncoder[backRight]) + abs(nMotorEncoder[frontRight]) ) / 2.0;
 		average = ( leftAverage + rightAverage ) / 2.0;
 
-		speed = max;//atan(0.00125*3*(ticks - average)) / (PI/2) * max;
+		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
 
 		if(leftAverage < rightAverage) {
 			leftSpeed = speed;
@@ -50,11 +54,10 @@ void driveInches(float distance) {
 		setMotor(backRight, rightSpeed);
 		setMotor(frontRight, rightSpeed);
 
-	} while(leftAverage < ticks || rightAverage < ticks);
+	}
 
-
-	leftSpeed = max < 0 ? 128: -128;
-	rightSpeed = max < 0 ? 128: -128;
+	leftSpeed = max < 0 ? 127: -64;
+	rightSpeed = max < 0 ? 127: -64;
 
 	setMotor(backLeft, leftSpeed);
 	setMotor(frontLeft, leftSpeed);
@@ -68,34 +71,32 @@ void driveInches(float distance) {
 }
 
 void squareRobot() {
-
 	while(!SensorValue[touch1] || !SensorValue[touch2])
 		setAllDrive(-128);
-
 	setAllDrive(0);
 }
-
 
 /*
 	angle > 0 >>> clockwise
 	angle < 0 >>> counterclockwise
 */
-
 void turnDegrees(float angle){
 
-	bool rightTurn = angle < 0;
+	bool rightTurn = angle > 0;
 
-	float initial = abs(SensorValue[in1]);
+	float initial = abs(SensorValue[in1]/10.0);
 	float absGyroValue = abs(SensorValue[in1]/10.0);
 
 	float leftSpeed = rightTurn ? 80 : -80;
 	float rightSpeed = rightTurn ? -80 : 80;
 
+	const float K = 0.04;
+
 	while(abs(absGyroValue-initial) < abs(angle) ) {
-		setMotor(backLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(backRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
+		setMotor(backLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
+		setMotor(frontLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
+		setMotor(backRight, rightSpeed * atan(K * abs(angle - gyroValue)));
+		setMotor(frontRight, rightSpeed * atan(K * abs(angle - gyroValue)));
 		absGyroValue = abs(SensorValue[in1]/10.0);
 	}
 
@@ -116,6 +117,7 @@ void turnDegrees(float angle){
 	angle > 0 >>> clockwise
 	angle < 0 >>> counterclockwise
 */
+//Try to avoid using this function, it will eventually malfunction because of gyro drift
 void targetAngle(float angle, bool rightTurn){
 
 	const float speed = rightTurn ? -80 : 80;
@@ -150,6 +152,9 @@ void targetAngle(float angle, bool rightTurn){
 	setAllDrive(0);
 }
 
+
+
+
 void setAllForklift(int speed) {
 	setMotor(forklift1, speed);
 	setMotor(forklift2, speed);
@@ -158,33 +163,28 @@ void setAllForklift(int speed) {
 	setMotor(forklift5, speed);
 }
 
-
 /*
 	angle > 0 >>> raise
 	angle < 0 >>> lower
 */
+//Don't use this function, it wastes time, use a task in parallel instead
 void moveForkliftDegrees(float angle) {
-
 	SensorValue[sixBar] = 0;
 	float speed = angle < 0 ? -128 : 128;
-
 	while(abs(SensorValue[sixBar]) < abs(angle))
 		setAllForklift(speed);
-
 	setAllForklift(0);
 }
 
 task raiseForklift() {
 	while(abs(SensorValue[sixBar]) < 100)
 		setAllForklift(128);
-
 	setAllForklift(0);
 }
 
 task lowerForklift() {
 	while(abs(SensorValue[sixBar]) > 1)
 		setAllForklift(-128);
-
 	setAllForklift(0);
 }
 
@@ -200,6 +200,9 @@ task maintainForkliftDown() {
 	setAllForklift(0);
 }
 
+
+
+
 /*
 Use these methods to avoid having to change the sensor value if the physical setup of the pneumatics changes
 */
@@ -209,7 +212,3 @@ void openClaw() {
 void closeClaw() {
 	SensorValue[claw] = 0;
 }
-
-/*void changeClaw() {
-	SensorValue[claw] = !SensorValue[claw];
-}*/
