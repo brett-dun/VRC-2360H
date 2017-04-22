@@ -26,15 +26,20 @@
 /*****************************************************************/
 int maxSpeed = 128; //the robot will start with its maximum speed
 int enableClaw = 1; //the claw is ready to be used
-int speed = 0;
+//int speed = 0;
 /*****************************************************************/
+
+SmartMotorSetSlewRate(backLeft, 10);
+SmartMotorSetSlewRate(frontLeft, 10);
+SmartMotorSetSlewRate(backRight, 10);
+SmartMotorSetSlewRate(frontRight, 10);
 
 clearTimer(T1); //Clear the timer
 
 //Clear the LCD
 clearLCDLine(0);
 clearLCDLine(1);
-bLCDBacklight = false; //Turn the LCD's backlight off
+bLCDBacklight = true; //Turn the LCD's backlight off
 displayLCDCenteredString(0, "2630H");
 displayLCDCenteredString(1, "HELIX");
 
@@ -50,33 +55,26 @@ while(true) { //Run for the duration of the entire driver control period
 		maxSpeed = 64; //Change the maximum speed to 32 (1/4 of the maximum value)
 	}
 
-	motor[frontLeft] = vexRT[Ch3] * (maxSpeed / 128.0); //Control the left side of the drive train
-	motor[backLeft] = vexRT[Ch3] * (maxSpeed / 128.0); //Control the right side of the drive train
-	motor[frontRight] = vexRT[Ch2] * (maxSpeed / 128.0);
-	motor[backRight] = vexRT[Ch2] * (maxSpeed / 128.0);
+	SetMotor(backLeft, vexRT[Ch3] * maxSpeed / 128.0);
+	SetMotor(frontLeft, vexRT[Ch3] * maxSpeed / 128.0);
+	SetMotor(backRight, vexRT[Ch2] * maxSpeed / 128.0);
+	SetMotor(frontRight, vexRT[Ch2] * maxSpeed / 128.0);
 
 	if(vexRT[Btn6U]) { //If button 6U is pressed
-		speed = 128;
+		setAllForklift(128);
 	} else if(vexRT[Btn6D]) { //If button 6D is pressed
 		 if(SensorValue[sixBar] > 36) {
-			speed = -128;
+			setAllForklift(-128);
 		} else if(SensorValue[sixBar] > 24) {
-			speed = -96;
+			setAllForklift(-96);
 		} else if(SensorValue[sixBar] > 12) {
-			speed = -64;
+			setAllForklift(-64);
 		} else {
-			speed = -32;
+			setAllForklift(-32);
 		}
 	} else {
-		speed = 0;
+		setAllForklift(0);
 	}
-
-	motor[forklift1] = speed;
-	motor[forklift2] = speed;
-	motor[forklift3] = speed;
-	motor[forklift4] = speed;
-	motor[forklift5] = speed;
-
 
 	if(vexRT[Btn5U] && enableClaw) { //If button 5U is pressed and enable claw has a non-zero value
 		SensorValue[claw] = !SensorValue[claw]; //

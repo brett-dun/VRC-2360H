@@ -49,3 +49,22 @@ SensorType[in1] = sensorNone;
 delay(2000);
 SensorType[in1] = sensorGyro;
 delay(2000);
+
+
+SmartMotorsInit();
+
+SmartMotorLinkMotors(forklift1, forklift2);
+SmartMotorLinkMotors(forklift1, forklift3);
+SmartMotorLinkMotors(forklift1, forklift4);
+SmartMotorLinkMotors(forklift1, forklift5);
+
+SmartMotorsSetEncoderGearing(forklift1, 5); //check this ratio
+SmartMotorsAddPowerExtender(5, 7, 5, 9); //check to see whether port five needs to be here twice
+SmartMotorPtcMonitorEnable();
+
+SmartMotorSetSlewRate(backLeft, 255);
+SmartMotorSetSlewRate(frontLeft, 255);
+SmartMotorSetSlewRate(backRight, 255);
+SmartMotorSetSlewRate(frontRight, 255);
+
+SmartMotorRun();
