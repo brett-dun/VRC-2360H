@@ -37,7 +37,8 @@ void pre_auton() {
 }
 
 task autonomous() {
-#include "autonomous.c"
+	driveInches(24);
+//#include "autonomous.c"
 }
 
 task usercontrol() {

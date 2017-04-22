@@ -23,7 +23,7 @@ void driveInches(float distance) {
 	nMotorEncoder[backRight] = 0;
 	nMotorEncoder[frontRight] = 0;
 
-	const float max = distance < 0 ? -96 : 127;
+	const float max = distance < 0 ? -80 : 80;
 	const float ticks = abs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
 
 	float leftAverage = 0;
@@ -56,15 +56,58 @@ void driveInches(float distance) {
 
 	}
 
-	leftSpeed = max < 0 ? 127: -64;
-	rightSpeed = max < 0 ? 127: -64;
+	/*leftSpeed = max < 0 ? 127: -127;
+	rightSpeed = max < 0 ? 127: -127;
 
 	setMotor(backLeft, leftSpeed);
 	setMotor(frontLeft, leftSpeed);
 	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);
+	setMotor(frontRight, rightSpeed);*/
 
-	delay(100);
+	/*float prevLeftside = (abs(nMotorEncoder(backLeft)) + abs(nMotorEncoder(frontLeft)) ) / 2.0;
+	float prevRightside = (abs(nMotorEncoder(backRight)) + abs(nMotorEncoder(frontRight)) ) / 2.0;
+	delay(10);
+	float currentLeftside = (abs(nMotorEncoder(backLeft)) + abs(nMotorEncoder(frontLeft)) ) / 2.0;
+	float currentRightside = (abs(nMotorEncoder(backRight)) + abs(nMotorEncoder(frontRight)) ) / 2.0;
+
+	while(abs(prevLeftside - currentLeftside) < 5 || abs(prevRightside - currentRightside) < 5) {
+		if(abs(prevLeftside - currentLeftside) < 2) {
+			setMotor(backLeft, 0);
+			setMotor(frontLeft, 0);
+		}
+		if(abs(prevRightside - currentRightside) < 2) {
+			setMotor(backRight, 0);
+			setMotor(frontRight, 0);
+		}
+		prevLeftside = currentLeftside;
+		prevRightside = currentRightside;
+		currentLeftside = (abs(nMotorEncoder(backLeft)) + abs(nMotorEncoder(frontLeft)) ) / 2.0;
+		currentRightside = (abs(nMotorEncoder(backRight)) + abs(nMotorEncoder(frontRight)) ) / 2.0;
+		delay(10);
+	}*/
+	//delay(100);
+	while(leftAverage > ticks || rightAverage >  ticks) {
+
+		leftAverage = ( abs(nMotorEncoder[backLeft]) + abs(nMotorEncoder[frontLeft]) ) / 2.0;
+		rightAverage = ( abs(nMotorEncoder[backRight]) + abs(nMotorEncoder[frontRight]) ) / 2.0;
+		average = ( leftAverage + rightAverage ) / 2.0;
+
+		speed = atan(0.05*(ticks - average)) / (PI/2.0) * max * 0.75;
+
+		if(leftAverage > rightAverage) {
+			leftSpeed = speed;
+			rightSpeed = speed - atan(0.5 *(average-leftAverage)) / (PI/2) * speed;
+		} else {
+			leftSpeed = speed - atan(0.5 *(average-rightAverage)) / (PI/2) * speed;
+			rightSpeed = speed;
+		}
+
+		setMotor(backLeft, leftSpeed);
+		setMotor(frontLeft, leftSpeed);
+		setMotor(backRight, rightSpeed);
+		setMotor(frontRight, rightSpeed);
+
+	}
 
   setAllDrive(0);
 

@@ -62,4 +62,9 @@ SmartMotorsSetEncoderGearing(forklift1, 5); //check this ratio
 SmartMotorsAddPowerExtender(5, 7, 5, 9); //check to see whether port five needs to be here twice
 SmartMotorPtcMonitorEnable();
 
+SmartMotorSetSlewRate(backLeft, 255);
+SmartMotorSetSlewRate(frontLeft, 255);
+SmartMotorSetSlewRate(backRight, 255);
+SmartMotorSetSlewRate(frontRight, 255);
+
 SmartMotorRun();
