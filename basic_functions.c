@@ -35,8 +35,8 @@ void driveInches(float distance) {
 
 	while(leftAverage < ticks || rightAverage < ticks) {
 
-		leftAverage = ( abs(nMotorEncoder[backLeft]) + abs(nMotorEncoder[frontLeft]) ) / 2.0;
-		rightAverage = ( abs(nMotorEncoder[backRight]) + abs(nMotorEncoder[frontRight]) ) / 2.0;
+		leftAverage = abs(nMotorEncoder[frontLeft]);
+		rightAverage = abs(nMotorEncoder[frontRight]);
 		average = ( leftAverage + rightAverage ) / 2.0;
 
 		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
@@ -86,13 +86,13 @@ void driveInches(float distance) {
 		delay(10);
 	}*/
 	//delay(100);
-	while(leftAverage > ticks || rightAverage >  ticks) {
+	while(leftAverage > ticks || rightAverage > ticks) {
 
-		leftAverage = ( abs(nMotorEncoder[backLeft]) + abs(nMotorEncoder[frontLeft]) ) / 2.0;
-		rightAverage = ( abs(nMotorEncoder[backRight]) + abs(nMotorEncoder[frontRight]) ) / 2.0;
+		leftAverage = abs(nMotorEncoder[frontLeft]);
+		rightAverage = abs(nMotorEncoder[frontRight]);
 		average = ( leftAverage + rightAverage ) / 2.0;
 
-		speed = atan(0.05*(ticks - average)) / (PI/2.0) * max * 0.75;
+		speed = atan(0.05*(ticks - average)) / (PI/2.0) * max * 0.5;
 
 		if(leftAverage > rightAverage) {
 			leftSpeed = speed;

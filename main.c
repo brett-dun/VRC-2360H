@@ -38,6 +38,8 @@ void pre_auton() {
 
 task autonomous() {
 	driveInches(24);
+	delay(5000);
+	driveInches(-24);
 //#include "autonomous.c"
 }
 

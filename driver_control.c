@@ -29,6 +29,11 @@ int enableClaw = 1; //the claw is ready to be used
 //int speed = 0;
 /*****************************************************************/
 
+SmartMotorSetSlewRate(backLeft, 10);
+SmartMotorSetSlewRate(frontLeft, 10);
+SmartMotorSetSlewRate(backRight, 10);
+SmartMotorSetSlewRate(frontRight, 10);
+
 clearTimer(T1); //Clear the timer
 
 //Clear the LCD
