@@ -1,50 +1,41 @@
-void backStars(bool leftStart) {
-	openClaw();
-	delay(500);
-	startTask(maintainForkliftDown);
-	driveInches(22.5);
-	startTask(maintainForkliftDown);
-	driveInches(22.5);
-	closeClaw();
-	delay(100);
-	driveInches(-45);
-	startTask(raiseForklift);
+void outerCube(bool left) {
 
-	if(leftStart)
-		targetAngle(90,false);
+	driveInches(39); //Drive forward thirty nine inches
+
+	if(left)
+		turnDegrees(90); //Turn ninety degrees counter clockwise
 	else
-		targetAngle(270,true);
+		turnDegrees(-90); //Turn ninety degrees clockwise
 
-	driveInches(37);
-	startTask(maintainForkliftUp);
-	driveInches(30);
+	driveInches(36); //Drive forward thrity six degrees
 
-	openClaw();
-	delay(200);
-	squareRobot();
-	driveInches(12);
+	delay(250); //Wait a quarter of a second
 
-	if(leftStart)
-		targetAngle(185,false);
+	closeClaw(); //Close the claw to grab the cube
+
+	startTask(raiseForklift); //Begin to raise the forklift
+
+	driveInches(-36); //Drive backwards thrity six inches
+
+	if(left)
+		turnDegrees(-90); //Turn ninety degrees clockwise
 	else
-		targetAngle(175,true);
+		turnDegrees(90); //Turn ninety degrees counter clockwise
 
-	startTask(lowerForklift);
-	driveInches(6);
-	startTask(maintainForkliftDown);
-	delay(1200);
-	closeClaw();
-	delay(200);
-	driveInches(-6);
+	driveInches(45); //Drive forward fourty five inches
 
-	if(leftStart)
-		targetAngle(110,true);
-	else
-		targetAngle(250,false);
+	startTask(maintainForkliftUp); //Keep the forklift raised
 
-	startTask(raiseForklift);
-	driveInches(50);
-	startTask(maintainForkliftUp);
-	driveInches(10);
-	openClaw();
+	driveInches(6); //Drive forward six inches
+
+	openClaw(); //Open the claw to drop the cube
+
+	delay(500); //Wait half of a second
+
+	driveInches(-12); //Drive backwards for twelve inches
+
+	startTask(lowerForklift); //Begin to lower the forklift
+
+	squareRobot(); //Square the robot against the wall
+
 }

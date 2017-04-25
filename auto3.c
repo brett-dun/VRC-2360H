@@ -1,33 +1,42 @@
-void frontStars(bool leftStart) {
-	openClaw();
-	delay(500);
-	closeClaw();
-	startTask(raiseForklift);
-	driveInches(65);
-	openClaw(); //Drop stars
-	delay(200);
-	squareRobot();
-	driveInches(12);
+void stars(bool left) {
 
-	if(leftStart)
-		targetAngle(80,false);
+	driveInches(15); //Drive forward fifteen inches
+
+	if(left)
+		turnDegrees(90); //Turn ninety degrees counter clockwise
 	else
-		targetAngle(280,true);
+		turnDegrees(-90); //Turn ninety degrees clockwise
 
-	startTask(lowerForklift);
-	driveInches(6);
-	delay(1200);
-	closeClaw();
-	delay(200);
-	driveInches(-6);
+	driveInches(39); //Drive forward thrity nine inches
 
-	if(leftStart)
-		targetAngle(20,true);
+	delay(250); //Wait half of a second
+
+	if(left)
+		turnDegrees(-90); //Turn ninety degrees clockwise
 	else
-		targetAngle(340,false);
+		turnDegrees(90); //Turn ninety degrees counter clockwise
 
-	startTask(raiseForklift);
-	driveInches(63);
-	openClaw();
+	driveInches(39); //Drive forward thrity nine inches
+
+	if(left)
+		turnDegrees(-90); //Turn ninety degrees clockwise
+	else
+		turnDegrees(90); //Turn ninety degrees counter clockwise
+
+	driveInches(21); //Drive forward twenty one inches
+
+	startTask(maintainForkliftUp); //Keep the forklift raised
+
+	driveInches(6); //Drive forward six inches
+
+	openClaw(); //Drop the stars
+
+	delay(500); //Wait half of a second
+
+	driveInches(-12); //Drive backwards twelve inches
+
+	startTask(lowerForklift); //Begin to lower the forklift
+
+	squareRobot(); //Square the robot against the wall
 
 }

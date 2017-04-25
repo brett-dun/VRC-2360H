@@ -1,30 +1,39 @@
-#define SKILLS 0
-
 SensorValue[sixBar] = 0;
 
-	//Clear the LCD
-	clearLCDLine(0);
-	clearLCDLine(1);
-	bLCDBacklight = true; //Turn the LCD's backlight on
+//preload and first star - 10 points
+openClaw(); //Open the claw to deploy the claw
 
-displayLCDCenteredString(0, "Running:"); //Display "Running" on top
+delay(500); //Wait half of a second
 
-if(SKILLS)
-	skills();
-else {
-	switch(autoChoice) {
-		case 1: displayLCDCenteredString(1, "Left - Cube"); cube(true); break;
-		case 2: displayLCDCenteredString(1, "Left - Back"); backStars(true); break;
-		case 3: displayLCDCenteredString(1, "Left - Front"); frontStars(true); break;
-		case 4: displayLCDCenteredString(1, "Nothing"); break;
-		case 5: displayLCDCenteredString(1, "Right - Cube"); cube(false); break;
-		case 6: displayLCDCenteredString(1, "Right - Back"); backStars(false); break;
-		case 7: displayLCDCenteredString(1, "Right - Front"); frontStars(false); break;
-	}
-}
+driveInches(30); //Drive forward thirty inches
 
-	//Clear the LCD
-	clearLCDLine(0);
-	clearLCDLine(1);
-	bLCDBacklight = true; //Turn the LCD's backlight on
-	displayLCDCenteredString(0, "Done"); //*/
+delay(250); //Wait a quarter of a second
+
+closeClaw(); //Close the claw  on the two stars
+
+startTask(raiseForklift); //Start raising the forklift
+
+driveInches(30); //Drive forward thirty inches
+
+startTask(maintainForkliftUp); //Keep the forklift raised
+
+driveInches(6); //Drive forward six inches
+
+openClaw(); //Open the claw to release the stars
+
+delay(500); //Wait half of a second
+
+driveInches(-12); //Drive backwards twelve inches
+
+startTask(lowerForklift); //Begin to lower the forklift
+
+squareRobot(); //Square the robot against the wall
+
+middleCube(true); //Get the middle left cube - 10 points
+middleCube(false); //Get the middle right cube - 10 points
+outerCube(true); //Get the outer left cube - 10 points
+outerCube(false); //Get the outer right cube - 10 points
+stars(true); //Get the left side stars - 10 points
+stars(false); //Get the right side stars - 10 points
+
+//Goal: 70 points

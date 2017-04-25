@@ -24,20 +24,14 @@
 #include "auto1.c"
 #include "auto2.c"
 #include "auto3.c"
-#include "skills.c"
 
-//variables
-int autoChoice = 4; //No autonomous will run
 
 void pre_auton() {
 #include "pre_auton.c"
 }
 
 task autonomous() {
-	driveInches(24);
-	delay(5000);
-	driveInches(-24);
-//#include "autonomous.c"
+#include "autonomous.c"
 }
 
 task usercontrol() {
