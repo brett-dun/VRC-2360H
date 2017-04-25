@@ -29,19 +29,12 @@ int enableClaw = 1; //the claw is ready to be used
 //int speed = 0;
 /*****************************************************************/
 
-SmartMotorSetSlewRate(backLeft, 10);
-SmartMotorSetSlewRate(frontLeft, 10);
-SmartMotorSetSlewRate(backRight, 10);
-SmartMotorSetSlewRate(frontRight, 10);
+SmartMotorSetSlewRate(backLeft, 20);
+//SmartMotorSetSlewRate(frontLeft, 10);
+SmartMotorSetSlewRate(backRight, 20);
+//SmartMotorSetSlewRate(frontRight, 10);
 
 clearTimer(T1); //Clear the timer
-
-//Clear the LCD
-clearLCDLine(0);
-clearLCDLine(1);
-bLCDBacklight = true; //Turn the LCD's backlight off
-displayLCDCenteredString(0, "2630H");
-displayLCDCenteredString(1, "HELIX");
 
 while(true) { //Run for the duration of the entire driver control period
 
@@ -56,9 +49,9 @@ while(true) { //Run for the duration of the entire driver control period
 	}
 
 	SetMotor(backLeft, vexRT[Ch3] * maxSpeed / 128.0);
-	SetMotor(frontLeft, vexRT[Ch3] * maxSpeed / 128.0);
+	//SetMotor(frontLeft, vexRT[Ch3] * maxSpeed / 128.0);
 	SetMotor(backRight, vexRT[Ch2] * maxSpeed / 128.0);
-	SetMotor(frontRight, vexRT[Ch2] * maxSpeed / 128.0);
+	//SetMotor(frontRight, vexRT[Ch2] * maxSpeed / 128.0);
 
 	if(vexRT[Btn6U]) { //If button 6U is pressed
 		setAllForklift(128);
@@ -76,7 +69,7 @@ while(true) { //Run for the duration of the entire driver control period
 		setAllForklift(0);
 	}
 
-	if(vexRT[Btn5U] && enableClaw) { //If button 5U is pressed and enable claw has a non-zero value
+	/*if(vexRT[Btn5U] && enableClaw) { //If button 5U is pressed and enable claw has a non-zero value
 		SensorValue[claw] = !SensorValue[claw]; //
 		enableClaw = 0; //Set the value of enable claw to zero
 		clearTimer(T1); //Clear the timer
@@ -84,6 +77,16 @@ while(true) { //Run for the duration of the entire driver control period
 
 	if(time1(T1) > 600) { //If T1 has a value greater than 250 (ms)
 		enableClaw = 1; //Set the value of enable claw to one
+	}*/
+	if(vexRT[Btn5U]) {
+		setMotor(leftClaw, 127);
+		setMotor(rightClaw, 127);
+	} else if(vexRT[Btn5D]){
+		setMotor(leftClaw, -127);
+		setMotor(rightClaw, -127);
+	} else {
+		setMotor(leftClaw, 0);
+		setMotor(rightClaw, 0);
 	}
 
 }

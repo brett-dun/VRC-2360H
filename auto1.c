@@ -60,15 +60,15 @@ void cube(bool leftStart) {
 	startTask(raiseForklift);
 	driveInches(55);
 	motor[backLeft] = 128;
-	motor[frontLeft] = 128;
+	//motor[frontLeft] = 128;
 	motor[backRight] = 128;
-	motor[frontRight] = 128;
+	//motor[frontRight] = 128;
 
 	delay(500);
 
 	motor[backLeft] = 0;
-	motor[frontLeft] = 0;
+	//motor[frontLeft] = 0;
 	motor[backRight] = 0;
-	motor[frontRight] = 0;
+	//motor[frontRight] = 0;
 	openClaw(); //Drop stars
 }

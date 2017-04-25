@@ -7,9 +7,9 @@ float gyroValue;
 
 void setAllDrive(int speed) {
 	setMotor(backLeft, speed);
-	setMotor(frontLeft, speed);
+	//setMotor(frontLeft, speed);
 	setMotor(backRight, speed);
-	setMotor(frontRight, speed);
+	//setMotor(frontRight, speed);
 }
 
 /*
@@ -19,9 +19,9 @@ void setAllDrive(int speed) {
 void driveInches(float distance) {
 
 	nMotorEncoder[backLeft] = 0;
-	nMotorEncoder[frontLeft] = 0;
+	//nMotorEncoder[frontLeft] = 0;
 	nMotorEncoder[backRight] = 0;
-	nMotorEncoder[frontRight] = 0;
+	//nMotorEncoder[frontRight] = 0;
 
 	const float max = distance < 0 ? -80 : 80;
 	const float ticks = abs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
@@ -35,8 +35,8 @@ void driveInches(float distance) {
 
 	while(leftAverage < ticks || rightAverage < ticks) {
 
-		leftAverage = abs(nMotorEncoder[frontLeft]);
-		rightAverage = abs(nMotorEncoder[frontRight]);
+		leftAverage = abs(nMotorEncoder[backLeft]);
+		rightAverage = abs(nMotorEncoder[backRight]);
 		average = ( leftAverage + rightAverage ) / 2.0;
 
 		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
@@ -50,9 +50,9 @@ void driveInches(float distance) {
 		}
 
 		setMotor(backLeft, leftSpeed);
-		setMotor(frontLeft, leftSpeed);
+		//setMotor(frontLeft, leftSpeed);
 		setMotor(backRight, rightSpeed);
-		setMotor(frontRight, rightSpeed);
+		//setMotor(frontRight, rightSpeed);
 
 	}
 
@@ -88,8 +88,8 @@ void driveInches(float distance) {
 	//delay(100);
 	while(leftAverage > ticks || rightAverage > ticks) {
 
-		leftAverage = abs(nMotorEncoder[frontLeft]);
-		rightAverage = abs(nMotorEncoder[frontRight]);
+		leftAverage = abs(nMotorEncoder[backLeft]);
+		rightAverage = abs(nMotorEncoder[backRight]);
 		average = ( leftAverage + rightAverage ) / 2.0;
 
 		speed = atan(0.05*(ticks - average)) / (PI/2.0) * max * 0.5;
@@ -103,9 +103,9 @@ void driveInches(float distance) {
 		}
 
 		setMotor(backLeft, leftSpeed);
-		setMotor(frontLeft, leftSpeed);
+		//setMotor(frontLeft, leftSpeed);
 		setMotor(backRight, rightSpeed);
-		setMotor(frontRight, rightSpeed);
+		//setMotor(frontRight, rightSpeed);
 
 	}
 
@@ -137,9 +137,9 @@ void turnDegrees(float angle){
 
 	while(abs(absGyroValue-initial) < abs(angle) ) {
 		setMotor(backLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(frontLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
+		//setMotor(frontLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
 		setMotor(backRight, rightSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(frontRight, rightSpeed * atan(K * abs(angle - gyroValue)));
+		//setMotor(frontRight, rightSpeed * atan(K * abs(angle - gyroValue)));
 		absGyroValue = abs(SensorValue[in1]/10.0);
 	}
 
@@ -147,9 +147,9 @@ void turnDegrees(float angle){
 	rightSpeed = rightTurn ? 128: -128;
 
 	setMotor(backLeft, leftSpeed);
-	setMotor(frontLeft, leftSpeed);
+	//setMotor(frontLeft, leftSpeed);
 	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);
+	//setMotor(frontRight, rightSpeed);
 
 	delay(100);
 
@@ -176,9 +176,9 @@ void targetAngle(float angle, bool rightTurn){
 		//gyroValue = gyroValue < 0 ? 360 - gyroValue : gyroValue;
 
 		setMotor(backLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
+		//setMotor(frontLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
 		setMotor(backRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
+		//setMotor(frontRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
 
 	}
 
@@ -186,9 +186,9 @@ void targetAngle(float angle, bool rightTurn){
 	rightSpeed = rightTurn ? 128: -128;
 
 	setMotor(backLeft, leftSpeed);
-	setMotor(frontLeft, leftSpeed);
+	//setMotor(frontLeft, leftSpeed);
 	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);
+	//setMotor(frontRight, rightSpeed);
 
 	delay(100);
 
@@ -203,7 +203,7 @@ void setAllForklift(int speed) {
 	setMotor(forklift2, speed);
 	setMotor(forklift3, speed);
 	setMotor(forklift4, speed);
-	setMotor(forklift5, speed);
+	//setMotor(forklift5, speed);
 }
 
 /*
