@@ -1,5 +1,7 @@
 bStopTasksBetweenModes = true; //Set this to true
 
+
+
 //Clear the LCD
 clearLCDLine(0);
 clearLCDLine(1);
@@ -51,9 +53,9 @@ SensorType[in1] = sensorGyro;
 delay(2000);
 
 
-SmartMotorsInit();
+init();
 
-SmartMotorLinkMotors(forklift1, forklift2);
+/*SmartMotorLinkMotors(forklift1, forklift2);
 SmartMotorLinkMotors(forklift1, forklift3);
 SmartMotorLinkMotors(forklift1, forklift4);
 SmartMotorLinkMotors(forklift1, forklift5);
@@ -67,4 +69,4 @@ SmartMotorSetSlewRate(frontLeft, 255);
 SmartMotorSetSlewRate(backRight, 255);
 SmartMotorSetSlewRate(frontRight, 255);
 
-SmartMotorRun();
+SmartMotorRun();*/

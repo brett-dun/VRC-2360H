@@ -29,10 +29,10 @@ int enableClaw = 1; //the claw is ready to be used
 //int speed = 0;
 /*****************************************************************/
 
-SmartMotorSetSlewRate(backLeft, 10);
-SmartMotorSetSlewRate(frontLeft, 10);
-SmartMotorSetSlewRate(backRight, 10);
-SmartMotorSetSlewRate(frontRight, 10);
+setSlewRate(backLeft, 10);
+setSlewRate(frontLeft, 10);
+setSlewRate(backRight, 10);
+setSlewRate(frontRight, 10);
 
 clearTimer(T1); //Clear the timer
 
@@ -55,10 +55,10 @@ while(true) { //Run for the duration of the entire driver control period
 		maxSpeed = 64; //Change the maximum speed to 32 (1/4 of the maximum value)
 	}
 
-	SetMotor(backLeft, vexRT[Ch3] * maxSpeed / 128.0);
-	SetMotor(frontLeft, vexRT[Ch3] * maxSpeed / 128.0);
-	SetMotor(backRight, vexRT[Ch2] * maxSpeed / 128.0);
-	SetMotor(frontRight, vexRT[Ch2] * maxSpeed / 128.0);
+	setMotor(backLeft, vexRT[Ch3] * maxSpeed / 128.0);
+	setMotor(frontLeft, vexRT[Ch3] * maxSpeed / 128.0);
+	setMotor(backRight, vexRT[Ch2] * maxSpeed / 128.0);
+	setMotor(frontRight, vexRT[Ch2] * maxSpeed / 128.0);
 
 	if(vexRT[Btn6U]) { //If button 6U is pressed
 		setAllForklift(128);

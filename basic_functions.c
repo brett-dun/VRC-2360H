@@ -6,10 +6,10 @@ float gyroValue;
 
 
 void setAllDrive(int speed) {
-	setMotor(backLeft, speed);
-	setMotor(frontLeft, speed);
-	setMotor(backRight, speed);
-	setMotor(frontRight, speed);
+	setSpeed(backLeft, speed);
+	setSpeed(frontLeft, speed);
+	setSpeed(backRight, speed);
+	setSpeed(frontRight, speed);
 }
 
 /*
@@ -49,10 +49,10 @@ void driveInches(float distance) {
 			rightSpeed = speed;
 		}
 
-		setMotor(backLeft, leftSpeed);
-		setMotor(frontLeft, leftSpeed);
-		setMotor(backRight, rightSpeed);
-		setMotor(frontRight, rightSpeed);
+		setSpeed(backLeft, leftSpeed);
+		setSpeed(frontLeft, leftSpeed);
+		setSpeed(backRight, rightSpeed);
+		setSpeed(frontRight, rightSpeed);
 
 	}
 
@@ -102,10 +102,10 @@ void driveInches(float distance) {
 			rightSpeed = speed;
 		}
 
-		setMotor(backLeft, leftSpeed);
-		setMotor(frontLeft, leftSpeed);
-		setMotor(backRight, rightSpeed);
-		setMotor(frontRight, rightSpeed);
+		setSpeed(backLeft, leftSpeed);
+		setSpeed(frontLeft, leftSpeed);
+		setSpeed(backRight, rightSpeed);
+		setSpeed(frontRight, rightSpeed);
 
 	}
 
@@ -136,20 +136,20 @@ void turnDegrees(float angle){
 	const float K = 0.04;
 
 	while(abs(absGyroValue-initial) < abs(angle) ) {
-		setMotor(backLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(frontLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(backRight, rightSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(frontRight, rightSpeed * atan(K * abs(angle - gyroValue)));
+		setSpeed(backLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
+		setSpeed(frontLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
+		setSpeed(backRight, rightSpeed * atan(K * abs(angle - gyroValue)));
+		setSpeed(frontRight, rightSpeed * atan(K * abs(angle - gyroValue)));
 		absGyroValue = abs(SensorValue[in1]/10.0);
 	}
 
 	leftSpeed = rightTurn ? -128: 128;
 	rightSpeed = rightTurn ? 128: -128;
 
-	setMotor(backLeft, leftSpeed);
-	setMotor(frontLeft, leftSpeed);
-	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);
+	setSpeed(backLeft, leftSpeed);
+	setSpeed(frontLeft, leftSpeed);
+	setSpeed(backRight, rightSpeed);
+	setSpeed(frontRight, rightSpeed);
 
 	delay(100);
 
@@ -175,20 +175,20 @@ void targetAngle(float angle, bool rightTurn){
 			gyroValue = 360 + gyroValue;
 		//gyroValue = gyroValue < 0 ? 360 - gyroValue : gyroValue;
 
-		setMotor(backLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(backRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
+		setSpeed(backLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
+		setSpeed(frontLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
+		setSpeed(backRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
+		setSpeed(frontRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
 
 	}
 
 	leftSpeed = rightTurn ? -128: 128;
 	rightSpeed = rightTurn ? 128: -128;
 
-	setMotor(backLeft, leftSpeed);
-	setMotor(frontLeft, leftSpeed);
-	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);
+	setSpeed(backLeft, leftSpeed);
+	setSpeed(frontLeft, leftSpeed);
+	setSpeed(backRight, rightSpeed);
+	setSpeed(frontRight, rightSpeed);
 
 	delay(100);
 
@@ -199,11 +199,11 @@ void targetAngle(float angle, bool rightTurn){
 
 
 void setAllForklift(int speed) {
-	setMotor(forklift1, speed);
-	setMotor(forklift2, speed);
-	setMotor(forklift3, speed);
-	setMotor(forklift4, speed);
-	setMotor(forklift5, speed);
+	setSpeed(forklift1, speed);
+	setSpeed(forklift2, speed);
+	setSpeed(forklift3, speed);
+	setSpeed(forklift4, speed);
+	setSpeed(forklift5, speed);
 }
 
 /*

@@ -1,12 +1,7 @@
-#pragma config(I2C_Usage, I2C1, i2cSensors)
 #pragma config(Sensor, dgtl7,  touch1,         sensorTouch)
 #pragma config(Sensor, dgtl8,  touch2,         sensorTouch)
 #pragma config(Sensor, dgtl9,  sixBar,         sensorQuadEncoder)
 #pragma config(Sensor, dgtl11, claw,           sensorDigitalOut)
-#pragma config(Sensor, I2C_1,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
-#pragma config(Sensor, I2C_2,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
-#pragma config(Sensor, I2C_3,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
-#pragma config(Sensor, I2C_4,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Motor,  port2,           forklift1,     tmotorVex393_MC29, openLoop)
 #pragma config(Motor,  port3,           backLeft,      tmotorVex393_MC29, openLoop, encoderPort, I2C_3)
 #pragma config(Motor,  port4,           forklift2,     tmotorVex393_MC29, openLoop, reversed)
@@ -22,7 +17,7 @@
 
 //supporting files
 #include "vex.c"
-#include "smartMotor_library.c"
+#include "smart_motor.c"
 #include "basic_functions.c"
 #include "auto1.c"
 #include "auto2.c"
@@ -37,10 +32,7 @@ void pre_auton() {
 }
 
 task autonomous() {
-	driveInches(24);
-	delay(5000);
-	driveInches(-24);
-//#include "autonomous.c"
+#include "autonomous.c"
 }
 
 task usercontrol() {
