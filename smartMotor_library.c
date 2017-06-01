@@ -203,7 +203,7 @@
 #define SMLIB_C2_CORTEX         (1.0 / (SMLIB_TAU_CORTEX * 1000.0))
 
 // PTC HR30-090 used in 393
-#define SMLIB_I_HOLD_393      0.9
+//#define SMLIB_I_HOLD_393      0.9
 #define SMLIB_I_HOLD_393        1.0 // increased a little to slow down trip
 #define SMLIB_T_TRIP_393        7.1
 #define SMLIB_K_TAU_393         0.5
