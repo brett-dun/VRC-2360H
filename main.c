@@ -31,7 +31,7 @@
 #include "skills.c"
 
 //variables
-int autoChoice = 4; //No autonomous will run
+ubyte autoChoice = 4; //No autonomous will run
 
 void pre_auton() {
 #include "pre_auton.c"

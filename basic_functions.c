@@ -1,22 +1,29 @@
 #pragma systemFile //supress unreferenced function warning
 
-//variables & constants
-const float WHEEL_DIAMETER = 3.25;
+#define WHEEL_DIAMETER 4.0
+
 float gyroValue;
 
 
+
 void setAllDrive(int speed) {
-	setSpeed(leftDrive1, speed);
-	setSpeed(rightDrive1, speed);
+	setSpeed(leftDrive1, speed, true);
+	setSpeed(rightDrive1, speed, true);
 }
+
+
 
 /*
 	distance > 0 >>> forward
 	distance < 0 >>> backward
+
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	- use PID control
 */
 void driveInches(float distance) {
-
-
 
 	const float max = distance < 0 ? -80 : 80;
 	const float ticks = abs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
@@ -25,8 +32,6 @@ void driveInches(float distance) {
 	float rightTicks = 0;
 	float average = 0;
 	float speed = 0;
-	float leftSpeed = 0;
-	float rightSpeed = 0;
 
 	while(leftTicks < ticks || rightTicks < ticks) {
 
@@ -37,15 +42,12 @@ void driveInches(float distance) {
 		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
 
 		if(leftTicks < rightTicks) {
-			leftSpeed = speed;
-			rightSpeed = speed - atan(0.5 *(average-leftTicks)) / (PI/2) * speed;
+			setSpeed(leftDrive1, speed, true);
+			setSpeed(rightDrive1, speed - atan(0.5 *(average-leftTicks)) / (PI/2) * speed, true);
 		} else {
-			leftSpeed = speed - atan(0.5 *(average-rightTicks)) / (PI/2) * speed;
-			rightSpeed = speed;
+			setSpeed(leftDrive1, speed - atan(0.5 *(average-rightTicks)) / (PI/2) * speed, true);
+			setSpeed(rightDrive1, speed, true);
 		}
-
-		setSpeed(leftDrive1, leftSpeed);
-		setSpeed(rightDrive1, rightSpeed);
 
 	}
 
@@ -53,19 +55,43 @@ void driveInches(float distance) {
 
 }
 
+
+
+/*
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	-
+*/
 void squareRobot() {
 	while(!SensorValue[leftTouch] || !SensorValue[rightTouch]) {
+
 		if(SensorValue[leftTouch])
-			setSpeed(leftDrive1, 0);
+			setSpeed(leftDrive1, 0, true);
+		else
+			setSpeed(leftDrive1, -127, true);
+
 		if(SensorValue[rightTouch])
-			setSpeed(rightDrive1, 0);
+			setSpeed(rightDrive1, 0, true);
+		else
+			setSpeed(rightDrive1, -127, true);
+
 	}
 	setAllDrive(0);
 }
 
+
+
 /*
 	angle > 0 >>> clockwise
 	angle < 0 >>> counterclockwise
+
+	Status:
+	-
+
+	Issues/Ideas:
+	-
 */
 void turnDegrees(float angle){
 
@@ -80,27 +106,31 @@ void turnDegrees(float angle){
 	const float K = 0.04;
 
 	while(abs(absGyroValue-initial) < abs(angle) ) {
-		setSpeed(leftDrive1, leftSpeed * atan(K * abs(angle - gyroValue)));
-		setSpeed(rightDrive1, rightSpeed * atan(K * abs(angle - gyroValue)));
+		setSpeed(leftDrive1, leftSpeed * atan(K * abs(angle - gyroValue)), true);
+		setSpeed(rightDrive1, rightSpeed * atan(K * abs(angle - gyroValue)), true);
 		absGyroValue = abs(SensorValue[in1]/10.0);
 	}
 
-	leftSpeed = rightTurn ? -128: 128;
-	rightSpeed = rightTurn ? 128: -128;
-
-	setSpeed(leftDrive1, leftSpeed);
-	setSpeed(rightDrive1, rightSpeed);
+	setSpeed(leftDrive1, rightTurn ? -128: 128, true);
+	setSpeed(rightDrive1, rightTurn ? 128: -128, true);
 
 	delay(100);
 
 	setAllDrive(0);
 }
 
+
+
 /*
 	angle > 0 >>> clockwise
 	angle < 0 >>> counterclockwise
+
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	-Try to avoid using this function, it will eventually malfunction because of gyro drift
 */
-//Try to avoid using this function, it will eventually malfunction because of gyro drift
 void targetAngle(float angle, bool rightTurn){
 
 	const float speed = rightTurn ? -80 : 80;
@@ -115,31 +145,38 @@ void targetAngle(float angle, bool rightTurn){
 			gyroValue = 360 + gyroValue;
 		//gyroValue = gyroValue < 0 ? 360 - gyroValue : gyroValue;
 
-		setSpeed(leftDrive1, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setSpeed(rightDrive1, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
+		setSpeed(leftDrive1, leftSpeed * atan(0.1 * abs(angle - gyroValue)), true);
+		setSpeed(rightDrive1, rightSpeed * atan(0.1 * abs(angle - gyroValue)), true);
 
 	}
 
 	leftSpeed = rightTurn ? -128: 128;
 	rightSpeed = rightTurn ? 128: -128;
 
-	setSpeed(leftDrive1, leftSpeed);
-	setSpeed(rightDrive1, rightSpeed);
+	setSpeed(leftDrive1, leftSpeed, true);
+	setSpeed(rightDrive1, rightSpeed, true);
 
 	delay(100);
 
 	setAllDrive(0);
 }
 
+
+
 /*
 	angle > 0 >>> raise
 	angle < 0 >>> lower
+
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	-
 */
-//Don't use this function, it wastes time, use a task in parallel instead
 void moveDRFB(float angle) {
 	int initialVal = nMotorEncoder[drfb1];
 	float speed = angle < 0 ? -128 : 128;
 	while(abs(initialVal - nMotorEncoder[drfb1]) < abs(angle))
-		setSpeed(drfb1, speed);
-	setSpeed(drfb1, 0);
+		setSpeed(drfb1, speed, true);
+	setSpeed(drfb1, 0, true);
 }

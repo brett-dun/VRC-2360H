@@ -22,25 +22,26 @@ typedef struct {
 	tMotor mPort; //motor port
 	//tSensors sPort; //encoder port - probably not needed
 	//tSensors statusLED; //LED used to notify robot status - not yet implemented
-	short type; //type of motor
+	ubyte type; //type of motor
 	//short statusLEDenabled; - not yet implemented
-	short isPowerExpanderMotor;
-	//tMotor slaves[5]; //motors that follow its masters settings - not yet implemented
+	ubyte isPowerExpanderMotor;
+	tMotor slaves[5]; //motors that follow its master's settings, a motor may have a maximum of five slaves, slaves may not have slaves
 
 	int slewRate; //rate at which motors speed is allowed to change per 20 ms
 
 	int currentDraw;
-	short status;
+	ubyte status;
 
 	int targetSpeed; //speed to target
 	int currentSpeed; //speed that the motor is currently set at
 
-	short encoderType;
+	ubyte encoderType;
 	float encoderRatio;
 	int previousVal;
 	float rpm;
 
 } SmartMotor;
+
 
 /****************************************************/
 //Don't touch:
@@ -52,17 +53,24 @@ task adjustSpeed();
 task calculateRPM();
 void calculateCurrentDraw(); //work on this function
 /****************************************************/
+
+
+/****************************************************/
 //Go ahead and use:
 void init(); //Run at first to enable other functions
+
+void addSlave(tMotor master, tMotor slave); //Run this after init but before other functions
 void setEncoderRatio(tMotor name, float ratio); //ratio = Out / In
 void setPowerExpander(tMotor one, tMotor two, tMotor three, tMotor four); //Set motors to be in the power expander
 void setSlewRate(tMotor name, int slewRate); //Set the rate of motor speed change per 20 ms
+
 void setSpeed(tMotor name, int speed, bool immediate = false); //Use this instead of motor[port1] = 0;
+float getRPM(tMotor name);
 void killAll(); //Stops all motors immediately
 /****************************************************/
 
 
-
+//Done
 SmartMotor * getPointer(tMotor name) {
 	SmartMotor * pointer = NULL;
 	for(int i = 0; i < 10; i++) {
@@ -72,6 +80,7 @@ SmartMotor * getPointer(tMotor name) {
 	return pointer;
 }
 
+//Done
 task adjustSpeed() {
 	while(true) {
 		for(int i = 0; i < 10; i++) {
@@ -100,6 +109,7 @@ task adjustSpeed() {
 	}
 }
 
+//Done
 task calculateRPM() {
 	const short TIME_DELAY = 20;
 	while(true) {
@@ -124,6 +134,7 @@ task calculateRPM() {
 	}
 }
 
+//Update calculation
 void calculateCurrentDraw() {
 	//This may work better in the future: https://www.vexforum.com/index.php/7955-estimating-motor-current/0
 	totalCurrent[0] = 0;
@@ -152,7 +163,7 @@ void calculateCurrentDraw() {
 }
 
 
-
+//Done
 void init() {
 	if(!isInitialized) {
 		motors[0].mPort = port1;// motors[0].sPort = port1;
@@ -206,31 +217,72 @@ void init() {
 	}
 }
 
+//Done
+void addSlave(tMotor master, tMotor slave) {
+	SmartMotor * target = getPointer(master);
+	for(int i = 0; i < 5; i++) {
+		if(target->slaves[i] == NULL) {
+			target->slaves[i] = slave;
+			return;
+		}
+	}
+}
+
+//Done
 void setEncoderRatio(tMotor name, float ratio) {
-	getPointer(name)->encoderRatio = ratio;
+	SmartMotor * target = getPointer(name);
+	target->encoderRatio = ratio;
+	for(int i = 0; i < 5; i++) {
+		if(target->slaves[i] != NULL)
+			getPointer(target->slaves[i])->encoderRatio = ratio;
+	}
 }
 
+//Done
 void setPowerExpander(tMotor one, tMotor two, tMotor three, tMotor four) {
-	if(one) getPointer(one)->isPowerExpanderMotor = 1;
-	if(two) getPointer(two)->isPowerExpanderMotor = 1;
-	if(three) getPointer(three)->isPowerExpanderMotor = 1;
-	if(four) getPointer(four)->isPowerExpanderMotor = 1;
+	if(one != NULL) getPointer(one)->isPowerExpanderMotor = 1;
+	if(two != NULL) getPointer(two)->isPowerExpanderMotor = 1;
+	if(three != NULL) getPointer(three)->isPowerExpanderMotor = 1;
+	if(four != NULL) getPointer(four)->isPowerExpanderMotor = 1;
 }
 
+//Done
 void setSlewRate(tMotor name, int slewRate) {
-	getPointer(name)->slewRate = slewRate;
+	SmartMotor * target = getPointer(name);
+	target->slewRate = slewRate;
+	for(int i = 0; i < 5; i++) {
+		if(target->slaves[i] != NULL)
+			getPointer(target->slaves[i])->slewRate = slewRate;
+	}
 }
 
+//Done
 void setSpeed(tMotor name, int speed, bool immediate) {
 	speed = speed > 127 ? 127 : speed < -127 ? -127 : speed;
 	SmartMotor * target = getPointer(name);
 	target->targetSpeed = speed;
+	for(int i = 0; i < 5; i++) {
+		if(target->slaves[i] != NULL)
+			getPointer(target->slaves[i])->targetSpeed = speed;
+	}
 	if(immediate) {
 		motor[target->mPort] = speed;
 		target->currentSpeed = speed;
+		for(int i = 0; i < 5; i++) {
+			if(target->slaves[i] != NULL) {
+				motor[getPointer(target->slaves[i])->mPort] = speed;
+				getPointer(target->slaves[i])->currentSpeed = speed;
+			}
+		}
 	}
 }
 
+//Done
+float getRPM(tMotor name) {
+	return getPointer(name)->rpm;
+}
+
+//Done
 void killAll() {
 	for(int i = 0; i < 10; i++) {
 		motors[i].targetSpeed = 0;
