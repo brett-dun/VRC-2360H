@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			Smart-Motor
+		</title>
+		<link rel="stylesheet" href="formatting.css">
+	</head>
+	
+	<body>
+		<div id="header">
+    		<button onclick="location.href = 'index.html';" class="headerButton">Home</button>
+    		<button onclick="location.href = 'team.html';" class="headerButton">Team</button>
+    		<button onclick="location.href = 'smart-motor.html';" class="headerButton">Smart-Motor</button>
+    		<button onclick="location.href = 'recording.html';" class="headerButton">Recording</button>
+    		<button onclick="location.href = 'robot.html';" class="headerButton">Robot</button>
+    		<div class="hr"><hr /></div>
+		</div>
+		<div id="content">
+			<div class="note">
+				<p><b>NOTE:</b> We are currently developing a Smart-Motor library which will be similar the Smart-Motor library that can be found in the Vex forums.  While this library will have fewer features, we hope that this will be easier for teams to use and will produce results that are easier to understand.  Once we are confident in our testing of this software, a link to the source code will be made available here.</p>
+			</div>
+
+
+			<!--<div class="hr"><hr /></div>-->
+
+			<h1>"Public" Methods</h1>
+			<div class="infoBlock">
+				<h2>void init()</h2>
+				<p>This is the first method that must be run when using this library.  This will configure the background tasks and variables. Once you run this method, do not continue to use motor[myMotor] = someSpeed; as this will have conflicting results with this library.</p>
+				<p><b>Example:</b></p>
+				<xmp>
+init();
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>void addSlave(tMotor master, tMotor slave)</h2>
+				<p>A "slave" motor is a motor that follows what the "master" motor does.  Use this method immediatly after calling init() to setup the relationship between motors.  This motor takes in two paramaters both of the tMotor data type. tMotor just refers to the name of your motors and their corrosponding ports.</p>
+				<p><b>Example:</b></p>
+				<xmp>
+addSlave(leftDrive1, leftDrive2);
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>void setEncoderRatio(tMotor name, float ratio)</h2>
+				<p></p>
+				<p><b>Example:</b></p>
+				<xmp>
+setEncoderRatio(leftDrive1, 2.0);
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>void setPowerExpander(tMotor one, tMotor two, tMotor three, tMotor four)</h2>
+				<p></p>
+				<p><b>Example:</b></p>
+				<xmp>
+setPowerExpander(leftDrive1, leftDrive2, rightDrive1, rightDrive2);
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>void setSlewRate(tMotor name, int slewRate)</h2>
+				<p></p>
+				<p><b>Example:</b></p>
+				<xmp>
+setSlewRate(leftDrive1, 40);
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>void setSpeed(tMotor name, int speed, bool immediate)</h2>
+				<p></p>
+				<p><b>Example:</b></p>
+				<xmp>
+//These do the same thing
+setSpeed(leftDrive1, 127);
+setSpeed(leftDrive1, 127, false);
+//This sets the speed as soon as the code executes
+setSpeed(leftDrive1, 127, true);
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>float getRPM(tMotor name)</h2>
+				<p></p>
+				<p><b>Example:</b></p>
+				<xmp>
+float var = getRPM(leftDrive1);
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>void killAll()</h2>
+				<p></p>
+				<p><b>Example:</b></p>
+				<xmp>
+killAll();
+				</xmp>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+
+			<br><div class="hr"><hr /></div>
+
+			<h1>"Private" Methods</h1>
+			<div class="infoBlock">
+				<h2>SmartMotor * getPointer(tMotor name)</h2>
+				<p></p>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>task adjustSpeed()</h2>
+				<p></p>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>task calculateRPM()</h2>
+				<p></p>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> None</p>
+			</div>
+			<br>
+			<div class="infoBlock">
+				<h2>void calculateCurrentDraw()</h2>
+				<p></p>
+				<p><b>Status:</b> Development</p>
+				<p><b>Known Issues:</b> Current calculation is incorrect.</p>
+			</div>
+			<br>	
+		</div>
+		
+	</body>
+</html>
