@@ -73,12 +73,25 @@ void killAll(); //Stops all motors immediately
 
 //Done
 SmartMotor * getPointer(tMotor name) {
-	SmartMotor * pointer = NULL;
+	/*SmartMotor * pointer = NULL;
 	for(int i = 0; i < 10; i++) {
 		if(motors[i].mPort == name)
 			pointer = &motors[i];
 	}
-	return pointer;
+	return pointer;*/
+	switch(name) {
+		case port1: return &motors[0];
+		case port2: return &motors[1];
+		case port3: return &motors[2];
+		case port4: return &motors[3];
+		case port5: return &motors[4];
+		case port6: return &motors[5];
+		case port7: return &motors[6];
+		case port8: return &motors[7];
+		case port9: return &motors[8];
+		case port10: return &motors[9];
+		default: return NULL;
+	}
 }
 
 //Done
@@ -102,7 +115,7 @@ task adjustSpeed() {
 	}
 }
 
-//Done
+//Check results
 task calculateRPM() {
 	const float TIME_DELAY = 50.;
 
@@ -255,17 +268,17 @@ void setSpeed(tMotor name, int speed, bool immediate) {
 	SmartMotor * target = getPointer(name);
 	target->targetSpeed = speed;
 	for(int i = 0; i < 5; i++) {
-		if(&target->slaves[i])
+		//if(&target->slaves[i])
 			getPointer(target->slaves[i])->targetSpeed = speed;
 	}
 	if(immediate) {
 		motor[target->mPort] = speed;
 		target->currentSpeed = speed;
 		for(int i = 0; i < 5; i++) {
-			if(&target->slaves[i]) {
+			//if(&target->slaves[i]) {
 				motor[getPointer(target->slaves[i])->mPort] = speed;
 				getPointer(target->slaves[i])->currentSpeed = speed;
-			}
+			//}
 		}
 	}
 }

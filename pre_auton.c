@@ -42,10 +42,10 @@ delay(2000);
 
 init(); //enable SmartMotor
 
-addSlave(drfb1, drfb2); //combine double reverse four bar motors
+addSlave(drfb1, drfb2, 0); //combine double reverse four bar motors
 
-addSlave(leftDrive1, leftDrive2); //combine left drive motors
-addSlave(leftDrive1, leftDrive3); //combine left drive motors
+addSlave(leftDrive1, leftDrive2, 0); //combine left drive motors
+addSlave(leftDrive1, leftDrive3, 1); //combine left drive motors
 
-addSlave(rightDrive1, rightDrive2); //combine right drive motors
-addSlave(rightDrive1, rightDrive3); //combine right drive motors
+addSlave(rightDrive1, rightDrive2, 0); //combine right drive motors
+addSlave(rightDrive1, rightDrive3, 1); //combine right drive motors
