@@ -1,17 +1,18 @@
-#pragma systemFile //supress unreferenced function warning
+#pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
-#define WHEEL_DIAMETER 4.0
+//#define WHEEL_DIAMETER 4.0
 
 float gyroValue;
 
-
-
 void setAllDrive(int speed) {
-	setSpeed(leftDrive1, speed, true);
-	setSpeed(rightDrive1, speed, true);
+	setSpeed(frontLeftDrive, speed, true);
+	setSpeed(frontRightDrive, speed, true);
 }
 
-
+void setDrive(float leftSpeed, float rightSpeed) {
+	setSpeed(frontLeftDrive, leftSpeed, true);
+	setSpeed(frontRightDrive, rightSpeed, true);
+}
 
 /*
 	distance > 0 >>> forward
@@ -42,11 +43,11 @@ void driveInches(float distance) {
 		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
 
 		if(leftTicks < rightTicks) {
-			setSpeed(leftDrive1, speed, true);
-			setSpeed(rightDrive1, speed - atan(0.5 *(average-leftTicks)) / (PI/2) * speed, true);
+			setSpeed(frontLeftDrive, speed, true);
+			setSpeed(frontRightDrive, speed - atan(0.5 *(average-leftTicks)) / (PI/2) * speed, true);
 		} else {
-			setSpeed(leftDrive1, speed - atan(0.5 *(average-rightTicks)) / (PI/2) * speed, true);
-			setSpeed(rightDrive1, speed, true);
+			setSpeed(frontLeftDrive, speed - atan(0.5 *(average-rightTicks)) / (PI/2) * speed, true);
+			setSpeed(frontRightDrive, speed, true);
 		}
 
 	}
@@ -68,14 +69,14 @@ void squareRobot() {
 	while(!SensorValue[leftTouch] || !SensorValue[rightTouch]) {
 
 		if(SensorValue[leftTouch])
-			setSpeed(leftDrive1, 0, true);
+			setSpeed(frontLeftDrive, 0, true);
 		else
-			setSpeed(leftDrive1, -127, true);
+			setSpeed(frontLeftDrive, -127, true);
 
 		if(SensorValue[rightTouch])
-			setSpeed(rightDrive1, 0, true);
+			setSpeed(frontRightDrive, 0, true);
 		else
-			setSpeed(rightDrive1, -127, true);
+			setSpeed(frontRightDrive, -127, true);
 
 	}
 	setAllDrive(0);
@@ -106,13 +107,13 @@ void turnDegrees(float angle){
 	const float K = 0.04;
 
 	while(abs(absGyroValue-initial) < abs(angle) ) {
-		setSpeed(leftDrive1, leftSpeed * atan(K * abs(angle - gyroValue)), true);
-		setSpeed(rightDrive1, rightSpeed * atan(K * abs(angle - gyroValue)), true);
+		setSpeed(frontLeftDrive, leftSpeed * atan(K * abs(angle - gyroValue)), true);
+		setSpeed(frontRightDrive, rightSpeed * atan(K * abs(angle - gyroValue)), true);
 		absGyroValue = abs(SensorValue[in1]/10.0);
 	}
 
-	setSpeed(leftDrive1, rightTurn ? -128: 128, true);
-	setSpeed(rightDrive1, rightTurn ? 128: -128, true);
+	setSpeed(frontLeftDrive, rightTurn ? -128: 128, true);
+	setSpeed(frontRightDrive, rightTurn ? 128: -128, true);
 
 	delay(100);
 
@@ -145,16 +146,16 @@ void targetAngle(float angle, bool rightTurn){
 			gyroValue = 360 + gyroValue;
 		//gyroValue = gyroValue < 0 ? 360 - gyroValue : gyroValue;
 
-		setSpeed(leftDrive1, leftSpeed * atan(0.1 * abs(angle - gyroValue)), true);
-		setSpeed(rightDrive1, rightSpeed * atan(0.1 * abs(angle - gyroValue)), true);
+		setSpeed(frontLeftDrive, leftSpeed * atan(0.1 * abs(angle - gyroValue)), true);
+		setSpeed(frontRightDrive, rightSpeed * atan(0.1 * abs(angle - gyroValue)), true);
 
 	}
 
 	leftSpeed = rightTurn ? -128: 128;
 	rightSpeed = rightTurn ? 128: -128;
 
-	setSpeed(leftDrive1, leftSpeed, true);
-	setSpeed(rightDrive1, rightSpeed, true);
+	setSpeed(frontLeftDrive, leftSpeed, true);
+	setSpeed(frontRightDrive, rightSpeed, true);
 
 	delay(100);
 

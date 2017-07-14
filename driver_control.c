@@ -18,8 +18,8 @@ while(true) { //Run for the duration of the entire driver control period
 		maxSpeed = 64; //Change the maximum speed to 32 (1/4 of the maximum value)
 	}
 
-	setSpeed(leftDrive1, vexRT[Ch3] * maxSpeed / 127.0);
-	setSpeed(rightDrive1, vexRT[Ch2] * maxSpeed / 127.0);
+	setSpeed(frontLeftDrive, vexRT[Ch3] * maxSpeed / 127.0);
+	setSpeed(frontRightDrive, vexRT[Ch2] * maxSpeed / 127.0);
 
 	if(vexRT[Btn6U]) { //If button 6U is pressed
 		setSpeed(drfb1, 127);

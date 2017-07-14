@@ -1,57 +1,45 @@
 /*
 Copyright 2017 Brett Duncan
 */
-#pragma systemFile
+#pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
-#define NORMAL 0
-#define HIGH_SPEED 1
-#define TURBO_SPEED 2
 
-#define INTERNAL 1
-#define EXTERNAL 2
+enum MotorType {
+	normal, highSpeed, turbo
+};
 
-#define NORMAL_MAX 100
-#define HIGH_SPEED_MAX 160
-#define TURBO_SPEED_MAX 240
-
-#define FREE_CURRENT 0.37
-#define STALL_CURRENT 4.8
 
 typedef struct {
 
-	tMotor mPort; //motor port
-	tSensors sPort; //encoder port - probably not needed
-	//tSensors statusLED; //LED used to notify robot status - not yet implemented
-	ubyte type; //type of motor
-	//short statusLEDenabled; - not yet implemented
-	ubyte isPowerExpanderMotor;
-	tMotor slaves[5]; //motors that follow its master's settings, a motor may have a maximum of five slaves, slaves may not have slaves
+	MotorType type;
 
-	int slewRate; //rate at which motors speed is allowed to change per 20 ms
+	int targetSpeed;
+	int slewRate;
 
-	float currentDraw;
-	ubyte status;
+	int slaves[5];
+	bool powerExpander;
 
-	int targetSpeed; //speed to target
-	int currentSpeed; //speed that the motor is currently set at
+	int prevEncoderVal;
+	float velocity;
 
-	ubyte encoderType;
+	//To Implement:
 	float encoderRatio;
-	int previousVal;
-	float rpm;
+	float currentDraw;
 
 } SmartMotor;
 
 
+
 /****************************************************/
-//Don't touch:
-static short isInitialized = 0;
+//These are hidden from the end user
 static SmartMotor motors[10];
 static float totalCurrent[3];
-SmartMotor * getPointer(tMotor name);
-task adjustSpeed();
-task calculateRPM();
-void calculateCurrentDraw(); //work on this function
+static tMotor getMotor(int index); //returns the motor at the given index
+static ubyte getIndex(tMotor m); //returns the index of a given motor
+static task adjustSpeed(); //adjusts the speed of the motors using the slew rate
+static task calculateVelocity(); //calculates the velocity of the motors in RPM
+//To-Do
+//static void calculateCurrentDraw();
 /****************************************************/
 
 
@@ -59,245 +47,174 @@ void calculateCurrentDraw(); //work on this function
 //Go ahead and use:
 void init(); //Run at first to enable other functions
 
-void addSlave(tMotor master, tMotor slave, short slot); //Run this after init but before other functions
-void setExternalEncoder(tMotor name, tSensors port, float ratio); //ratio = Out / In
-void setPowerExpander(tMotor one, tMotor two = one, tMotor three = one, tMotor four = one); //Set motors to be in the power expander
-void setSlewRate(tMotor name, int slewRate); //Set the rate of motor speed change per 20 ms
+void addSlave(tMotor master, tMotor slave); //Run this after init but before other functions
+void setEncoderRatio(tMotor m, float ratio); //ratio = Out / In
+void setPowerExpander(tMotor motor1, tMotor motor2 = motor1, tMotor motor3 = motor1, tMotor motor4 = motor1); //Set motors to be in the power expander
+void setSlewRate(tMotor m, int rate); //Set the rate of motor speed change per 20 ms
 
-void setSpeed(tMotor name, int speed, bool immediate = false); //Use this instead of motor[port1] = 0;
-int getCurrentSpeed(tMotor name);
-float getRPM(tMotor name);
+void setSpeed(tMotor m, int speed, bool immediate = false); //Use this instead of motor[port1] = 0;
 void killAll(); //Stops all motors immediately
 /****************************************************/
 
 
-//Done
-SmartMotor * getPointer(tMotor name) {
-	/*SmartMotor * pointer = NULL;
-	for(int i = 0; i < 10; i++) {
-		if(motors[i].mPort == name)
-			pointer = &motors[i];
-	}
-	return pointer;*/
-	switch(name) {
-		case port1: return &motors[0];
-		case port2: return &motors[1];
-		case port3: return &motors[2];
-		case port4: return &motors[3];
-		case port5: return &motors[4];
-		case port6: return &motors[5];
-		case port7: return &motors[6];
-		case port8: return &motors[7];
-		case port9: return &motors[8];
-		case port10: return &motors[9];
-		default: return NULL;
+static tMotor getMotor(int index) {
+	switch(index) {
+		case 0: return port1;
+		case 1: return port2;
+		case 2: return port3;
+		case 3: return port4;
+		case 4: return port5;
+		case 5: return port6;
+		case 6: return port7;
+		case 7: return port8;
+		case 8: return port9;
+		default: return port10;
 	}
 }
 
-//Done
-task adjustSpeed() {
+static ubyte getIndex(tMotor m) {
+	switch(m) {
+		case port1: return 0;
+		case port2: return 1;
+		case port3: return 2;
+		case port4: return 3;
+		case port5: return 4;
+		case port6: return 5;
+		case port7: return 6;
+		case port8: return 7;
+		case port9: return 8;
+		default: return 9;
+	}
+}
+
+
+static task adjustSpeed() {
 	while(true) {
 		for(int i = 0; i < 10; i++) {
-			SmartMotor * target = &motors[i];
-			int speedTarget = target->targetSpeed;
-			int speedCurrent = target->currentSpeed;
-			if(speedTarget != speedCurrent) {
-				if(abs(speedTarget - speedCurrent) > target->slewRate) {
-					target->currentSpeed += speedCurrent < speedTarget ? target->slewRate : -(target->slewRate);
-					motor[target->mPort] = target->currentSpeed;
-				} else {
-					motor[target->mPort] = speedTarget;
-					target->currentSpeed = speedTarget;
-				}
+			tMotor m = getMotor(i);
+			if(motor[m] != motors[i].targetSpeed) {
+				if(abs(motor[m] - motors[i].targetSpeed) > motors[i].slewRate)
+					motor[m] += motor[m] < motors[i].targetSpeed ? motors[i].slewRate : -motors[i].slewRate;
+				else
+					motor[m] = motors[i].targetSpeed;
 			}
 		}
 		delay(20);
 	}
 }
 
-//Check results
-task calculateRPM() {
+
+static task calculateVelocity() {
+
 	const float TIME_DELAY = 50.;
 
 	while(true) {
 		for(int i = 0; i < 10; i++) {
 
-			int val = motors[i].encoderType ? SensorValue(motors[i].sPort) : nMotorEncoder[motors[i].mPort];
-			int tick = abs(val - motors[i].previousVal);
-			motors[i].previousVal = val;
+			tMotor m = getMotor(i);
 
-			if(motors[i].encoderType == 0) {
+			int val = nMotorEncoder[m];
+			int ticks = abs(val - motors[i].prevEncoderVal);
+			motors[i].prevEncoderVal = val;
+
+			if(getMotorVelocity(motor[m]) >= 0) {
+
 				switch(motors[i].type) {
-					case NORMAL: motors[i].rpm = (1000.0 / TIME_DELAY) * (tick/627.2) * 60.0; break;
-					case HIGH_SPEED: motors[i].rpm = (1000.0 / TIME_DELAY) * (tick/392.0) * 60.0; break;
-					case TURBO_SPEED: motors[i].rpm = (1000.0 / TIME_DELAY) * (tick/261.333) * 60.0; break;
+					case normal: motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/627.2) * 60.0; break;
+					case highSpeed: motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/392.0) * 60.0; break;
+					case turbo: motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/261.333) * 60.0; break;
 				}
-			} else {
-				motors[i].rpm = (1000.0 / TIME_DELAY) * (tick/360.0) * 60.0; break;
-			}
+
+			} else
+				motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/360.0) * 60.0; break;
+
 		}
-		calculateCurrentDraw();
+
+
+		//calculateCurrentDraw();
 		delay(TIME_DELAY);
+
+
 	}
 }
 
-//Not working
-void calculateCurrentDraw() {
 
-	const ubyte expectedSpeed[128] = {
-		0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  5,  9, 13, 17, 20, 24,
-		27, 30, 33, 36, 39, 42, 44, 47, 49, 52, 54, 56, 59, 61, 63, 64,
-		66, 68, 70, 71, 73, 74, 76, 77, 79, 80, 81, 82, 83, 84, 85, 86,
-		87, 88, 89, 90, 91, 92, 92, 93, 94, 94, 95, 95, 96, 96, 97, 97,
-		98, 98, 99, 99, 99,100,100,100,101,101,101,102,102,102,103,103,
-		103,103,104,104,104,104,105,105,105,105,105,106,106,106,106,107,
-		107,107,107,108,108,108,108,108,109,109,109,109,110,110,110,110,
-		111,111,111,111,111,112,112,112,112,112,113,113,113,113,113,114
-	};
-
-	//Calculation source: https://www.vexforum.com/index.php/7955-estimating-motor-current/0
-	totalCurrent[0] = 0;
-	totalCurrent[1] = 0;
-	totalCurrent[2] = 0;
+void init() {
 
 	for(int i = 0; i < 10; i++) {
 
-		int speed = abs(motors[i].currentSpeed);
-		if(expectedSpeed[speed] != 0) {
+		motors[i].slewRate = 10;
+		for(int j = 0; j < 5; j++)
+			motors[i].slaves[j] = -1;
 
-			float driveVoltage = (motors[i].currentSpeed / 127.0) * (nAvgBatteryLevel / 1000.);
-			float bemfVoltage = 0.0;
-
-			switch(motors[i].type) {
-				case NORMAL: bemfVoltage = motors[i].rpm / expectedSpeed[abs(motors[i].currentSpeed)] * driveVoltage; break;
-				case HIGH_SPEED: bemfVoltage = (motors[i].rpm / 1.6) / expectedSpeed[abs(motors[i].currentSpeed)] * driveVoltage; break;
-				case TURBO_SPEED: bemfVoltage = (motors[i].rpm / 2.4) / expectedSpeed[abs(motors[i].currentSpeed)] * driveVoltage; break;
-			}
-
-			motors[i].currentDraw = driveVoltage - bemfVoltage;// > 0.0 ? driveVoltage - bemfVoltage : 0.0;
-		} else {
-			motors[i].currentDraw = 0.0;
-		}
-
-		/*motors[i].status = motors[i].currentDraw > 1.1 ? 1 : 0;
-
-		if(motors[i].isPowerExpanderMotor) {
-			totalCurrent[2] += motors[i].currentDraw;
-		} else if(i < 5) {
-			totalCurrent[1] += motors[i].currentDraw;
-		} else {
-			totalCurrent[0] += motors[i].currentDraw;
-		}*/
-	}
-}
-
-
-//Done
-void init() {
-	if((isInitialized ^ 1)) {
-		motors[0].mPort = port1;// motors[0].sPort = port1;
-		motors[1].mPort = port2;// motors[1].sPort = port2;
-		motors[2].mPort = port3;// motors[2].sPort = port3;
-		motors[3].mPort = port4;// motors[3].sPort = port4;
-		motors[4].mPort = port5;// motors[4].sPort = port5;
-		motors[5].mPort = port6;// motors[5].sPort = port6;
-		motors[6].mPort = port7;// motors[6].sPort = port7;
-		motors[7].mPort = port8;// motors[7].sPort = port8;
-		motors[8].mPort = port9;// motors[8].sPort = port9;
-		motors[9].mPort = port10;// motors[9].sPort = port10;
-		for(int i = 0; i < 10; i++) {
-			switch(motorType[motors[i].mPort]) {
+		switch(motorType[motor[getMotor(i)]]) {
 				case tmotorVex393_HBridge:
-				case tmotorVex393_MC29: motors[i].type = NORMAL; break;
+				case tmotorVex393_MC29: motors[i].type = normal; break;
 				case tmotorVex393HighSpeed_HBridge:
-				case tmotorVex393TurboSpeed_HBridge: motors[i].type = HIGH_SPEED; break;
+				case tmotorVex393TurboSpeed_HBridge: motors[i].type = highSpeed; break;
 				case tmotorVex393HighSpeed_MC29:
-				case tmotorVex393TurboSpeed_MC29: motors[i].type = TURBO_SPEED; break;
+				case tmotorVex393TurboSpeed_MC29: motors[i].type = turbo; break;
 			}
-			motors[i].encoderRatio = 1.0;
-			motors[i].slewRate = 10;
-		}
-		startTask(adjustSpeed);
-		startTask(calculateRPM);
-		isInitialized = 1;
 	}
+
+	startTask(adjustSpeed);
+	startTask(calculateVelocity);
 }
 
-//Needs improvement
-void addSlave(tMotor master, tMotor slave, short slot) {
-	getPointer(master)->slaves[slot] = slave;
-}
 
-//Done
-void setExternalEncoder(tMotor name, tSensors port, float ratio) {
-	SmartMotor * target = getPointer(name);
-	target->sPort = port;
-	target->encoderType = 1;
-	target->encoderRatio = ratio;
+void addSlave(tMotor master, tMotor slave) {
+	ubyte m = getIndex(master);
 	for(int i = 0; i < 5; i++) {
-		SmartMotor * slave = getPointer(target->slaves[i]);
-		if(slave) {
-			slave->sPort = port;
-			slave->encoderType = 1;
-			slave->encoderRatio = ratio;
+		if(motors[m].slaves[i] == -1) {
+			motors[m].slaves[i] = getIndex(slave);
+			return;
 		}
 	}
 }
 
-//Done
-void setPowerExpander(tMotor one, tMotor two, tMotor three, tMotor four) {
-	getPointer(one)->isPowerExpanderMotor = 1;
-	getPointer(two)->isPowerExpanderMotor = 1;
-	getPointer(three)->isPowerExpanderMotor = 1;
-	getPointer(four)->isPowerExpanderMotor = 1;
-}
 
-//Done
-void setSlewRate(tMotor name, int slewRate) {
-	SmartMotor * target = getPointer(name);
-	target->slewRate = slewRate;
+void setEncoderRatio(tMotor m, float ratio) {
+	motors[getIndex(m)].encoderRatio = ratio;
 	for(int i = 0; i < 5; i++) {
-		if(&target->slaves[i])
-			getPointer(target->slaves[i])->slewRate = slewRate;
+		if(motors[m].slaves[i] != -1)
+			setSlewRate(getMotor(motors[m].slaves[i]), ratio);
 	}
 }
 
-//Done
-void setSpeed(tMotor name, int speed, bool immediate) {
-	speed = speed > 127 ? 127 : speed < -127 ? -127 : speed;
-	SmartMotor * target = getPointer(name);
-	target->targetSpeed = speed;
+
+void setPowerExpander(tMotor motor1, tMotor motor2, tMotor motor3, tMotor motor4) {
+	motors[getIndex(motor1)].powerExpander = true;
+	motors[getIndex(motor2)].powerExpander = true;
+	motors[getIndex(motor3)].powerExpander = true;
+	motors[getIndex(motor4)].powerExpander = true;
+}
+
+
+void setSlewRate(tMotor m, int rate) {
+	rate = abs(rate);
+	motors[getIndex(m)].slewRate = rate;
 	for(int i = 0; i < 5; i++) {
-		//if(&target->slaves[i])
-			getPointer(target->slaves[i])->targetSpeed = speed;
-	}
-	if(immediate) {
-		motor[target->mPort] = speed;
-		target->currentSpeed = speed;
-		for(int i = 0; i < 5; i++) {
-			//if(&target->slaves[i]) {
-				motor[getPointer(target->slaves[i])->mPort] = speed;
-				getPointer(target->slaves[i])->currentSpeed = speed;
-			//}
-		}
+		if(motors[m].slaves[i] != -1)
+			setSlewRate(getMotor(motors[m].slaves[i]), rate);
 	}
 }
 
-//Done
-float getCurrentSpeed(tMotor name) {
-	return getPointer(name)->currentSpeed;
+
+void setSpeed(tMotor m, int speed, bool immediate) {
+	speed = speed > 127 ? 127 : (speed < -127 ? -127 : speed);
+	motors[getIndex(m)].targetSpeed = speed;
+	if(immediate)
+		motor[m] = speed;
+	for(int i = 0; i < 5; i++) {
+		if(motors[m].slaves[i] != -1)
+			setSpeed(getMotor(motors[m].slaves[i]), speed, immediate);
+	}
 }
 
-//Done
-float getRPM(tMotor name) {
-	return getPointer(name)->rpm;
-}
 
-//Done
 void killAll() {
 	for(int i = 0; i < 10; i++) {
 		motors[i].targetSpeed = 0;
-		motor[motors[i].mPort] = 0;
-		motors[i].currentSpeed = 0;
+		motor[getMotor(i)] = 0;
 	}
 }
