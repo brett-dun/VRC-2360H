@@ -27,7 +27,7 @@ void setDrive(float leftSpeed, float rightSpeed) {
 void driveInches(float distance) {
 
 	const float max = distance < 0 ? -80 : 80;
-	const float ticks = abs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
+	const float ticks = fabs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
 
 	float leftTicks = 0;
 	float rightTicks = 0;
@@ -101,10 +101,11 @@ void turnDegrees(float angle){
 	float initial = abs(SensorValue[in1]/10.0);
 	float absGyroValue = abs(SensorValue[in1]/10.0);
 
-	float leftSpeed = rightTurn ? 80 : -80;
-	float rightSpeed = rightTurn ? -80 : 80;
+	const float speed = 127;
+	float leftSpeed = rightTurn ? speed : -speed;
+	float rightSpeed = -leftSpeed;
 
-	const float K = 0.04;
+	const float K = 0.05;
 
 	while(abs(absGyroValue-initial) < abs(angle) ) {
 		setSpeed(frontLeftDrive, leftSpeed * atan(K * abs(angle - gyroValue)), true);
@@ -112,8 +113,8 @@ void turnDegrees(float angle){
 		absGyroValue = abs(SensorValue[in1]/10.0);
 	}
 
-	setSpeed(frontLeftDrive, rightTurn ? -128: 128, true);
-	setSpeed(frontRightDrive, rightTurn ? 128: -128, true);
+	setSpeed(frontLeftDrive, rightTurn ? -127: 127, true);
+	setSpeed(frontRightDrive, rightTurn ? 127: -127, true);
 
 	delay(100);
 

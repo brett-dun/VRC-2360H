@@ -46,6 +46,7 @@ static task calculateVelocity(); //calculates the velocity of the motors in RPM
 /****************************************************/
 //Go ahead and use:
 void init(); //Run at first to enable other functions
+void enable(); //Tun at the begining of autonomous and driver control code
 
 void addSlave(tMotor master, tMotor slave); //Run this after init but before other functions
 void setEncoderRatio(tMotor m, float ratio); //ratio = Out / In
@@ -156,6 +157,14 @@ void init() {
 				case tmotorVex393TurboSpeed_MC29: motors[i].type = turbo; break;
 			}
 	}
+
+	startTask(adjustSpeed);
+	startTask(calculateVelocity);
+}
+
+void enable() {
+	stopTask(adjustSpeed);
+	stopTask(calculateVelocity);
 
 	startTask(adjustSpeed);
 	startTask(calculateVelocity);

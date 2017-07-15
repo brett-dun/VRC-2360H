@@ -1,4 +1,4 @@
-#define SKILLS 0
+
 
 //Clear the LCD
 clearLCDLine(0);
@@ -6,7 +6,9 @@ clearLCDLine(1);
 bLCDBacklight = true; //Turn the LCD's backlight on
 displayLCDCenteredString(0, "Running:"); //Display "Running" on top
 
-if(SKILLS)
+enable();
+
+if(SKILLS_ENABLED)
 	skills();
 else {
 	switch(autoChoice) {

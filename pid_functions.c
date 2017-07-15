@@ -57,8 +57,43 @@ void drive(float distance) {
 		}*/
 
 
-		setDrive(rightOutput, rightOutput);
+		setDrive(distance > 0 ? rightOutput : -rightOutput, distance > 0 ? rightOutput : -rightOutput);
 		delay(20);
 
 	}
+}
+
+void turn(float angle) {
+
+	const float KP = 1.3;
+	const float KI = 0.1;
+	const float KD = 0.1;
+
+	float output = 0;
+	float error = 0;
+	float prevError = 0;
+	float proportion = 0;
+	float integral = 0;
+	float derivative = 0;
+
+	while(true) {
+
+		float initial = abs(SensorValue[in1]/10.0);
+		float absGyroValue = abs(SensorValue[in1]/10.0);
+
+		error = abs(angle) - abs(absGyroValue-initial);
+
+		proportion = error * KP;
+		integral = error == 0 ? 0 : (integral > 50.0/KI ? 50.0/KI : integral+prevError*KI);
+		derivative = (error - prevError) * KD;
+
+		output = proportion + integral + derivative;
+
+		setDrive(angle > 0 ? output: -output, angle > 0 ? -output : output);
+
+	}
+
+	setAllDrive(0);
+
+
 }

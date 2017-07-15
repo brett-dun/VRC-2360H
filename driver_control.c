@@ -8,14 +8,16 @@ bLCDBacklight = false; //Turn the LCD's backlight off
 displayLCDCenteredString(0, "2630H");
 displayLCDCenteredString(1, "HELIX");
 
+enable();
+
 while(true) { //Run for the duration of the entire driver control period
 
 	if(vexRT[Btn8U]) { //If button 8U is pressed
 		maxSpeed = 127; //Change the maximum speed to 128 (maximum value)
 	} else if(vexRT[Btn8L] || vexRT[Btn8R]) { //If buttons 8L or 8R are pressed
-		maxSpeed = 96; //Change the maximum speed to 64 (1/2 of the maximum value)
+		maxSpeed = 64; //Change the maximum speed to 64 (1/2 of the maximum value)
 	} else if(vexRT[Btn8D]) {
-		maxSpeed = 64; //Change the maximum speed to 32 (1/4 of the maximum value)
+		maxSpeed = 32; //Change the maximum speed to 32 (1/4 of the maximum value)
 	}
 
 	setSpeed(frontLeftDrive, vexRT[Ch3] * maxSpeed / 127.0);

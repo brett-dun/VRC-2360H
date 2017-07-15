@@ -28,9 +28,13 @@
 #define DRIVE_RATIO 2.0
 #define TICKS 627.2
 
+#define LCD_CONNECTED 0
+#define SKILLS_ENABLED 0
+
 //supporting files
 #include "vex.c"
 #include "smart_motor.c"
+#include "controller_layout.c"
 #include "basic_functions.c"
 #include "pid_functions.c"
 #include "skills.c"
@@ -43,7 +47,8 @@ void pre_auton() {
 }
 
 task autonomous() {
-#include "autonomous.c"
+//#include "autonomous.c"
+turnDegrees(90);
 }
 
 task usercontrol() {
