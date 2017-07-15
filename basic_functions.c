@@ -1,111 +1,54 @@
-#pragma systemFile //supress unreferenced function warning
+#pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
-//variables & constants
-const float WHEEL_DIAMETER = 3.25;
+//#define WHEEL_DIAMETER 4.0
+
 float gyroValue;
 
-
 void setAllDrive(int speed) {
-	setMotor(backLeft, speed);
-	setMotor(frontLeft, speed);
-	setMotor(backRight, speed);
-	setMotor(frontRight, speed);
+	setSpeed(frontLeftDrive, speed, true);
+	setSpeed(frontRightDrive, speed, true);
+}
+
+void setDrive(float leftSpeed, float rightSpeed) {
+	setSpeed(frontLeftDrive, leftSpeed, true);
+	setSpeed(frontRightDrive, rightSpeed, true);
 }
 
 /*
 	distance > 0 >>> forward
 	distance < 0 >>> backward
+
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	- use PID control
 */
 void driveInches(float distance) {
 
-	nMotorEncoder[backLeft] = 0;
-	nMotorEncoder[frontLeft] = 0;
-	nMotorEncoder[backRight] = 0;
-	nMotorEncoder[frontRight] = 0;
-
 	const float max = distance < 0 ? -80 : 80;
-	const float ticks = abs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
+	const float ticks = fabs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
 
-	float leftAverage = 0;
-	float rightAverage = 0;
+	float leftTicks = 0;
+	float rightTicks = 0;
 	float average = 0;
 	float speed = 0;
-	float leftSpeed = 0;
-	float rightSpeed = 0;
 
-	while(leftAverage < ticks || rightAverage < ticks) {
+	while(leftTicks < ticks || rightTicks < ticks) {
 
-		leftAverage = abs(nMotorEncoder[frontLeft]);
-		rightAverage = abs(nMotorEncoder[frontRight]);
-		average = ( leftAverage + rightAverage ) / 2.0;
+		leftTicks = abs(SensorValue[leftEncoder]);
+		rightTicks = abs(SensorValue[rightEncoder]);
+		average = ( leftTicks + rightTicks ) / 2.0;
 
 		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
 
-		if(leftAverage < rightAverage) {
-			leftSpeed = speed;
-			rightSpeed = speed - atan(0.5 *(average-leftAverage)) / (PI/2) * speed;
+		if(leftTicks < rightTicks) {
+			setSpeed(frontLeftDrive, speed, true);
+			setSpeed(frontRightDrive, speed - atan(0.5 *(average-leftTicks)) / (PI/2) * speed, true);
 		} else {
-			leftSpeed = speed - atan(0.5 *(average-rightAverage)) / (PI/2) * speed;
-			rightSpeed = speed;
+			setSpeed(frontLeftDrive, speed - atan(0.5 *(average-rightTicks)) / (PI/2) * speed, true);
+			setSpeed(frontRightDrive, speed, true);
 		}
-
-		setMotor(backLeft, leftSpeed);
-		setMotor(frontLeft, leftSpeed);
-		setMotor(backRight, rightSpeed);
-		setMotor(frontRight, rightSpeed);
-
-	}
-
-	/*leftSpeed = max < 0 ? 127: -127;
-	rightSpeed = max < 0 ? 127: -127;
-
-	setMotor(backLeft, leftSpeed);
-	setMotor(frontLeft, leftSpeed);
-	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);*/
-
-	/*float prevLeftside = (abs(nMotorEncoder(backLeft)) + abs(nMotorEncoder(frontLeft)) ) / 2.0;
-	float prevRightside = (abs(nMotorEncoder(backRight)) + abs(nMotorEncoder(frontRight)) ) / 2.0;
-	delay(10);
-	float currentLeftside = (abs(nMotorEncoder(backLeft)) + abs(nMotorEncoder(frontLeft)) ) / 2.0;
-	float currentRightside = (abs(nMotorEncoder(backRight)) + abs(nMotorEncoder(frontRight)) ) / 2.0;
-
-	while(abs(prevLeftside - currentLeftside) < 5 || abs(prevRightside - currentRightside) < 5) {
-		if(abs(prevLeftside - currentLeftside) < 2) {
-			setMotor(backLeft, 0);
-			setMotor(frontLeft, 0);
-		}
-		if(abs(prevRightside - currentRightside) < 2) {
-			setMotor(backRight, 0);
-			setMotor(frontRight, 0);
-		}
-		prevLeftside = currentLeftside;
-		prevRightside = currentRightside;
-		currentLeftside = (abs(nMotorEncoder(backLeft)) + abs(nMotorEncoder(frontLeft)) ) / 2.0;
-		currentRightside = (abs(nMotorEncoder(backRight)) + abs(nMotorEncoder(frontRight)) ) / 2.0;
-		delay(10);
-	}*/
-	//delay(100);
-	while(leftAverage > ticks || rightAverage > ticks) {
-
-		leftAverage = abs(nMotorEncoder[frontLeft]);
-		rightAverage = abs(nMotorEncoder[frontRight]);
-		average = ( leftAverage + rightAverage ) / 2.0;
-
-		speed = atan(0.05*(ticks - average)) / (PI/2.0) * max * 0.5;
-
-		if(leftAverage > rightAverage) {
-			leftSpeed = speed;
-			rightSpeed = speed - atan(0.5 *(average-leftAverage)) / (PI/2) * speed;
-		} else {
-			leftSpeed = speed - atan(0.5 *(average-rightAverage)) / (PI/2) * speed;
-			rightSpeed = speed;
-		}
-
-		setMotor(backLeft, leftSpeed);
-		setMotor(frontLeft, leftSpeed);
-		setMotor(backRight, rightSpeed);
-		setMotor(frontRight, rightSpeed);
 
 	}
 
@@ -113,15 +56,43 @@ void driveInches(float distance) {
 
 }
 
+
+
+/*
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	-
+*/
 void squareRobot() {
-	while(!SensorValue[touch1] || !SensorValue[touch2])
-		setAllDrive(-128);
+	while(!SensorValue[leftTouch] || !SensorValue[rightTouch]) {
+
+		if(SensorValue[leftTouch])
+			setSpeed(frontLeftDrive, 0, true);
+		else
+			setSpeed(frontLeftDrive, -127, true);
+
+		if(SensorValue[rightTouch])
+			setSpeed(frontRightDrive, 0, true);
+		else
+			setSpeed(frontRightDrive, -127, true);
+
+	}
 	setAllDrive(0);
 }
+
+
 
 /*
 	angle > 0 >>> clockwise
 	angle < 0 >>> counterclockwise
+
+	Status:
+	-
+
+	Issues/Ideas:
+	-
 */
 void turnDegrees(float angle){
 
@@ -130,37 +101,38 @@ void turnDegrees(float angle){
 	float initial = abs(SensorValue[in1]/10.0);
 	float absGyroValue = abs(SensorValue[in1]/10.0);
 
-	float leftSpeed = rightTurn ? 80 : -80;
-	float rightSpeed = rightTurn ? -80 : 80;
+	const float speed = 127;
+	float leftSpeed = rightTurn ? speed : -speed;
+	float rightSpeed = -leftSpeed;
 
-	const float K = 0.04;
+	const float K = 0.05;
 
 	while(abs(absGyroValue-initial) < abs(angle) ) {
-		setMotor(backLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(frontLeft, leftSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(backRight, rightSpeed * atan(K * abs(angle - gyroValue)));
-		setMotor(frontRight, rightSpeed * atan(K * abs(angle - gyroValue)));
+		setSpeed(frontLeftDrive, leftSpeed * atan(K * abs(angle - gyroValue)), true);
+		setSpeed(frontRightDrive, rightSpeed * atan(K * abs(angle - gyroValue)), true);
 		absGyroValue = abs(SensorValue[in1]/10.0);
 	}
 
-	leftSpeed = rightTurn ? -128: 128;
-	rightSpeed = rightTurn ? 128: -128;
-
-	setMotor(backLeft, leftSpeed);
-	setMotor(frontLeft, leftSpeed);
-	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);
+	setSpeed(frontLeftDrive, rightTurn ? -127: 127, true);
+	setSpeed(frontRightDrive, rightTurn ? 127: -127, true);
 
 	delay(100);
 
 	setAllDrive(0);
 }
 
+
+
 /*
 	angle > 0 >>> clockwise
 	angle < 0 >>> counterclockwise
+
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	-Try to avoid using this function, it will eventually malfunction because of gyro drift
 */
-//Try to avoid using this function, it will eventually malfunction because of gyro drift
 void targetAngle(float angle, bool rightTurn){
 
 	const float speed = rightTurn ? -80 : 80;
@@ -175,20 +147,16 @@ void targetAngle(float angle, bool rightTurn){
 			gyroValue = 360 + gyroValue;
 		//gyroValue = gyroValue < 0 ? 360 - gyroValue : gyroValue;
 
-		setMotor(backLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontLeft, leftSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(backRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
-		setMotor(frontRight, rightSpeed * atan(0.1 * abs(angle - gyroValue)));
+		setSpeed(frontLeftDrive, leftSpeed * atan(0.1 * abs(angle - gyroValue)), true);
+		setSpeed(frontRightDrive, rightSpeed * atan(0.1 * abs(angle - gyroValue)), true);
 
 	}
 
 	leftSpeed = rightTurn ? -128: 128;
 	rightSpeed = rightTurn ? 128: -128;
 
-	setMotor(backLeft, leftSpeed);
-	setMotor(frontLeft, leftSpeed);
-	setMotor(backRight, rightSpeed);
-	setMotor(frontRight, rightSpeed);
+	setSpeed(frontLeftDrive, leftSpeed, true);
+	setSpeed(frontRightDrive, rightSpeed, true);
 
 	delay(100);
 
@@ -197,61 +165,20 @@ void targetAngle(float angle, bool rightTurn){
 
 
 
-
-void setAllForklift(int speed) {
-	setMotor(forklift1, speed);
-	setMotor(forklift2, speed);
-	setMotor(forklift3, speed);
-	setMotor(forklift4, speed);
-	setMotor(forklift5, speed);
-}
-
 /*
 	angle > 0 >>> raise
 	angle < 0 >>> lower
+
+	Status:
+	- testing required
+
+	Issues/Ideas:
+	-
 */
-//Don't use this function, it wastes time, use a task in parallel instead
-void moveForkliftDegrees(float angle) {
-	SensorValue[sixBar] = 0;
+void moveDRFB(float angle) {
+	int initialVal = nMotorEncoder[drfb1];
 	float speed = angle < 0 ? -128 : 128;
-	while(abs(SensorValue[sixBar]) < abs(angle))
-		setAllForklift(speed);
-	setAllForklift(0);
-}
-
-task raiseForklift() {
-	while(abs(SensorValue[sixBar]) < 100)
-		setAllForklift(128);
-	setAllForklift(0);
-}
-
-task lowerForklift() {
-	while(abs(SensorValue[sixBar]) > 1)
-		setAllForklift(-128);
-	setAllForklift(0);
-}
-
-task maintainForkliftUp() {
-	setAllForklift(128);
-	delay(500);
-	setAllForklift(0);
-}
-
-task maintainForkliftDown() {
-	setAllForklift(-60);
-	delay(1500);
-	setAllForklift(0);
-}
-
-
-
-
-/*
-Use these methods to avoid having to change the sensor value if the physical setup of the pneumatics changes
-*/
-void openClaw() {
-	SensorValue[claw] = 1;
-}
-void closeClaw() {
-	SensorValue[claw] = 0;
+	while(abs(initialVal - nMotorEncoder[drfb1]) < abs(angle))
+		setSpeed(drfb1, speed, true);
+	setSpeed(drfb1, 0, true);
 }
