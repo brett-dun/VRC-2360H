@@ -1,6 +1,6 @@
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
-//#define WHEEL_DIAMETER 4.0
+#define TICKS 627.2
 
 float gyroValue;
 
@@ -36,8 +36,8 @@ void driveInches(float distance) {
 
 	while(leftTicks < ticks || rightTicks < ticks) {
 
-		leftTicks = abs(SensorValue[leftEncoder]);
-		rightTicks = abs(SensorValue[rightEncoder]);
+		leftTicks = abs(nMotorEncoder[frontLeftDrive]);
+		rightTicks = abs(nMotorEncoder[frontRightDrive]);
 		average = ( leftTicks + rightTicks ) / 2.0;
 
 		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
@@ -176,9 +176,9 @@ void targetAngle(float angle, bool rightTurn){
 	-
 */
 void moveDRFB(float angle) {
-	int initialVal = nMotorEncoder[drfb1];
+	int initialVal = nMotorEncoder[drfbLeft];
 	float speed = angle < 0 ? -128 : 128;
-	while(abs(initialVal - nMotorEncoder[drfb1]) < abs(angle))
-		setSpeed(drfb1, speed, true);
-	setSpeed(drfb1, 0, true);
+	while(abs(initialVal - nMotorEncoder[drfbLeft]) < abs(angle))
+		setSpeed(drfbLeft, speed, true);
+	setSpeed(drfbLeft, 0, true);
 }

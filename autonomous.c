@@ -8,7 +8,7 @@ displayLCDCenteredString(0, "Running:"); //Display "Running" on top
 
 enable();
 
-if(SKILLS_ENABLED)
+if(skillsEnabled)
 	skills();
 else {
 	switch(autoChoice) {
