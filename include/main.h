@@ -2,7 +2,8 @@
 #define MAIN_H_
 
 #include <API.h>
-#include <smart_motor.h>
+#include "slew_rate.h"
+#include "movement.h"
 
 #ifdef __cplusplus
 extern "C" {

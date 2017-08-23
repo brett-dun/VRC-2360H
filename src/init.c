@@ -25,4 +25,5 @@ void initializeIO() {
  * can be implemented in this task if desired.
  */
 void initialize() {
+  gyro = gyroInit(1, 0);
 }
