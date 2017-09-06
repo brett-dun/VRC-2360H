@@ -2,8 +2,8 @@
 
 
 
-static void adjustSpeed() {
-	//while(true) {
+void adjustSpeed(void * parameter) {
+	while(true) {
 		for(int i = 0; i < 10; i++) {
 			if(motors[i].currentSpeed != motors[i].targetSpeed) {
 				if(abs(motors[i].currentSpeed - motors[i].targetSpeed) > motors[i].slewRate) {
@@ -15,8 +15,8 @@ static void adjustSpeed() {
         }
 			}
 		}
-		//delay(20);
-	//}
+		delay(20);
+	}
 }
 
 
@@ -35,7 +35,7 @@ void init() {
 
 	}
 
-	adjustSpeedTask = taskRunLoop(adjustSpeed, 20);
+	adjustSpeedTask = taskCreate(adjustSpeed, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 
 }
 
@@ -43,7 +43,7 @@ void init() {
 
 void enable() {
 	taskDelete(adjustSpeedTask); //Make sure this task is stopped
-	adjustSpeedTask = taskRunLoop(adjustSpeed, 20); //Run this task again
+	adjustSpeedTask = taskCreate(adjustSpeed, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT); //Run this task again
 }
 
 

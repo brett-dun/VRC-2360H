@@ -9,7 +9,7 @@ void setMobileGoalLift(float speed, bool immediate) {
 void moveMobileGoalLift(MobileGoalLiftState state) {
   switch(state) {
     case back:
-      
+
       break;
     case lowered:
 

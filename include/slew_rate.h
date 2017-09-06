@@ -32,9 +32,9 @@ typedef struct {
 
 /****************************************************/
 //These are hidden from the end user
-static SlewMotor motors[10];
-static void adjustSpeed(); //adjusts the speed of the motors using the slew rate
-static TaskHandle adjustSpeedTask;
+SlewMotor motors[10];
+void adjustSpeed(void * parameter); //adjusts the speed of the motors using the slew rate
+TaskHandle adjustSpeedTask;
 /****************************************************/
 
 
