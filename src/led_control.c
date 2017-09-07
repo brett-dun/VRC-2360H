@@ -1,5 +1,15 @@
 #include "led_control.h"
 
+//Color Value / Hz (Time on)
+float r = 0;
+float g = 0;
+float b = 0;
+
+//Time off
+float timeR = 0;
+float timeG = 0;
+float timeB = 0;
+
 void setRGB(float red, float green, float blue) {
 
   red = red > 255 ? 255 : (red < 0 ? 0 : red);
@@ -53,7 +63,7 @@ void rgbControl(void * parameter) {
 
 }
 
-void lol() {
-  TaskHandle firstTaskHandle = taskCreate(rgbControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
-  taskDelete(firstTaskHandle);
+void enableLEDs() {
+  taskDelete(ledTask);
+  ledTask = taskCreate(rgbControl, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT);
 }

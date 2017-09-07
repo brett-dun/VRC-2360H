@@ -2,14 +2,14 @@
 
 void squareRobot() {
 
-  while(!digitalRead(LEFT_TOUCH) || !digitalRead(LEFT_TOUCH)) {
+  while(!digitalRead(L_BACK_TOUCH) || !digitalRead(R_BACK_TOUCH)) {
 
-		if(digitalRead(LEFT_TOUCH))
+		if(digitalRead(L_BACK_TOUCH))
 			setLeftDrive(0,true);
 		else
 			setLeftDrive(-127,true);
 
-		if(digitalRead(RIGHT_TOUCH))
+		if(digitalRead(R_BACK_TOUCH))
 			setRightDrive(0,true);
 		else
 			setRightDrive(-127,true);

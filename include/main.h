@@ -10,7 +10,7 @@
 
 //Including both of these header files causes redefintions of most variables -- Fix asap
 #include "drivetrain_movement.h"
-//#include "movement.h"
+#include "movement.h"
 
 #include "led_control.h"
 

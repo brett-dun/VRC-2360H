@@ -1,11 +1,11 @@
 #include "drivetrain_movement.h"
 
 void imeDriveReset() {
-  imeReset(FRONT_LEFT_DRIVE);
-  imeReset(FRONT_RIGHT_DRIVE);
+  imeReset(L_FRONT_DRIVE);
+  imeReset(R_FRONT_DRIVE);
 }
 
 void imeDriveGet(int* left, int* right) {
-  imeGet(FRONT_LEFT_DRIVE, left);
-  imeGet(FRONT_RIGHT_DRIVE, right);
+  imeGet(L_FRONT_DRIVE, left);
+  imeGet(R_FRONT_DRIVE, right);
 }

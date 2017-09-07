@@ -3,7 +3,7 @@
 void drive(float inches) {
 
   const float max = inches < 0 ? -80 : 80;
-  const float ticks = abs(inches * DRIVETRAIN_GR * DRIVE_TICKS / (WHEEL_DIAMETER * PI)); //ticks needed to go the desired distance
+  const float ticks = inches * DRIVETRAIN_GR * DRIVE_TICKS / (WHEEL_DIAMETER * PI); //ticks needed to go the desired distance
 
   int left = 0;
 	int right = 0;

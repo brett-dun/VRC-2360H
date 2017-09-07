@@ -6,23 +6,26 @@
 
 
 //Pins
-const unsigned short pinR = 2;
-const unsigned short pinG = 3;
-const unsigned short pinB = 4;
+#define pinR 2
+#define pinG 3
+#define pinB 4
 
 //Refresh Rate
 #define hz 50
-const float maximum = 255.0 / hz;
+#define maximum (255.0 / hz) //255 / hz
 
 //Color Value / Hz (Time on)
-float r = 0;
-float g = 0;
-float b = 0;
+extern float r;
+extern float g;
+extern float b;
 
 //Time off
-float timeR = 0;
-float timeG = 0;
-float timeB = 0;
+extern float timeR;
+extern float timeG;
+extern float timeB;
+
+
+TaskHandle ledTask;
 
 
 enum Color {
@@ -35,5 +38,6 @@ void setRGB(float red, float green, float blue);
 void setColor(Color color);
 
 void rgbWrite(void * parameter);
+void enableLEDs();
 
 #endif

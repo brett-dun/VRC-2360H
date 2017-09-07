@@ -2,6 +2,19 @@
 
 
 
+const unsigned short SLEW_MOTOR_1 = 0;
+const unsigned short SLEW_MOTOR_2 = 1;
+const unsigned short SLEW_MOTOR_3 = 2;
+const unsigned short SLEW_MOTOR_4 = 3;
+const unsigned short SLEW_MOTOR_5 = 4;
+const unsigned short SLEW_MOTOR_6 = 5;
+const unsigned short SLEW_MOTOR_7 = 6;
+const unsigned short SLEW_MOTOR_8 = 7;
+const unsigned short SLEW_MOTOR_9 = 8;
+const unsigned short SLEW_MOTOR_10 = 9;
+
+
+
 void adjustSpeed(void * parameter) {
 	while(true) {
 		for(int i = 0; i < 10; i++) {
@@ -21,7 +34,7 @@ void adjustSpeed(void * parameter) {
 
 
 
-void init() {
+void initSlewControl() {
 
 	for(int i = 0; i < 10; i++) {
 
@@ -41,7 +54,7 @@ void init() {
 
 
 
-void enable() {
+void enableSlewControl() {
 	taskDelete(adjustSpeedTask); //Make sure this task is stopped
 	adjustSpeedTask = taskCreate(adjustSpeed, TASK_DEFAULT_STACK_SIZE, NULL, TASK_PRIORITY_DEFAULT); //Run this task again
 }

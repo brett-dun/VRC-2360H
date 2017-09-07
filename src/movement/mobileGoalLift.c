@@ -2,7 +2,7 @@
 
 
 void setMobileGoalLift(float speed, bool immediate) {
-  setSpeed(MGL_LEFT, speed, immediate);
+  setSpeed(L_MGL, speed, immediate);
 }
 
 

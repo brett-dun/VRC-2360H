@@ -25,5 +25,22 @@ void initializeIO() {
  * can be implemented in this task if desired.
  */
 void initialize() {
+
+  initSlewControl();
+  enableLEDs();
+  setColor(SpringGreen);
+
+  lcdInit(uart1);
+  lcdClear(uart1);
+  lcdSetBacklight(uart1, true);
+
+  //Autonomous selection goes right here
+
   gyro = gyroInit(1, 0);
+
+  delay(2000);
+
+  lcdPrint(uart1, 1, "Ready!!!");
+  lcdSetBacklight(uart1, false);
+
 }
