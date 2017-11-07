@@ -47,7 +47,7 @@ void addSlave(int master, int slave); //Run this after init but before other fun
 void setSlewRate(int motor, unsigned int rate); //Set the rate of motor speed change per 20 ms
 void reverseMotor(int motor);
 
-void setSpeed(int motor, int speed, bool immediate);
+void setSpeed(int motor, int speed, bool immediate); //Use this instead of motor[port1] = 0;
 void killAll(); //Stops all motors immediately
 /****************************************************/
 

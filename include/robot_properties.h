@@ -12,8 +12,6 @@
 #define R_DRIVE SLEW_MOTOR_9
 #define R_MIDDLE_DRIVE SLEW_MOTOR_7
 //#define R_BACK_DRIVE SLEW_MOTOR_7 //two motors here, one to power expander
-#define L_MGL SLEW_MOTOR_1
-#define R_MGL SLEW_MOTOR_10
 #define L_DRFB SLEW_MOTOR_3
 #define R_DRFB SLEW_MOTOR_8
 #define CB SLEW_MOTOR_5
@@ -24,10 +22,8 @@
 #define R_BACK_TOUCH DGTL_1
 #define L_DRFB_TOUCH DGTL_3
 #define R_DRFB_TOUCH DGTL_2
-#define L_ENCODER_TOP DGTL_5
-#define L_ENCODER_BOTTOM DGTL_6
-#define R_ENCODER_TOP DGTL_7
-#define R_ENCODER_BOTTOM DGTL_8
+#define PNEUMATICS DGTL_5
+#define CLAW_TOUCH DGTL_6
 
 //Analog Sensors
 
