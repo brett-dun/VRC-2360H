@@ -2,12 +2,14 @@
 
 void setLeftDrive(float speed, bool immediate) {
   //immediately set the left drivetrain to the assigned speed
-  setSpeed(L_FRONT_DRIVE, speed, immediate);
+  setSpeed(L_DRIVE, speed, immediate);
+  setSpeed(L_MIDDLE_DRIVE, speed, immediate);
 }
 
 void setRightDrive(float speed, bool immediate) {
   //immediately set the right drivetrain to the assigned speed
-  setSpeed(R_FRONT_DRIVE, speed, immediate);
+  setSpeed(R_DRIVE, speed, immediate);
+  setSpeed(R_MIDDLE_DRIVE, speed, immediate);
 }
 
 void setAllDrive(float speed) {

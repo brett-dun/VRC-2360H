@@ -43,4 +43,6 @@ void initialize() {
   lcdPrint(uart1, 1, "Ready!!!");
   lcdSetBacklight(uart1, false);
 
+  //while(true);
+
 }

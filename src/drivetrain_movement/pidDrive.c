@@ -22,11 +22,11 @@ void pidDrive(float inches) {
 	float rightIntegral = 0;
 	float rightDerivative = 0;
 
-	imeDriveReset();
+	//imeDriveReset();
 
 	while(true) {
 
-    imeDriveGet(&leftEncoder, &rightEncoder);
+    //imeDriveGet(&leftEncoder, &rightEncoder);
 
 		prevLeftError = leftError;
 		leftError = inches - abs( leftEncoder  / DRIVE_TICKS * WHEEL_DIAMETER * PI * DRIVETRAIN_GR );

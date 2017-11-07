@@ -32,11 +32,11 @@ void operatorControl() {
 
 		//DRFB control
 		if( joystickGetDigital(1, 5, JOY_UP) ) { //If button 5U is pressed
-			setMobileGoalLift(127, false);
+			//setMobileGoalLift(127, false);
 		} else if( joystickGetDigital(1, 5, JOY_DOWN) ) { //If button 5D is pressed
-			 setMobileGoalLift(-127, false);
+			 //setMobileGoalLift(-127, false);
 		} else {
-			setMobileGoalLift(0, false);
+			//setMobileGoalLift(0, false);
 		}
 
 		//Mobile Goal Lift control
@@ -53,20 +53,20 @@ void operatorControl() {
 
 		//Jaw Control
 		if( joystickGetDigital(2, 5, JOY_UP) ) {
-			setJaw(127, false);
+			//setJaw(127, false);
 		} else if( joystickGetDigital(2, 5, JOY_DOWN) ) {
-			 setJaw(-127, false);
+			 //setJaw(-127, false);
 		} else {
-			setJaw(0, false);
+			//setJaw(0, false);
 		}
 
 		//Claw Control
 		if( joystickGetDigital(2, 6, JOY_UP) ) {
-			setClaw(127, false);
+			//setClaw(127, false);
 		} else if( joystickGetDigital(2, 6, JOY_DOWN) ) {
-			 setClaw(-127, false);
+			 //setClaw(-127, false);
 		} else {
-			setClaw(0, false);
+			//setClaw(0, false);
 		}
 
 

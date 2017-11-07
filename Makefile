@@ -5,7 +5,7 @@ ROOT=.
 # Binary output directory
 BINDIR=$(ROOT)/bin
 # Subdirectories to include in the build
-SUBDIRS=src src/movement src/drivetrain_movement
+SUBDIRS=src src/drivetrain_movement
 
 # Nothing below here needs to be modified by typical users
 
