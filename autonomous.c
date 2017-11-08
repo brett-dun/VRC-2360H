@@ -6,13 +6,13 @@ clearLCDLine(1);
 bLCDBacklight = true; //Turn the LCD's backlight on
 displayLCDCenteredString(0, "Running:"); //Display "Running" on top
 
-enable();
+enable(); //Enable the smart motors
 
-if(skillsEnabled)
-	skills();
-else {
-	switch(autoChoice) {
-		case 4: displayLCDCenteredString(1, "Nothing"); break;
+if(skillsEnabled) //If true
+	skills(); //Run robot skills code
+else { //Otherwise
+	switch(autoChoice) { //Select a normal autonomous program
+		case 4: displayLCDCenteredString(1, "Nothing"); break; //Don't run anything
 	}
 }
 

@@ -1,61 +1,80 @@
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
-#define TICKS 627.2
+float gyroValue; //value of the gyroscope
 
-float gyroValue;
 
+/*
+	Status:
+	- working
+
+	Issues/Ideas:
+	-
+*/
 void setAllDrive(int speed) {
-	setSpeed(frontLeftDrive, speed, true);
-	setSpeed(frontRightDrive, speed, true);
+	setSpeed(leftDrive, speed, true);
+	setSpeed(rightDrive, speed, true);
 }
 
+
+/*
+	Status:
+	- working
+
+	Issues/Ideas:
+	-
+*/
 void setDrive(float leftSpeed, float rightSpeed) {
-	setSpeed(frontLeftDrive, leftSpeed, true);
-	setSpeed(frontRightDrive, rightSpeed, true);
+	setSpeed(leftDrive, leftSpeed, true);
+	setSpeed(rightDrive, rightSpeed, true);
 }
+
 
 /*
 	distance > 0 >>> forward
 	distance < 0 >>> backward
 
 	Status:
-	- testing required
+	- working
 
 	Issues/Ideas:
-	- use PID control
+	- inaccurate +/- 4%
 */
 void driveInches(float distance) {
 
 	const float max = distance < 0 ? -80 : 80;
-	const float ticks = fabs(distance / (WHEEL_DIAMETER * PI) * 392); //will always be positive
+	const float ticks = fabs(distance / (WHEEL_DIAMETER * PI * DRIVE_RATIO) * TICKS); //will always be positive
 
 	float leftTicks = 0;
 	float rightTicks = 0;
 	float average = 0;
 	float speed = 0;
 
+	nMotorEncoder[leftDrive] = 0;
+	nMotorEncoder[rightDrive] = 0;
+
 	while(leftTicks < ticks || rightTicks < ticks) {
 
-		leftTicks = abs(nMotorEncoder[frontLeftDrive]);
-		rightTicks = abs(nMotorEncoder[frontRightDrive]);
+		leftTicks = abs(nMotorEncoder[leftDrive]);
+		rightTicks = abs(nMotorEncoder[rightDrive]);
 		average = ( leftTicks + rightTicks ) / 2.0;
 
-		speed = max;//atan(0.05*(ticks - average)) / (PI/2) * max;
+		speed = max;
 
 		if(leftTicks < rightTicks) {
-			setSpeed(frontLeftDrive, speed, true);
-			setSpeed(frontRightDrive, speed - atan(0.5 *(average-leftTicks)) / (PI/2) * speed, true);
+			setSpeed(leftDrive, speed, true);
+			setSpeed(rightDrive, speed - atan(0.1 *(average-leftTicks)) / (PI/2) * speed, true);
 		} else {
-			setSpeed(frontLeftDrive, speed - atan(0.5 *(average-rightTicks)) / (PI/2) * speed, true);
-			setSpeed(frontRightDrive, speed, true);
+			setSpeed(leftDrive, speed - atan(0.1 *(average-rightTicks)) / (PI/2) * speed, true);
+			setSpeed(rightDrive, speed, true);
 		}
 
 	}
 
+  setAllDrive(max < 0 ? 127 : -127);
+  delay(100);
   setAllDrive(0);
 
 }
-
 
 
 /*
@@ -66,17 +85,17 @@ void driveInches(float distance) {
 	-
 */
 void squareRobot() {
-	while(!SensorValue[leftTouch] || !SensorValue[rightTouch]) {
+	while(!SensorValue[leftBump] || !SensorValue[rightBump]) {
 
-		if(SensorValue[leftTouch])
-			setSpeed(frontLeftDrive, 0, true);
+		if(SensorValue[leftBump])
+			setSpeed(leftDrive, 0, true);
 		else
-			setSpeed(frontLeftDrive, -127, true);
+			setSpeed(leftDrive, -127, true);
 
-		if(SensorValue[rightTouch])
-			setSpeed(frontRightDrive, 0, true);
+		if(SensorValue[rightBump])
+			setSpeed(rightDrive, 0, true);
 		else
-			setSpeed(frontRightDrive, -127, true);
+			setSpeed(rightDrive, -127, true);
 
 	}
 	setAllDrive(0);
@@ -89,17 +108,17 @@ void squareRobot() {
 	angle < 0 >>> counterclockwise
 
 	Status:
-	-
+	- working
 
 	Issues/Ideas:
-	-
+	- inaccurate +/- 5 degrees
 */
 void turnDegrees(float angle){
 
 	bool rightTurn = angle > 0;
 
-	float initial = abs(SensorValue[in1]/10.0);
-	float absGyroValue = abs(SensorValue[in1]/10.0);
+	float initial = fabs(SensorValue[in1]/10.0);
+	float absGyroValue = fabs(SensorValue[in1]/10.0);
 
 	const float speed = 127;
 	float leftSpeed = rightTurn ? speed : -speed;
@@ -107,62 +126,19 @@ void turnDegrees(float angle){
 
 	const float K = 0.05;
 
-	while(abs(absGyroValue-initial) < abs(angle) ) {
-		setSpeed(frontLeftDrive, leftSpeed * atan(K * abs(angle - gyroValue)), true);
-		setSpeed(frontRightDrive, rightSpeed * atan(K * abs(angle - gyroValue)), true);
-		absGyroValue = abs(SensorValue[in1]/10.0);
+	while(fabs(absGyroValue-initial) < abs(angle) ) {
+		setSpeed(leftDrive, leftSpeed * atan(K * fabs(angle - gyroValue)), true);
+		setSpeed(rightDrive, rightSpeed * atan(K * fabs(angle - gyroValue)), true);
+		absGyroValue = fabs(SensorValue[in1]/10.0);
 	}
 
-	setSpeed(frontLeftDrive, rightTurn ? -127: 127, true);
-	setSpeed(frontRightDrive, rightTurn ? 127: -127, true);
+	setSpeed(leftDrive, rightTurn ? -127: 127, true);
+	setSpeed(rightDrive, rightTurn ? 127: -127, true);
 
 	delay(100);
 
 	setAllDrive(0);
 }
-
-
-
-/*
-	angle > 0 >>> clockwise
-	angle < 0 >>> counterclockwise
-
-	Status:
-	- testing required
-
-	Issues/Ideas:
-	-Try to avoid using this function, it will eventually malfunction because of gyro drift
-*/
-void targetAngle(float angle, bool rightTurn){
-
-	const float speed = rightTurn ? -80 : 80;
-
-	float leftSpeed = -speed;
-	float rightSpeed = speed;
-
-	while( gyroValue < angle - 0.5 || gyroValue > angle + 0.5) {
-
-		gyroValue = SensorValue[in1] / 10.0;
-		if(gyroValue < 0)
-			gyroValue = 360 + gyroValue;
-		//gyroValue = gyroValue < 0 ? 360 - gyroValue : gyroValue;
-
-		setSpeed(frontLeftDrive, leftSpeed * atan(0.1 * abs(angle - gyroValue)), true);
-		setSpeed(frontRightDrive, rightSpeed * atan(0.1 * abs(angle - gyroValue)), true);
-
-	}
-
-	leftSpeed = rightTurn ? -128: 128;
-	rightSpeed = rightTurn ? 128: -128;
-
-	setSpeed(frontLeftDrive, leftSpeed, true);
-	setSpeed(frontRightDrive, rightSpeed, true);
-
-	delay(100);
-
-	setAllDrive(0);
-}
-
 
 
 /*
@@ -176,9 +152,52 @@ void targetAngle(float angle, bool rightTurn){
 	-
 */
 void moveDRFB(float angle) {
-	int initialVal = nMotorEncoder[drfbLeft];
-	float speed = angle < 0 ? -128 : 128;
-	while(abs(initialVal - nMotorEncoder[drfbLeft]) < abs(angle))
-		setSpeed(drfbLeft, speed, true);
-	setSpeed(drfbLeft, 0, true);
+	int initialVal = nMotorEncoder[leftDRFB];
+	float speed = angle < 0 ? -128 : 128; //set s
+	while(abs(initialVal - nMotorEncoder[leftDRFB]) < abs(angle)) //while it has not moved the specified angle
+		setSpeed(leftDRFB, speed, true); //set the double reverse four bar to the speed
+	setSpeed(leftDRFB, 0, true); //stop the double reverse four bar
+}
+
+
+/*
+	Status:
+	- working
+
+	Issues/Ideas:
+	- claw doesn't always open until it hits the limit switch
+*/
+void openClaw(int time) {
+	clearTimer(T1);
+	while(time1[T1] < time) {
+		if(!SensorValue[clawButton])
+			setSpeed(claw, 64, true);
+		else
+			setSpeed(claw, 32, true);
+	}
+	setSpeed(claw, 0, true);
+}
+
+
+/*
+	Status:
+	- working
+
+	Issues/Ideas:
+	-
+*/
+void raiseMobileGoal() {
+	SensorValue[mobileGoalLift] = 0;
+}
+
+
+/*
+	Status:
+	- working
+
+	Issues/Ideas:
+	-
+*/
+void lowerMobileGoal() {
+	SensorValue[mobileGoalLift] = 1;
 }

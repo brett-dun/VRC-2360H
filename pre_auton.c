@@ -9,16 +9,15 @@ if(LCD_CONNECTED) {
 	displayLCDCenteredString(0, "Run Skills?"); //Set top display
 	displayLCDCenteredString(1, "Yes       No"); //Set bottom display
 
-	while(true) {
+	while(true) { //Run until something causes this loop to exit
 
 		if(nLCDButtons == 1) { //Left button
-			skillsEnabled = true;
-			return;
+			skillsEnabled = true; //Activate robot skills mode
+			return; //Exit the loop
 		}
 
-		if(nLCDButtons == 4) { //Right button
-			return;
-		}
+		if(nLCDButtons == 4) //Right button
+			return; //Exit the loop
 
 	}
 
@@ -37,9 +36,9 @@ if(LCD_CONNECTED) {
 					autoChoice = 4; //Set it to three
 				}
 				switch(autoChoice) { //Select code based on this variable
-					case 4: displayLCDCenteredString(0, "Nothing"); break;
+					case 4: displayLCDCenteredString(0, "Nothing"); break; //No autonomous will run
 				}
-				delay(250);
+				delay(250); //Delay 250 ms
 			}
 
 			if(nLCDButtons == 4) { //Right button
@@ -47,10 +46,10 @@ if(LCD_CONNECTED) {
 				if(autoChoice > 4) { //If it is greater than three
 					autoChoice = 4; //Set it to one
 				}
-				switch(autoChoice) {
-					case 4: displayLCDCenteredString(0, "Nothing"); break;
+				switch(autoChoice) { //Select code based on this variable
+					case 4: displayLCDCenteredString(0, "Nothing"); break; //No autonomous will run
 				}
-				delay(250);
+				delay(250); //Delay 250 ms
 			}
 
 		}
@@ -65,19 +64,19 @@ if(LCD_CONNECTED) {
 
 }
 
-//calibrate gyroscope
-SensorType[in1] = sensorNone;
-delay(2000);
-SensorType[in1] = sensorGyro;
-delay(2000);
+//Calibrate gyroscope
+SensorType[in1] = sensorNone; //Clear sensor port
+delay(2000); //Delay 2 sec
+SensorType[in1] = sensorGyro; //Enable gyroscope
+delay(2000); //Delay 2 sec
 
 
-init(); //enable SmartMotor
+init(); //Enable SmartMotor
 
-addSlave(drfbLeft, drfbRight); //combine double reverse four bar motors
+addSlave(leftDRFB, rightDRFB); //Combine double reverse four bar motors
 
-addSlave(frontLeftDrive, middleLeftDrive); //combine left drive motors
-addSlave(frontLeftDrive, backLeftDrive); //combine left drive motors
+addSlave(leftDrive, middleLeftDrive); //Combine left drive motors
+setSlewRate(leftDrive, 20); //Set slew rate to 20
 
-addSlave(frontRightDrive, middleRightDrive); //combine right drive motors
-addSlave(frontRightDrive, backRightDrive); //combine right drive motors
+addSlave(rightDrive, middleRightDrive); //Combine right drive motors
+setSlewRate(rightDrive, 20); //Set slew rate to 20
