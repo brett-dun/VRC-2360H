@@ -73,10 +73,5 @@ delay(2000); //Delay 2 sec
 
 init(); //Enable SmartMotor
 
-addSlave(leftDRFB, rightDRFB); //Combine double reverse four bar motors
-
-addSlave(leftDrive, middleLeftDrive); //Combine left drive motors
 setSlewRate(leftDrive, 20); //Set slew rate to 20
-
-addSlave(rightDrive, middleRightDrive); //Combine right drive motors
 setSlewRate(rightDrive, 20); //Set slew rate to 20

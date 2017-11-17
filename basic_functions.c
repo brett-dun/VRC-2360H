@@ -171,11 +171,11 @@ void openClaw(int time) {
 	clearTimer(T1);
 	while(time1[T1] < time) {
 		if(!SensorValue[clawButton])
-			setSpeed(claw, 64, true);
+			setSpeed(intake, 64, true);
 		else
-			setSpeed(claw, 32, true);
+			setSpeed(intake, 32, true);
 	}
-	setSpeed(claw, 0, true);
+	setSpeed(intake, 0, true);
 }
 
 
