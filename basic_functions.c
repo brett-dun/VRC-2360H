@@ -86,17 +86,8 @@ void driveInches(float distance) {
 */
 void squareRobot() {
 	while(!SensorValue[leftBump] || !SensorValue[rightBump]) {
-
-		if(SensorValue[leftBump])
-			setSpeed(leftDrive, 0, true);
-		else
-			setSpeed(leftDrive, -127, true);
-
-		if(SensorValue[rightBump])
-			setSpeed(rightDrive, 0, true);
-		else
-			setSpeed(rightDrive, -127, true);
-
+		setSpeed(leftDrive, SensorValue[leftBump] ? 0 : -127, true);
+		setSpeed(rightDrive, SensorValue[rightBump] ? 0 : -127, true);
 	}
 	setAllDrive(0);
 }
@@ -162,19 +153,15 @@ void moveDRFB(float angle) {
 
 /*
 	Status:
-	- working
+	- testing required
 
 	Issues/Ideas:
-	- claw doesn't always open until it hits the limit switch
+	-
 */
-void openClaw(int time) {
+void intakeCone(int time, bool reversed = false) {
 	clearTimer(T1);
-	while(time1[T1] < time) {
-		if(!SensorValue[clawButton])
-			setSpeed(intake, 64, true);
-		else
-			setSpeed(intake, 32, true);
-	}
+	while(time1[T1] < time)
+		setSpeed(intake, reversed ? -127 : 127, true);
 	setSpeed(intake, 0, true);
 }
 

@@ -1,13 +1,14 @@
 /*
 Copyright 2017 Brett Duncan
+Smart Motor
 Version 1.1 - Higher Performance, Reduced Features
 */
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
 
-enum MotorType {
+/*enum MotorType {
 	normal, highSpeed, turbo
-};
+};*/
 
 
 typedef struct {

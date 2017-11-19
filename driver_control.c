@@ -1,15 +1,11 @@
 /*****************************************************************/
 int maxSpeed = 64; //the robot will start with its maximum speed
-bool liftEnabled = true; //mobile goal lift is enabled
 int leftDRFB_speed = 0;
 int rightDRFB_speed = 0;
-
-
 /*****************************************************************/
 
 
-clearLCDLine(0); //Clear the top line of the LCD
-clearLCDLine(1); //Clear the bottom line of the LCD
+clearLCD();
 bLCDBacklight = false; //Turn the LCD's backlight off
 displayLCDCenteredString(0, "2630H");
 displayLCDCenteredString(1, "HELIX");
@@ -44,14 +40,20 @@ while(true) { //Run for the duration of the driver control period
 	}
 
 	if(vexRT[Btn6U]) { //If button 6U is pressed
-		leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 96 : 127;
-		rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 127 : 96;
+		//leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 96 : 127;
+		//rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 127 : 96;
+		leftDRFB_speed = 127;
+		rightDRFB_speed = 127;
 	} else if(vexRT[Btn6D]) { //If button 6D is pressed
-		leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -127 : -96;
-		rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -96 : -127;
+		leftDRFB_speed = -127;
+		rightDRFB_speed = -127;
+		//leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -127 : -96;
+		//rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -96 : -127;
 	} else { //Otherwise
-		leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -16 : 16;
-		rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 16 : -16;
+		//leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -16 : 16;
+		//rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 16 : -16;
+		leftDRFB_speed = 0;
+		rightDRFB_speed = 0;
 	}
 
 	setSpeed(leftDRFB, leftDRFB_speed);

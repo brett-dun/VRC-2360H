@@ -26,20 +26,24 @@
 #define WHEEL_DIAMETER 4.0 //Inches
 #define DRIVE_RATIO 1.0 //Ratio = Out / In
 #define TICKS 392.0 //Normal = 627.2; High Speed = 392
-#define LCD_CONNECTED false
+#define LCD_CONNECTED true
+#define NUM_AUTON_OPTIONS 2
 
 //supporting files
 #include "vex.c" //include vex supporting code
 #include "smart_motor.c" //include our custom smart motor library
+#include "advanced_lcd.c"
 #include "controller_layout.c" //include the controller layout
 #include "basic_functions.c" //include basic functions
 #include "pid_functions.c" //include PID functions
 //#include "skills.c" //include skills code
 
+
+
 //variables
 bool skillsEnabled = false; //skills will not run
 bool leftStart = false;
-ubyte autoChoice = 4; //No autonomous will run
+ubyte autoChoice = 0; //No autonomous will run
 
 void pre_auton() {
 #include "pre_auton.c" //include pre-autonomous code
