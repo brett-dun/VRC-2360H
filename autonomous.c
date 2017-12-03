@@ -1,23 +1,20 @@
 
-
-//Clear the LCD
-clearLCDLine(0);
-clearLCDLine(1);
-bLCDBacklight = true; //Turn the LCD's backlight on
-displayLCDCenteredString(0, "Running:"); //Display "Running" on top
+clearLCD(); //Clear the LCD
 
 enable(); //Enable the smart motors
 
 if(skillsEnabled) //If true
 	skills(); //Run robot skills code
 else { //Otherwise
+	displayLCDCenteredString(0, "Running:"); //Display "Running" on top
+	displayLCDCenteredString(1, autonOptions[autoChoice]);
 	switch(autoChoice) { //Select a normal autonomous program
-		case 0: displayLCDCenteredString(1, "Nothing"); break; //Don't run anything
+		case 1: auto1(); break;
+		case 2: auto2(); break;
+		case 3: auto3(); break;
+		default: break; //Don't run anything
 	}
 }
 
-//Clear the LCD
-clearLCDLine(0);
-clearLCDLine(1);
-bLCDBacklight = true; //Turn the LCD's backlight on
+clearLCD(true); //Clear the LCD
 displayLCDCenteredString(0, "Done");

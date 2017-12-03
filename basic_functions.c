@@ -24,8 +24,8 @@ void setAllDrive(int speed) {
 	-
 */
 void setDrive(float leftSpeed, float rightSpeed) {
-	setSpeed(leftDrive, leftSpeed, true);
-	setSpeed(rightDrive, rightSpeed, true);
+	setSpeed(leftDrive, leftSpeed, false);
+	setSpeed(rightDrive, rightSpeed, false);
 }
 
 

@@ -7,6 +7,8 @@ if(LCD_CONNECTED) {
 
 	autonOptions[0] = "None";
 	autonOptions[1] = "Mobile";
+	autonOptions[2] = "5 Point";
+	autonOptions[3] = "10 point";
 
 	if(!skillsEnabled) {
 		leftStart = tfQuestion("Left Side?");
@@ -31,6 +33,9 @@ delay(2000); //Delay 2 sec
 
 
 init(); //Enable SmartMotor
+
+addSlave(leftDrive, leftMiddleDrive);
+addSlave(rightDrive, rightMiddleDrive);
 
 setSlewRate(leftDrive, 20); //Set slew rate to 20
 setSlewRate(rightDrive, 20); //Set slew rate to 20

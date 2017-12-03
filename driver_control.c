@@ -1,5 +1,5 @@
 /*****************************************************************/
-int maxSpeed = 64; //the robot will start with its maximum speed
+int maxSpeed = 127; //the robot will start with its maximum speed
 int leftDRFB_speed = 0;
 int rightDRFB_speed = 0;
 /*****************************************************************/
@@ -97,6 +97,6 @@ while(true) { //Run for the duration of the driver control period
 		setSpeed(intake, 0);
 	}
 
-	delay(10);
+	delay(20);
 
 }
