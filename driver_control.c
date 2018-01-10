@@ -29,15 +29,6 @@ while(true) { //Run for the duration of the driver control period
 	setSpeed(leftDrive, vexRT[Ch3] * maxSpeed / 127.0); //Set leftDrive speed
 	setSpeed(rightDrive, vexRT[Ch2] * maxSpeed / 127.0); //Set rightDrive speed
 
-	if(SensorValue[leftDRFB_reset]) {
-		nMotorEncoder[leftDRFB] = 0;
-		leftDRFB_speed = 0;
-	}
-
-	if(SensorValue[rightDRFB_reset]) {
-		nMotorEncoder[rightDRFB] = 0;
-		rightDRFB_speed = 0;
-	}
 
 	if(vexRT[Btn6U]) { //If button 6U is pressed
 		//leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 96 : 127;
@@ -69,11 +60,16 @@ while(true) { //Run for the duration of the driver control period
 		liftEnabled = true; //Enable mobile goal lift
 	}*/
 
-	if(vexRT[Btn7U])
-		raiseMobileGoal();
-
-	if(vexRT[Btn7D])
-		lowerMobileGoal();
+	if(vexRT[Btn7U]) {
+		setSpeed(leftMobileGoal, 127);
+		setSpeed(rightMobileGoal, 127);
+	} else if(vexRT[Btn7D]) {
+		setSpeed(leftMobileGoal, -127);
+		setSpeed(rightMobileGoal, -127);
+	} else {
+		setSpeed(leftMobileGoal, 0);
+		setSpeed(rightMobileGoal, 0);
+	}
 
 
 	if(vexRT[Btn5U]) { //If button 5U is pressed
