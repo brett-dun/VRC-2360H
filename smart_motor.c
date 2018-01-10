@@ -1,63 +1,44 @@
 /*
 Copyright 2017 Brett Duncan
 Smart Motor
+Version 1.2 - Cleaned Up Code, Better Ease of Use
+-- Past Versions --
+Version 1.0 - First Release
 Version 1.1 - Higher Performance, Reduced Features
 */
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
 
-/*enum MotorType {
-	normal, highSpeed, turbo
-};*/
-
-
-typedef struct {
-
-	//MotorType type;
-
-	int targetSpeed;
-	int slewRate;
-
-	int slaves[5];
-	//bool powerExpander;
-
-	//int prevEncoderVal;
-	//float velocity;
-
-	//To Implement:
-	//float encoderRatio;
-	//float currentDraw;
-
-} SmartMotor;
-
-
-
 /****************************************************/
-//These are hidden from the end user
-static SmartMotor motors[10];
-//static float totalCurrent[3];
-static tMotor getMotor(int index); //returns the motor at the given index
-static ubyte getIndex(tMotor m); //returns the index of a given motor
-static task adjustSpeed(); //adjusts the speed of the motors using the slew rate
-//static task calculateVelocity(); //calculates the velocity of the motors in RPM
-//To-Do
-//static void calculateCurrentDraw();
-/****************************************************/
-
-
-/****************************************************/
-//Go ahead and use:
+//End User Functions
 void init(); //Run at first to enable other functions
 void enable(); //Tun at the begining of autonomous and driver control code
 
 void addSlave(tMotor master, tMotor slave); //Run this after init but before other functions
-//void setEncoderRatio(tMotor m, float ratio); //ratio = Out / In
-//void setPowerExpander(tMotor motor1, tMotor motor2 = motor1, tMotor motor3 = motor1, tMotor motor4 = motor1); //Set motors to be in the power expander
 void setSlewRate(tMotor m, int rate); //Set the rate of motor speed change per 20 ms
 
 void setSpeed(tMotor m, int speed, bool immediate = false); //Use this instead of motor[port1] = 0;
 void killAll(); //Stops all motors immediately
 /****************************************************/
+
+typedef struct {
+
+	int targetSpeed;
+	int slewRate;
+	int slaves[5];
+
+} SmartMotor;
+
+/****************************************************/
+//These are hidden from the end user
+static SmartMotor motors[10];
+static tMotor getMotor(int index); //returns the motor at the given index
+static ubyte getIndex(tMotor m); //returns the index of a given motor
+static task adjustSpeed(); //adjusts the speed of the motors using the slew rate
+/****************************************************/
+
+
+
 
 
 static tMotor getMotor(int index) {
@@ -107,41 +88,6 @@ static task adjustSpeed() {
 }
 
 
-/*static task calculateVelocity() {
-
-	const float TIME_DELAY = 50.;
-
-	while(true) {
-		for(int i = 0; i < 10; i++) {
-
-			tMotor m = getMotor(i);
-
-			int val = nMotorEncoder[m];
-			int ticks = abs(val - motors[i].prevEncoderVal);
-			motors[i].prevEncoderVal = val;
-
-			if(getMotorVelocity(motor[m]) >= 0) {
-
-				switch(motors[i].type) {
-					case normal: motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/627.2) * 60.0; break;
-					case highSpeed: motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/392.0) * 60.0; break;
-					case turbo: motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/261.333) * 60.0; break;
-				}
-
-			} else
-				motors[i].velocity = (1000.0 / TIME_DELAY) * (ticks/360.0) * 60.0; break;
-
-		}
-
-
-		//calculateCurrentDraw();
-		delay(TIME_DELAY);
-
-
-	}
-}*/
-
-
 void init() {
 
 	for(int i = 0; i < 10; i++) {
@@ -149,27 +95,14 @@ void init() {
 		motors[i].slewRate = 10;
 		for(int j = 0; j < 5; j++)
 			motors[i].slaves[j] = -1;
-
-		/*switch(motorType[motor[getMotor(i)]]) {
-				case tmotorVex393_HBridge:
-				case tmotorVex393_MC29: motors[i].type = normal; break;
-				case tmotorVex393HighSpeed_HBridge:
-				case tmotorVex393TurboSpeed_HBridge: motors[i].type = highSpeed; break;
-				case tmotorVex393HighSpeed_MC29:
-				case tmotorVex393TurboSpeed_MC29: motors[i].type = turbo; break;
-			}*/
 	}
 
 	startTask(adjustSpeed);
-	//startTask(calculateVelocity);
 }
 
 void enable() {
 	stopTask(adjustSpeed);
-	//stopTask(calculateVelocity);
-
 	startTask(adjustSpeed);
-	//startTask(calculateVelocity);
 }
 
 
@@ -182,24 +115,6 @@ void addSlave(tMotor master, tMotor slave) {
 		}
 	}
 }
-
-
-/*void setEncoderRatio(tMotor m, float ratio) {
-	motors[getIndex(m)].encoderRatio = ratio;
-	for(int i = 0; i < 5; i++) {
-		if(motors[m].slaves[i] != -1)
-			setSlewRate(getMotor(motors[m].slaves[i]), ratio);
-	}
-}*/
-
-
-/*void setPowerExpander(tMotor motor1, tMotor motor2, tMotor motor3, tMotor motor4) {
-	motors[getIndex(motor1)].powerExpander = true;
-	motors[getIndex(motor2)].powerExpander = true;
-	motors[getIndex(motor3)].powerExpander = true;
-	motors[getIndex(motor4)].powerExpander = true;
-}*/
-
 
 void setSlewRate(tMotor m, int rate) {
 	rate = abs(rate);
