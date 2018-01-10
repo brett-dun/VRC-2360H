@@ -8,6 +8,7 @@ if(skillsEnabled) //If true
 else { //Otherwise
 	displayLCDCenteredString(0, "Running:"); //Display "Running" on top
 	displayLCDCenteredString(1, autonOptions[autoChoice]);
+	playSoundFile("CantinaBandClip.wav"); //Begin playing music
 	switch(autoChoice) { //Select a normal autonomous program
 		case 1: auto1(); break;
 		case 2: auto2(); break;

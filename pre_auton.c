@@ -6,9 +6,9 @@ if(LCD_CONNECTED) {
 	delay(500);
 
 	autonOptions[0] = "None";
-	autonOptions[1] = "Mobile";
-	autonOptions[2] = "5 Point";
-	autonOptions[3] = "10 point";
+	autonOptions[1] = "5 Point";
+	autonOptions[2] = "10 Point";
+	autonOptions[3] = "20 Point";
 
 	if(!skillsEnabled) {
 		leftStart = tfQuestion("Left Side?");
@@ -16,10 +16,8 @@ if(LCD_CONNECTED) {
 		autoChoice = autonomousSelector();
 	}
 
-	//Clear the LCD
-	clearLCD();
-	//while(true)
-		//displayLCDNumber(0,autoChoice);
+	clearLCD(); //Clear the LCD
+
 	displayLCDCenteredString(0, "Calibrating"); //Set top display
 	displayLCDCenteredString(1, "DO NOT TOUCH"); //Set bottom display
 
@@ -37,5 +35,5 @@ init(); //Enable SmartMotor
 addSlave(leftDrive, leftMiddleDrive);
 addSlave(rightDrive, rightMiddleDrive);
 
-setSlewRate(leftDrive, 20); //Set slew rate to 20
-setSlewRate(rightDrive, 20); //Set slew rate to 20
+//setSlewRate(leftDrive, 20); //Set slew rate to 20
+//setSlewRate(rightDrive, 20); //Set slew rate to 20
