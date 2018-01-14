@@ -1,6 +1,6 @@
 
 void auto3() {
 
-	getMobileGoal();
+	auto2();
 
 }

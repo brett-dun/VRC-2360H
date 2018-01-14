@@ -1,3 +1,3 @@
 void skills() {
-	auto3();
+	auto2();
 }

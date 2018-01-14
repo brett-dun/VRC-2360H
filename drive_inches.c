@@ -32,17 +32,17 @@ void driveInches(float distance) {
 		speed = max;
 
 		if(leftTicks < rightTicks) {
-			setSpeed(leftDrive, speed, true);
-			setSpeed(rightDrive, speed - atan(0.1 *(average-leftTicks)) / (PI/2) * speed, true);
+			setSpeed(leftDrive, speed, false);
+			setSpeed(rightDrive, speed - atan(0.1 *(average-leftTicks)) / (PI/2) * speed, false);
 		} else {
-			setSpeed(leftDrive, speed - atan(0.1 *(average-rightTicks)) / (PI/2) * speed, true);
-			setSpeed(rightDrive, speed, true);
+			setSpeed(leftDrive, speed - atan(0.1 *(average-rightTicks)) / (PI/2) * speed, false);
+			setSpeed(rightDrive, speed, false);
 		}
 
 	}
 
-  setDrive(max < 0 ? 127 : -127);
-  delay(100);
+  /*setDrive(max < 0 ? 127 : -127);
+  delay(100);*/
   setDrive(0);
 
 }

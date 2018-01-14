@@ -1,5 +1,5 @@
 /*****************************************************************/
-int maxSpeed = 127; //the robot will start with its maximum speed
+int maxSpeed = 64; //the robot will start at half speed
 int leftDRFB_speed = 0;
 int rightDRFB_speed = 0;
 /*****************************************************************/
@@ -31,18 +31,12 @@ while(true) { //Run for the duration of the driver control period
 
 
 	if(vexRT[Btn6U]) { //If button 6U is pressed
-		//leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 96 : 127;
-		//rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 127 : 96;
 		leftDRFB_speed = 127;
 		rightDRFB_speed = 127;
 	} else if(vexRT[Btn6D]) { //If button 6D is pressed
 		leftDRFB_speed = -127;
 		rightDRFB_speed = -127;
-		//leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -127 : -96;
-		//rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -96 : -127;
 	} else { //Otherwise
-		//leftDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? -16 : 16;
-		//rightDRFB_speed = nMotorEncoder[leftDRFB] > nMotorEncoder[rightDRFB] ? 16 : -16;
 		leftDRFB_speed = 0;
 		rightDRFB_speed = 0;
 	}
@@ -50,22 +44,18 @@ while(true) { //Run for the duration of the driver control period
 	setSpeed(leftDRFB, leftDRFB_speed);
 	setSpeed(rightDRFB, rightDRFB_speed);
 
-	/*if( (vexRT[Btn7U] || vexRT[Btn7L] || vexRT[Btn7R] || vexRT[Btn7D]) && liftEnabled ) { //If 5U or 5D is pressed and the lift is enabled
-		SensorValue[mobileGoalLift] = !SensorValue[mobileGoalLift]; //change the mobile goal lift's state
-		liftEnabled = false; //disable the mobile goal lift
-		clearTimer(T1); //clear timer T1
-	}
-
-	if(time1(T1) > 600) { //If T1 has a value greater than 600 (ms)
-		liftEnabled = true; //Enable mobile goal lift
-	}*/
-
-	if(vexRT[Btn7U]) {
-		setSpeed(leftMobileGoal, 127);
-		setSpeed(rightMobileGoal, 127);
-	} else if(vexRT[Btn7D]) {
+	if(vexRT[Btn5UXmtr2]) { //Partner
 		setSpeed(leftMobileGoal, -127);
 		setSpeed(rightMobileGoal, -127);
+	} else if(vexRT[Btn5DXmtr2]) { //Partner
+		setSpeed(leftMobileGoal, 64);
+		setSpeed(rightMobileGoal, 64);
+	} else if(vexRT[Btn7U]) { //Main
+		setSpeed(leftMobileGoal, -127);
+		setSpeed(rightMobileGoal, -127);
+	} else if(vexRT[Btn7D]) { //Main
+		setSpeed(leftMobileGoal, 127);
+		setSpeed(rightMobileGoal, 127);
 	} else {
 		setSpeed(leftMobileGoal, 0);
 		setSpeed(rightMobileGoal, 0);
@@ -89,6 +79,8 @@ while(true) { //Run for the duration of the driver control period
 		setSpeed(intake, 127);
 	} else if(vexRT[Btn6DXmtr2]) {
 		setSpeed(intake, -127);
+	} else if(vexRT[Btn5UXmtr2]) {
+		setSpeed(intake, 32);
 	} else {
 		setSpeed(intake, 0);
 	}

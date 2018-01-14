@@ -33,6 +33,8 @@ bool skillsEnabled = false; //skills will not run
 bool leftStart = false;
 ubyte autoChoice = 0; //No autonomous will run
 
+float temp = 0;
+
 
 //supporting files
 #include "vex.c" //include vex supporting code
@@ -45,9 +47,7 @@ ubyte autoChoice = 0; //No autonomous will run
 #include "set_drive.c"
 #include "drive_inches.c"
 #include "turn_degrees.c"
-#include "drfb_pid.c"
 #include "intake_cone.c"
-#include "move_mgl.c"
 
 #include "auto1.c" //5 point
 #include "auto2.c" //10 point
