@@ -1,4 +1,3 @@
-
 void lowerMobileGoal() {
 	setSpeed(leftMobileGoal, 127);
 	setSpeed(rightMobileGoal, 127);
@@ -29,7 +28,7 @@ task mobileGoalTask() {
 	setSpeed(rightDRFB, 0);
 }
 
-void getMobileGoal() {
+void auto1() {
 
 	startTask(mobileGoalTask);
 
@@ -38,31 +37,5 @@ void getMobileGoal() {
 	raiseMobileGoal();
 
 	intakeCone(1000, true);
-
-}
-
-void auto1() {
-
-	getMobileGoal();
-
-	driveInches(-30);
-
-	if(leftStart)
-		turnDegrees(90);
-	else
-		turnDegrees(-90);
-
-	driveInches(6);
-
-	if(leftStart)
-		turnDegrees(90);
-	else
-		turnDegrees(-90);
-
-	driveInches(10);
-
-	lowerMobileGoal();
-
-	driveInches(-20);
 
 }

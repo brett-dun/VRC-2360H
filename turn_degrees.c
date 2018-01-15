@@ -31,8 +31,6 @@ void turnDegrees(float angle){
 		//setSpeed(rightDrive, rightSpeed * atan(K * fabs(angleDifference) ), true);
 		setSpeed(leftDrive, leftSpeed);
 		setSpeed(rightDrive, rightSpeed);
-		temp = SensorValue[in1]/10.0;
-		//displayLCDCenteredString(0, temp);
 		absGyroValue = fabs(SensorValue[in1]/10.0);
 	}
 
