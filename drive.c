@@ -4,8 +4,8 @@
 void drive(float distance) {
 
 	const float KP = 15.; //Proportional constant
-	const float KI = 0.03; //Integral constant
-	const float KD = 0.00; //Derivative constant
+	const float KI = 0.; //Integral constant
+	const float KD = 0.; //Derivative constant
 
 	int leftOutput = 0; //Output for the left motor
 	float leftError = 0; //Error on the left side
@@ -44,13 +44,15 @@ void drive(float distance) {
 			output = -output;
 
 
-		if(nMotorEncoder[leftDrive] > nMotorEncoder[rightDrive]) {
+		/*if(nMotorEncoder[leftDrive] > nMotorEncoder[rightDrive]) {
 			leftOutput = (int) (output - atan( 8.0*(error-leftError) ) / (PI/2) * output);
 			rightOutput = (int) output;
 		} else {
 			leftOutput = (int) output;
 			rightOutput = (int) (output - atan( 8.0*(error-rightError) ) / (PI/2) * output);
-		}
+		}*/
+		leftOutput = output;
+		rightOutput = output;
 
 
 		//Exits loop when the robot has stopped and is within one inch of the target

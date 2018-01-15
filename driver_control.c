@@ -1,9 +1,6 @@
 
 task usercontrol() {
 
-	drive(24);
-	return;
-
 	/*****************************************************************/
 	int maxSpeed = 64; //the robot will start at half speed
 	int leftDRFB_speed = 0;

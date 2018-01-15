@@ -3,9 +3,9 @@
 //angle is in degrees
 void turn(float angle) {
 
-	const float KP = 3.; //Proportional constant
+	const float KP = 2.; //Proportional constant
 	const float KI = 0.; //Integral constant
-	const float KD = 0.; //Derivative constant
+	const float KD = 0.02; //Derivative constant
 
 	int output = 0; //Output speed
 	float error = 0;
