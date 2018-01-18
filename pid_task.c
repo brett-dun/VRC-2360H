@@ -1,8 +1,11 @@
 
 typedef struct {
+
 	float KP;
 	float KI;
 	float KD;
+
+	float target;
 
 	float output;
 
@@ -15,47 +18,66 @@ typedef struct {
 
 } PIDController;
 
+PIDController drfb;
+PIDController cb;
 
-#define PID_LOOPS 2
-PIDController pid[PID_LOOPS];
+void setDRFBAngle(float angle) {
+	drfb.target = angle;
+}
 
-//double reverse four bar
-pid[0].KP = 1.3;
-pid[0].KI = 0.;
-pid[0].KD = 0.;
-
-//chain bar
-pid[1].KP = 1.3;
-pid[1].KI = 0.;
-pid[1].KD = 0.;
-
+void setCBAngle(float angle) {
+	cb.target = angle;
+}
 
 task pidTask() {
 
+	nMotorEncoder[rightDRFB] = 0;
+	nMotorEncoder[chainBar] = 0;
+
+	//double reverse four bar
+	drfb.KP = 10.;
+	drfb.KI = 0.1;
+	drfb.KD = 1.;
+
+	//chain bar
+	cb.KP = 1.3;
+	cb.KI = 0.;
+	cb.KD = 0.;
+
 	while(true) {
 
-		for(int i = 0; i < PID_LOOPS; i++) {
 
-			pid[i].prevError = pid[i].error; //Set the current error to the previous error
+		drfb.prevError = drfb.error; //Set the current error to the previous error
+		drfb.error = drfb.target - nMotorEncoder[rightDRFB] / 627.2 * (1.0/7.0) * 360.0 + 40;
+		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
+		//degrees - degrees
 
-			switch(i) {
-				case 0: pid[i].error = 0;
-				case 1: pid[i].error = 0;
-			}
+		drfb.proportion = drfb.error * drfb.KP; //Calculate the proportion
+		drfb.integral += drfb.prevError * drfb.KI;
+		drfb.derivative = (drfb.error - drfb.prevError) * drfb.KD; //Calculate the derivative
 
-			pid[i].proportion = pid[i].error * pid[i].KP; //Calculate the proportion
-			pid[i].integral += pid[i].prevError * pid[i].KI;
-			pid[i].derivative = (pid[i].error - pid[i].prevError) * pid[i].KD; //Calculate the derivative
+		drfb.output = drfb.proportion + drfb.integral + drfb.derivative; //Calculate the output
+		drfb.output = drfb.output > 127 ? 127 : (drfb.output < -127 ? -127 : drfb.output);
 
-			pid[i].output = pid[i].proportion + pid[i].integral + pid[i].derivative; //Calculate the output
-			pid[i].output = pid[i].output > 127 ? 127 : (pid[i].output < -127 ? -127 : pid[i].output);
+		setSpeed(rightDRFB, drfb.output, true);
 
-		}
 
-		setSpeed(rightDRFB, pid[0].output, true);
-		setSpeed(chainBar, pid[1].output, true);
+		cb.prevError = cb.error; //Set the current error to the previous error
+		cb.error = cb.target - abs(nMotorEncoder[chainBar]) / 627.2 * (1.0/5.0) * 360.0;
+
+		cb.proportion = cb.error * cb.KP; //Calculate the proportion
+		cb.integral += cb.prevError * cb.KI;
+		cb.derivative = (cb.error - cb.prevError) * cb.KD; //Calculate the derivative
+
+		cb.output = cb.proportion + cb.integral + cb.derivative; //Calculate the output
+		cb.output = cb.output > 127 ? 127 : (cb.output < -127 ? -127 : cb.output);
+
+		//setSpeed(chainBar, cb.output, true);
+
 
 		delay(20); //Wait for 20 ms
 
+
 	}
+
 }
