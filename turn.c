@@ -3,11 +3,11 @@
 //angle is in degrees
 void turn(float angle) {
 
-	const float KP = 2.; //Proportional constant
+	const float KP = 0.5;//2 //Proportional constant
 	const float KI = 0.; //Integral constant
-	const float KD = 0.02; //Derivative constant
+	const float KD = 1.; //Derivative constant
 
-	int output = 0; //Output speed
+	float output = 0; //Output speed
 	float error = 0;
 	float prevError = 0; //Previous Error
 	float proportion = 0;
@@ -26,11 +26,12 @@ void turn(float angle) {
 		integral += prevError * KI;
 		derivative = (error - prevError) * KD; //Calculate the derivative
 
-		output = (int) (proportion + integral + derivative); //Calculate the output
+		output = proportion + integral + derivative; //Calculate the output
+		output = output > 127 ? 127 : (output < -127 ? -127 : output);
 
 		//Exit loop
 		if(getMotorVelocity(leftDrive) == 0 && error < 0.5) {
-			setDrive(0);
+			setDrive(0, true);
 			return;
 		}
 

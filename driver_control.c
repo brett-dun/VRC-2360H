@@ -1,6 +1,12 @@
 
 task usercontrol() {
 
+	/*startTask(pidTask);
+	setDRFBAngle(0);
+
+	while(true)
+		delay(1000);*/
+
 	/*****************************************************************/
 	int maxSpeed = 64; //the robot will start at half speed
 	int leftDRFB_speed = 0;
@@ -34,43 +40,32 @@ task usercontrol() {
 
 
 		if(vexRT[Btn6U]) { //If button 6U is pressed
-			leftDRFB_speed = 127;
-			rightDRFB_speed = 127;
+			setSpeed(rightDRFB, 127, true);
 		} else if(vexRT[Btn6D]) { //If button 6D is pressed
-			leftDRFB_speed = -127;
-			rightDRFB_speed = -127;
+			setSpeed(rightDRFB, -127, true);
 		} else { //Otherwise
-			leftDRFB_speed = 0;
-			rightDRFB_speed = 0;
+			setSpeed(rightDRFB, 0, true);
 		}
-
-		setSpeed(leftDRFB, leftDRFB_speed);
-		setSpeed(rightDRFB, rightDRFB_speed);
 
 		if(vexRT[Btn5UXmtr2]) { //Partner
 			setSpeed(leftMobileGoal, -127);
-			setSpeed(rightMobileGoal, -127);
 		} else if(vexRT[Btn5DXmtr2]) { //Partner
 			setSpeed(leftMobileGoal, 64);
-			setSpeed(rightMobileGoal, 64);
 		} else if(vexRT[Btn7U]) { //Main
 			setSpeed(leftMobileGoal, -127);
-			setSpeed(rightMobileGoal, -127);
 		} else if(vexRT[Btn7D]) { //Main
 			setSpeed(leftMobileGoal, 127);
-			setSpeed(rightMobileGoal, 127);
 		} else {
 			setSpeed(leftMobileGoal, 0);
-			setSpeed(rightMobileGoal, 0);
 		}
 
 
 		if(vexRT[Btn5U]) { //If button 5U is pressed
-			setSpeed(chainBar, 127); //Raise the chain bar
+			setSpeed(chainBar, 127, true); //Raise the chain bar
 		} else if(vexRT[Btn5D]) { //If button 5D is pressed
-			setSpeed(chainBar, -127); //Lower the chain bar
+			setSpeed(chainBar, -127, true); //Lower the chain bar
 		} else { //Otherwise
-			setSpeed(chainBar, 0); //Stop the chain bar
+			setSpeed(chainBar, 0, true); //Stop the chain bar
 		}
 
 

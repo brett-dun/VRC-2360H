@@ -24,6 +24,7 @@ task mobileGoalTask() {
 
 	setSpeed(leftMobileGoal, 0);
 	setSpeed(rightMobileGoal, 0);
+	delay(500);
 	setSpeed(leftDRFB, 0);
 	setSpeed(rightDRFB, 0);
 }

@@ -1,3 +1,3 @@
 void skills() {
-	auto2();
+	auto4(); //20 point zone
 }

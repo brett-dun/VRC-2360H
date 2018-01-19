@@ -1,7 +1,7 @@
 
 void pre_auton() {
 
-	bStopTasksBetweenModes = true; //Set this to true
+	bStopTasksBetweenModes = true; //Set this to true - check to see if we can delete this line
 
 	if(LCD_CONNECTED) {
 
@@ -10,9 +10,10 @@ void pre_auton() {
 
 		autonOptions[0] = "None";
 		autonOptions[1] = "Mobile";
-		autonOptions[2] = "5 Point";
-		autonOptions[3] = "10 Point";
-		autonOptions[4] = "20 Point";
+		autonOptions[2] = "Stationary";
+		autonOptions[3] = "5 Point";
+		autonOptions[4] = "10 Point";
+		autonOptions[5] = "20 Point";
 
 		if(!skillsEnabled) {
 			leftStart = tfQuestion("Left Side?");
@@ -39,5 +40,7 @@ void pre_auton() {
 	addSlave(rightDrive, rightMiddleDrive);
 
 	addSlave(rightDRFB, leftDRFB);
+
+	addSlave(leftMobileGoal, rightMobileGoal);
 
 }

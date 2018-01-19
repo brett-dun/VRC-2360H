@@ -24,7 +24,7 @@
 #define DRIVE_RATIO 1.0 //Ratio = Out / In
 #define TICKS 392.0 //High Torque (Normal) = 627.2; High Speed = 392.0; Turbo = 261.333; External = 360;
 #define LCD_CONNECTED true
-#define NUM_AUTON_OPTIONS 5 //1 is the minimum
+#define NUM_AUTON_OPTIONS 6 //1 is the minimum
 
 
 //variables
@@ -47,8 +47,10 @@ ubyte autoChoice = 0; //no autonomous will run
 #include "turn_degrees.c"
 #include "turn.c"
 #include "intake_cone.c"
+#include "pid_task.c"
 
 #include "mobile.c" // 1 cone
+#include "stationary.c" // 1 cone
 #include "five_point.c" // 1 cone + 5 point zone mobile goal
 #include "ten_point.c" // 1 cone + 10 point zone mobile goal
 #include "twenty_point.c" // 1 cone + 20 point zone mobile goal

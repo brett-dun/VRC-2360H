@@ -3,9 +3,9 @@
 //distance in inches
 void drive(float distance) {
 
-	const float KP = 15.; //Proportional constant
+	const float KP = 10.; //Proportional constant
 	const float KI = 0.; //Integral constant
-	const float KD = 0.; //Derivative constant
+	const float KD = 1.; //Derivative constant
 
 	int leftOutput = 0; //Output for the left motor
 	float leftError = 0; //Error on the left side
@@ -37,11 +37,8 @@ void drive(float distance) {
 		derivative = (error - prevError) * KD; //Calculate the derivative
 
 		output = proportion + integral + derivative; //Calculate the output
-
-		if(output > 127)
-			output = 127;
-		if(distance < 0)
-			output = -output;
+		output = output > 127 ? 127 : (output < -127 ? -127 : output);
+		output = distance < 0 ? -output : output;
 
 
 		/*if(nMotorEncoder[leftDrive] > nMotorEncoder[rightDrive]) {
@@ -62,8 +59,9 @@ void drive(float distance) {
 		}
 
 
-		setDrive(leftOutput, rightOutput); //Set the motors to their speeds
+		setDrive(leftOutput, rightOutput, true); //Set the motors to their speeds
 		delay(20); //Wait for 20 ms
 
 	}
+
 }

@@ -1,5 +1,5 @@
 
-void auto3() { //drop cone on mobile goal, move mobile goal to five point zone
+void auto4() { //drop cone on mobile goal, move mobile goal to five point zone
 
 	auto1();
 
