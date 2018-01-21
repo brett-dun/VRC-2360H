@@ -17,21 +17,24 @@ void raiseMobileGoal() {
 task mobileGoalTask() {
 	setSpeed(leftMobileGoal, 127);
 	setSpeed(rightMobileGoal, 127);
-	setSpeed(leftDRFB, 127);
-	setSpeed(rightDRFB, 127);
+	//setSpeed(leftDRFB, 127);
+	//setSpeed(rightDRFB, 127);
 
-	delay(500);
+	delay(750);
 
 	setSpeed(leftMobileGoal, 0);
 	setSpeed(rightMobileGoal, 0);
-	delay(500);
-	setSpeed(leftDRFB, 0);
-	setSpeed(rightDRFB, 0);
+	//delay(500);
+	//setSpeed(leftDRFB, 0);
+	//setSpeed(rightDRFB, 0);
 }
 
 void auto1() {
 
 	startTask(mobileGoalTask);
+
+	startTask(pidTask);
+	setDRFBAngle(-15);
 
 	driveInches(55);
 

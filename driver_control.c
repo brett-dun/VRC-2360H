@@ -1,21 +1,12 @@
 
 task usercontrol() {
 
-	/*startTask(pidTask);
-	setDRFBAngle(0);
-
-	while(true)
-		delay(1000);*/
-
 	/*****************************************************************/
 	int maxSpeed = 64; //the robot will start at half speed
-	int leftDRFB_speed = 0;
-	int rightDRFB_speed = 0;
 	/*****************************************************************/
 
 
 	clearLCD();
-	bLCDBacklight = false; //Turn the LCD's backlight off
 	displayLCDCenteredString(0, "2630H");
 	displayLCDCenteredString(1, "HELIX");
 
@@ -30,9 +21,9 @@ task usercontrol() {
 		if(vexRT[Btn8U]) { //If button 8U is pressed
 			maxSpeed = 127; //Change the maximum speed to 127 (maximum value)
 		} else if(vexRT[Btn8L] || vexRT[Btn8R]) { //If buttons 8L or 8R are pressed
-			maxSpeed = 127  * 0.75; //Change the maximum speed to 96
+			maxSpeed = 127  * 0.5; //Change the maximum speed to 96
 		} else if(vexRT[Btn8D]) { //If button 8D is pressed
-			maxSpeed = 127 * 0.5; //Change the maximum speed to 64
+			maxSpeed = 127 * 0.35; //Change the maximum speed to 64
 		}
 
 		setSpeed(leftDrive, vexRT[Ch3] * maxSpeed / 127.0); //Set leftDrive speed

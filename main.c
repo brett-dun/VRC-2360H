@@ -23,7 +23,7 @@
 #define WHEEL_DIAMETER 4.0 //Inches
 #define DRIVE_RATIO 1.0 //Ratio = Out / In
 #define TICKS 392.0 //High Torque (Normal) = 627.2; High Speed = 392.0; Turbo = 261.333; External = 360;
-#define LCD_CONNECTED true
+#define LCD_CONNECTED false
 #define NUM_AUTON_OPTIONS 6 //1 is the minimum
 
 

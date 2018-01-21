@@ -14,9 +14,9 @@
 				6U -> Raise DRFB
 				6D -> Lower DRFB
 			7U && 7L && 7R && 7D Mobile Goal Lift Control
-				7U -> Raise Mobile Goal Lift
+				7U -> Mobile Goal Lift In
 				7L && 7R -> [None]
-				7D -> Lower Mobile Goal Lift
+				7D -> Mobile Goal Lift Out
 			8U && 8L && 8R && 8D Variable Drive Speed Control
 				8U -> 128 maxSpeed (100%)
 				8L && 8R -> 96 maxSpeed (75%)
@@ -29,9 +29,9 @@
 			3	[None]
 			4	[None]
 		Buttons:
-			5U && 5D [None]
-				5U -> [None]
-				5D -> [None]
+			5U && 5D Mobile Goal Lift Override Controls
+				5U -> Mobile Goal Lift In
+				5D -> Mobile Goal Lift Out
 			6U && 6D Intake Control
 				6U -> Intake Cone
 				6D -> Reverse Intake

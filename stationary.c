@@ -2,15 +2,22 @@
 void auto2() {
 
 	startTask(pidTask);
-	setDRFBAngle(10);
 
-	driveInches(24);
+	driveInches(6);
 
-	//move chain bar
+	setDRFBAngle(-5);
 
-	//intakeCone(1000, true); //Drop cone onto stationary goal
+	setSpeed(chainBar, -127, true);
+	delay(1500);
+	setSpeed(chainBar, 0, true);
 
-	//driveInches(-12);
+	delay(500);
+
+	driveInches(5);
+
+	intakeCone(1000, true); //Drop cone onto stationary goal
+
+	driveInches(-12);
 
 	/*
 	if(leftStart)

@@ -3,21 +3,21 @@ void auto3() {
 
 	auto1();
 
-	driveInches(-30);
+	driveInches(-20);
 
 	if(leftStart)
-		turnDegrees(90);
+		turnDegrees(93);
 	else
-		turnDegrees(-90);
+		turnDegrees(-93);
 
-	driveInches(6);
+	driveInches(3);
 
 	if(leftStart)
-		turnDegrees(90);
+		turnDegrees(93);
 	else
-		turnDegrees(-90);
+		turnDegrees(-93);
 
-	driveInches(10);
+	//driveInches(10);
 
 	lowerMobileGoal();
 

@@ -25,11 +25,22 @@ void pre_auton() {
 		displayLCDCenteredString(0, "Calibrating"); //Set top display
 		displayLCDCenteredString(1, "DO NOT TOUCH"); //Set bottom display
 
+	} else {
+		leftStart = true; //start on left
+		/*
+		0 = none
+		1 = mobile
+		2 = stationary
+		3 = 5 point
+		4 = 10 point
+		5 = 20 point
+		*/
+		autoChoice = 4;
 	}
 
 	//Calibrate gyroscope
 	SensorType[in1] = sensorNone; //Clear sensor port
-	delay(2000); //Delay 2 sec
+	delay(1000); //Delay 2 sec
 	SensorType[in1] = sensorGyro; //Enable gyroscope
 	delay(2000); //Delay 2 sec
 
