@@ -1,5 +1,6 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
 #pragma config(Sensor, in1,    gyro,           sensorGyro)
+#pragma config(Sensor, dgtl9,  ultrasonic,     sensorSONAR_inch)
 #pragma config(Sensor, I2C_1,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_3,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
@@ -23,8 +24,11 @@
 #define WHEEL_DIAMETER 4.0 //Inches
 #define DRIVE_RATIO 1.0 //Ratio = Out / In
 #define TICKS 392.0 //High Torque (Normal) = 627.2; High Speed = 392.0; Turbo = 261.333; External = 360;
-#define LCD_CONNECTED false
+#define LCD_CONNECTED true
 #define NUM_AUTON_OPTIONS 6 //1 is the minimum
+#define LEFT_BUTTON (nLCDButtons == 1 || vexRT[Btn7L] || vexRT[Btn8L])
+#define MIDDLE_BUTTON (nLCDButtons == 2 || vexRT[Btn7U] || vexRT[Btn7D] || vexRT[Btn8U] || vexRT[Btn8D])
+#define RIGHT_BUTTON (nLCDButtons == 4 || vexRT[Btn7R] || vexRT[Btn8R])
 
 
 //variables
@@ -56,6 +60,9 @@ ubyte autoChoice = 0; //no autonomous will run
 #include "twenty_point.c" // 1 cone + 20 point zone mobile goal
 #include "skills.c" //include skills code
 
+#include "driver_control.c"
+#include "semi_autonomous.c"
+
 #include "pre_auton.c" //include pre-autonomous code
 #include "autonomous.c" //include autonomous code
-#include "driver_control.c" //include driver control code
+#include "usercontrol.c" //include user control code

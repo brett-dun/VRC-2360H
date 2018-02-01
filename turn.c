@@ -1,4 +1,4 @@
-#pragma systemFile
+#pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
 //angle is in degrees
 void turn(float angle) {
@@ -14,13 +14,17 @@ void turn(float angle) {
 	float integral = 0;
 	float derivative = 0;
 
-	float initial = fabs(SensorValue[in1]/10.0); //The initial angle
+	float previous = SensorValue[in1] / 10.0;
+	float current = SensorValue[in1] / 10.0;
+	float sum = 0;
 
 	while(true) {
 
-		float absGyroValue = fabs(SensorValue[in1]/10.0); //Absolute value of the current gyroscope reading
+		previous = current;
+		current = SensorValue[in1] / 10.0;
+		sum += current - previous;
 
-		error = fabs(angle) - fabs(absGyroValue-initial); //Calculate the error
+		error = fabs(angle) - fabs(sum); //Calculate the error
 
 		proportion = error * KP; //Calculate the proportion
 		integral += prevError * KI;

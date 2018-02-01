@@ -1,7 +1,7 @@
 
 void pre_auton() {
 
-	bStopTasksBetweenModes = true; //Set this to true - check to see if we can delete this line
+	//bStopTasksBetweenModes = true; //Set this to true - check to see if we can delete this line
 
 	if(LCD_CONNECTED) {
 
@@ -38,11 +38,12 @@ void pre_auton() {
 		autoChoice = 4;
 	}
 
+	/* Let's try to see how it works without calibration
 	//Calibrate gyroscope
 	SensorType[in1] = sensorNone; //Clear sensor port
 	delay(1000); //Delay 2 sec
 	SensorType[in1] = sensorGyro; //Enable gyroscope
-	delay(2000); //Delay 2 sec
+	delay(2000); //Delay 2 sec*/
 
 
 	init(); //Enable SmartMotor
@@ -53,5 +54,8 @@ void pre_auton() {
 	addSlave(rightDRFB, leftDRFB);
 
 	addSlave(leftMobileGoal, rightMobileGoal);
+
+	nMotorEncoder[rightDRFB] = 0;
+	nMotorEncoder[chainBar] = 0;
 
 }

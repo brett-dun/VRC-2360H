@@ -1,18 +1,18 @@
 /*
-Copyright 2017 Brett Duncan
+Copyright 2017-2018 Brett Duncan
 Smart Motor
-Version 1.2 - Cleaned Up Code, Better Ease of Use
+Version 1.2.2 - Cleaned Up Code, Better Ease of Use
 -- Past Versions --
 Version 1.0 - First Release
 Version 1.1 - Higher Performance, Reduced Features
+Version 1.2 - Cleaned Up Code, Better Ease of Use
 */
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
-
 
 /****************************************************/
 //End User Functions
 void init(); //Run at first to enable other functions
-void enable(); //Tun at the begining of autonomous and driver control code
+void enable(); //Turn on at the begining of autonomous and driver control code
 
 void addSlave(tMotor master, tMotor slave); //Run this after init but before other functions
 void setSlewRate(tMotor m, int rate); //Set the rate of motor speed change per 20 ms
@@ -20,6 +20,28 @@ void setSlewRate(tMotor m, int rate); //Set the rate of motor speed change per 2
 void setSpeed(tMotor m, int speed, bool immediate = false); //Use this instead of motor[port1] = 0;
 void killAll(); //Stops all motors immediately
 /****************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************/
+//The end user does not need worry about anything below this
 
 typedef struct {
 
@@ -29,16 +51,11 @@ typedef struct {
 
 } SmartMotor;
 
-/****************************************************/
-//These are hidden from the end user
+
 static SmartMotor motors[10];
 static tMotor getMotor(int index); //returns the motor at the given index
-static ubyte getIndex(tMotor m); //returns the index of a given motor
+static unsigned char getIndex(tMotor m); //returns the index of a given motor
 static task adjustSpeed(); //adjusts the speed of the motors using the slew rate
-/****************************************************/
-
-
-
 
 
 static tMotor getMotor(int index) {
@@ -56,7 +73,8 @@ static tMotor getMotor(int index) {
 	}
 }
 
-static ubyte getIndex(tMotor m) {
+
+static unsigned char getIndex(tMotor m) {
 	switch(m) {
 		case port1: return 0;
 		case port2: return 1;
@@ -91,7 +109,6 @@ static task adjustSpeed() {
 void init() {
 
 	for(int i = 0; i < 10; i++) {
-
 		motors[i].slewRate = 10;
 		for(int j = 0; j < 5; j++)
 			motors[i].slaves[j] = -1;
@@ -115,6 +132,7 @@ void addSlave(tMotor master, tMotor slave) {
 		}
 	}
 }
+
 
 void setSlewRate(tMotor m, int rate) {
 	rate = abs(rate);

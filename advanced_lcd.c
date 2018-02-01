@@ -1,17 +1,36 @@
 /*
-Copyright 2017 Brett Duncan
+Copyright 2017-2018 Brett Duncan
 Advanced LCD Library
-Version 0.1
+Version 0.3 - Additional Features
+-- Past Versions --
+Version 0.2 - Joystick Control for LCD
+Version 0.1 - First Release
 */
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
-const char RIGHT_ARROW = 199; //246
-const char LEFT_ARROW = 200; //247
+
+const char RIGHT_ARROW = 199;
+const char LEFT_ARROW = 200;
+
+
 #ifndef NUM_AUTON_OPTIONS
 	#define NUM_AUTON_OPTIONS 1
 #endif
 
+
+#ifndef LEFT_BUTTON
+	#define LEFT_BUTTON (nLCDButtons == 1)
+#endif
+#ifndef MIDDLE_BUTTON
+	#define MIDDLE_BUTTON (nLCDButtons == 2)
+#endif
+#ifndef RIGHT_BUTTON
+	#define RIGHT_BUTTON (nLCDButtons == 4)
+#endif
+
+
 string autonOptions[NUM_AUTON_OPTIONS];
+
 
 void clearLCD(bool backlight = false) {
 	bLCDBacklight = backlight;
@@ -25,9 +44,9 @@ bool tfQuestion(char* question) {
 	displayLCDCenteredString(0, question);
 	displayLCDCenteredString(1, "true       false");
 	while(true) { //Run until something causes this loop to exit
-		if(nLCDButtons == 1)
+		if(LEFT_BUTTON) //Left button
 			return true;
-		if(nLCDButtons == 4) //Right button
+		if(RIGHT_BUTTON) //Right button
 			return false;
 	}
 }
@@ -38,9 +57,9 @@ bool ynQuestion(char* question) {
 	displayLCDCenteredString(0, question);
 	displayLCDCenteredString(1, "yes           no");
 	while(true) { //Run until something causes this loop to exit
-		if(nLCDButtons == 1)
+		if(LEFT_BUTTON) //Left button
 			return true; //yes
-		if(nLCDButtons == 4) //Right button
+		if(RIGHT_BUTTON) //Right button
 			return false; //no
 	}
 }
@@ -54,22 +73,22 @@ int autonomousSelector() {
 	displayLCDChar(1, 0, LEFT_ARROW);
 	displayLCDChar(1, 15, RIGHT_ARROW);
 
-	while(nLCDButtons != 2) {
-		if(nLCDButtons == 1) { //Left button
+	while(!MIDDLE_BUTTON) {
+		if(LEFT_BUTTON) { //Left button
 			choice--; //Decrement the choice
-			if(choice < 0) //If it is less than one
-				choice = NUM_AUTON_OPTIONS - 1; //Set it to three
+			if(choice < 0)
+				choice = NUM_AUTON_OPTIONS - 1;
 		displayLCDCenteredString(0, autonOptions[choice]);
-			delay(500); //Delay 250 ms
+			delay(500); //Delay 500 ms
 
 		}
 
-		if(nLCDButtons == 4) { //Right button
+		if(RIGHT_BUTTON) { //Right button
 			choice++; //Increment the choice
-			if(choice > NUM_AUTON_OPTIONS - 1) //If it is greater than three
-				choice = 0; //Set it to one
+			if(choice > NUM_AUTON_OPTIONS - 1)
+				choice = 0; //Set it to zero
 			displayLCDCenteredString(0, autonOptions[choice]);
-			delay(500); //Delay 250 ms
+			delay(500); //Delay 500 ms
 		}
 
 	}

@@ -1,5 +1,8 @@
+#pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
 typedef struct {
+
+	bool enabled;
 
 	float KP;
 	float KI;
@@ -22,17 +25,24 @@ PIDController drfb;
 PIDController cb;
 
 void setDRFBAngle(float angle) {
+	drfb.enabled = true;
 	drfb.target = angle;
 }
 
 void setCBAngle(float angle) {
+	cb.enabled = true;
 	cb.target = angle;
 }
 
-task pidTask() {
+void disableDRFBPID() {
+	drfb.enabled = false;
+}
 
-	nMotorEncoder[rightDRFB] = 0;
-	nMotorEncoder[chainBar] = 0;
+void disableCBPID() {
+	cb.enabled = false;
+}
+
+task pidTask() {
 
 	//double reverse four bar
 	drfb.KP = 10.;
@@ -46,7 +56,6 @@ task pidTask() {
 
 	while(true) {
 
-
 		drfb.prevError = drfb.error; //Set the current error to the previous error
 		drfb.error = drfb.target - nMotorEncoder[rightDRFB] / 627.2 * (1.0/7.0) * 360.0 + 40;
 		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
@@ -59,7 +68,8 @@ task pidTask() {
 		drfb.output = drfb.proportion + drfb.integral + drfb.derivative; //Calculate the output
 		drfb.output = drfb.output > 127 ? 127 : (drfb.output < -127 ? -127 : drfb.output);
 
-		setSpeed(rightDRFB, drfb.output, true);
+		if(drfb.enabled)
+			setSpeed(rightDRFB, drfb.output, true);
 
 
 		cb.prevError = cb.error; //Set the current error to the previous error
@@ -72,7 +82,8 @@ task pidTask() {
 		cb.output = cb.proportion + cb.integral + cb.derivative; //Calculate the output
 		cb.output = cb.output > 127 ? 127 : (cb.output < -127 ? -127 : cb.output);
 
-		//setSpeed(chainBar, cb.output, true);
+		if(cb.enabled)
+			setSpeed(chainBar, cb.output, true);
 
 
 		delay(20); //Wait for 20 ms
