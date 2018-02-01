@@ -13,3 +13,7 @@ void intakeCone(int time, bool reversed = false) {
 		setSpeed(intake, reversed ? -127 : 127, true);
 	setSpeed(intake, 0, true);
 }
+
+void releaseCone(int time) {
+	intakeCone(time, true);
+}

@@ -3,14 +3,14 @@ task aTask() {
 
 	disableDRFBPID();
 
-	setSpeed(rightDRFB, 127, true);
+	setSpeedImmediate(rightDRFB, 127);
 	while( SensorValue[ultrasonic] < 5)
 		delay(20);
-	setSpeed(rightDRFB, 0, true);
+	setSpeedImmediate(rightDRFB, 0);
 
 	setCBAngle(90); //raise drfb
 	delay(750); //wait for chain bar to finish moving
-	intakeCone(500, true); //release the cone
+	rleaseCone(500); //release the cone
 }
 
 
@@ -21,11 +21,11 @@ task bTask() {
 	setCBAngle(0);
 	delay(750);
 	setDRFBAngle(-30);
-	setSpeed(intake, 127, true);
+	setSpeedImmediate(intake, 127);
 
 	while( getMotorVelocity(intake) != 0 )
 		delay(20);
-	setSpeed(intake, 0, true);
+	setSpeedImmediate(intake, 0);
 }
 
 

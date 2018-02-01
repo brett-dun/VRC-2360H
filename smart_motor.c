@@ -1,11 +1,12 @@
 /*
 Copyright 2017-2018 Brett Duncan
 Smart Motor
-Version 1.2.2 - Cleaned Up Code, Better Ease of Use
+Version 1.3 - Added "setSpeedImmediate" For Clearity
 -- Past Versions --
 Version 1.0 - First Release
 Version 1.1 - Higher Performance, Reduced Features
 Version 1.2 - Cleaned Up Code, Better Ease of Use
+Version 1.2.2 - Cleaned Up Code, Better Ease of Use
 */
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
@@ -18,6 +19,7 @@ void addSlave(tMotor master, tMotor slave); //Run this after init but before oth
 void setSlewRate(tMotor m, int rate); //Set the rate of motor speed change per 20 ms
 
 void setSpeed(tMotor m, int speed, bool immediate = false); //Use this instead of motor[port1] = 0;
+void setSpeedImmediate(tMotor m, int speed);
 void killAll(); //Stops all motors immediately
 /****************************************************/
 
@@ -155,6 +157,10 @@ void setSpeed(tMotor m, int speed, bool immediate) {
 	}
 }
 
+
+void setSpeedImmediate(tMotor m, int speed) {
+	setSpeed(m, speed, true);
+}
 
 void killAll() {
 	for(int i = 0; i < 10; i++) {

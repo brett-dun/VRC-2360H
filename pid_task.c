@@ -69,7 +69,7 @@ task pidTask() {
 		drfb.output = drfb.output > 127 ? 127 : (drfb.output < -127 ? -127 : drfb.output);
 
 		if(drfb.enabled)
-			setSpeed(rightDRFB, drfb.output, true);
+			setSpeedImmediate(rightDRFB, drfb.output);
 
 
 		cb.prevError = cb.error; //Set the current error to the previous error
@@ -83,7 +83,7 @@ task pidTask() {
 		cb.output = cb.output > 127 ? 127 : (cb.output < -127 ? -127 : cb.output);
 
 		if(cb.enabled)
-			setSpeed(chainBar, cb.output, true);
+			setSpeedImmediate(chainBar, cb.output);
 
 
 		delay(20); //Wait for 20 ms

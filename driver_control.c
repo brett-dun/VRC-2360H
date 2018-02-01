@@ -17,11 +17,11 @@ void driverControl() {
 		setSpeed(rightDrive, vexRT[Ch2] * speedMultiplier); //Set rightDrive speed
 
 		if(vexRT[Btn6U]) //If button 6U is pressed
-			setSpeed(rightDRFB, 127, true);
+			setSpeedImmediate(rightDRFB, 127);
 		else if(vexRT[Btn6D]) //If button 6D is pressed
-			setSpeed(rightDRFB, -127, true);
+			setSpeedImmediate(rightDRFB, -127);
 		else //Otherwise
-			setSpeed(rightDRFB, 0, true);
+			setSpeedImmediate(rightDRFB, 0);
 
 		if(vexRT[Btn5UXmtr2]) //Partner
 			setSpeed(leftMobileGoal, -127);
@@ -35,18 +35,18 @@ void driverControl() {
 			setSpeed(leftMobileGoal, 0);
 
 		if(vexRT[Btn5U])//If button 5U is pressed
-			setSpeed(chainBar, 127, true); //Raise the chain bar
+			setSpeedImmediate(chainBar, 127); //Raise the chain bar
 		else if(vexRT[Btn5D]) //If button 5D is pressed
-			setSpeed(chainBar, -127, true); //Lower the chain bar
+			setSpeedImmediate(chainBar, -127); //Lower the chain bar
 		else //Otherwise
-			setSpeed(chainBar, 0, true); //Stop the chain bar
+			setSpeedImmediate(chainBar, 0); //Stop the chain bar
 
 		if(vexRT[Btn6UXmtr2])
-			setSpeed(intake, 127, true);
+			setSpeedImmediate(intake, 127); //intake cone
 		else if(vexRT[Btn6DXmtr2])
-			setSpeed(intake, -127, true);
+			setSpeedImmediate(intake, -127); //release cone
 		else
-			setSpeed(intake, 0, true);
+			setSpeedImmediate(intake, 0);
 
 		if( vexRT[Btn7LXmtr2]&&vexRT[Btn7RXmtr2] )
 			return;
