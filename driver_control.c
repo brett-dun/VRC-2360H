@@ -42,7 +42,7 @@ void driverControl() {
 			setSpeedImmediate(chainBar, 0); //Stop the chain bar
 
 		if(vexRT[Btn6UXmtr2])
-			setSpeedImmediate(intake, 127); //intake cone
+			setSpeedImmediate(intake, 45); //intake cone
 		else if(vexRT[Btn6DXmtr2])
 			setSpeedImmediate(intake, -127); //release cone
 		else

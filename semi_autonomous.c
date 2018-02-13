@@ -4,27 +4,32 @@ task aTask() {
 	disableDRFBPID();
 
 	setSpeedImmediate(rightDRFB, 127);
-	while( SensorValue[ultrasonic] < 5)
+	while( SensorValue[ultrasonic] < 6)
 		delay(20);
 	setSpeedImmediate(rightDRFB, 0);
 
 	setCBAngle(90); //raise drfb
 	delay(750); //wait for chain bar to finish moving
-	rleaseCone(500); //release the cone
+	releaseCone(500); //release the cone
 }
 
 
 task bTask() {
 
-	stopTask(aTask);
-
 	setCBAngle(0);
-	delay(750);
-	setDRFBAngle(-30);
-	setSpeedImmediate(intake, 127);
 
-	while( getMotorVelocity(intake) != 0 )
+	delay(750);
+	setSpeedImmediate(rightDRFB, -127);
+	setSpeedImmediate(intake, 127);
+	delay(100);
+
+	while( getMotorVelocity(rightDRFB) != 0 || getMotorVelocity(intake) != 0) {
+		if(getMotorVelocity(rightDRFB) == 0)
+			setSpeedImmediate(rightDRFB, 0);
+		if(getMotorVelocity(intake) == 0)
+			setSpeedImmediate(intake, 0);
 		delay(20);
+	}
 	setSpeedImmediate(intake, 0);
 }
 
@@ -44,7 +49,7 @@ void semiAutonomous() {
 			startTask(bTask);
 		}
 
-		if(false)
+		if( vexRT[Btn7UXmtr2]&&vexRT[Btn7DXmtr2] )
 			return;
 
 		delay(20);

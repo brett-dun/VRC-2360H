@@ -7,6 +7,11 @@ task usercontrol() {
 
 	enable(); //Enable the smart motors
 
+	/*setSpeedImmediate(rightDRFB, 127);
+	while( SensorValue[ultrasonic] < 6)
+		delay(20);
+	setSpeedImmediate(rightDRFB, 0);*/
+
 	while(true) { //Run for the duration of the driver control period
 
 		driverControl();

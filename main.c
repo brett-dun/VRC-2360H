@@ -1,6 +1,6 @@
 #pragma config(I2C_Usage, I2C1, i2cSensors)
 #pragma config(Sensor, in1,    gyro,           sensorGyro)
-#pragma config(Sensor, dgtl9,  ultrasonic,     sensorSONAR_inch)
+#pragma config(Sensor, dgtl8,  ultrasonic,     sensorSONAR_inch)
 #pragma config(Sensor, I2C_1,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_3,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
@@ -34,8 +34,7 @@
 //variables
 bool skillsEnabled = false; //skills will not run
 bool leftStart = false; //will not start on left side
-ubyte autoChoice = 0; //no autonomous will run
-
+short autoChoice = 0; //no autonomous will run
 
 //supporting files
 #include "vex.c" //include vex supporting code
