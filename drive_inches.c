@@ -12,7 +12,7 @@
 */
 void driveInches(float distance) {
 
-	const float max = distance < 0 ? -80 : 80;
+	const float max = distance < 0 ? -127 : 127; //Try this at full speed
 	const float ticks = fabs(distance / (WHEEL_DIAMETER * PI * DRIVE_RATIO) * TICKS); //will always be positive
 
 	float leftTicks = 0;
