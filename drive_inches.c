@@ -29,20 +29,22 @@ void driveInches(float distance) {
 		rightTicks = abs(nMotorEncoder[rightDrive]);
 		average = ( leftTicks + rightTicks ) / 2.0;
 
-		speed = max;
+		speed = max;// * atan(0.005 *(ticks-average));
 
 		if(leftTicks < rightTicks) {
-			setSpeed(leftDrive, speed, false);
-			setSpeed(rightDrive, speed - atan(0.1 *(average-leftTicks)) / (PI/2) * speed, false);
+			setSpeed(leftDrive, speed);
+			setSpeed(rightDrive, speed - atan(0.1 *(average-leftTicks)) / (PI/2) * speed);
 		} else {
-			setSpeed(leftDrive, speed - atan(0.1 *(average-rightTicks)) / (PI/2) * speed, false);
-			setSpeed(rightDrive, speed, false);
+			setSpeed(leftDrive, speed - atan(0.1 *(average-rightTicks)) / (PI/2) * speed);
+			setSpeed(rightDrive, speed);
 		}
+
+		delay(20);
 
 	}
 
-  /*setDrive(max < 0 ? 127 : -127);
-  delay(100);*/
+ 	//setDrive(max < 0 ? 127 : -127);
+  //delay(50);
   setDrive(0);
 
 }

@@ -49,7 +49,7 @@ task usercontrol() {
 			setSpeed(leftMobileGoal, -127);
 		else if(vexRT[Btn5DXmtr2])
 			setSpeed(leftMobileGoal, 127);
-		else if(vexRT[Btn7D])
+		else if(vexRT[Btn7DXmtr2])
 			setSpeed(leftMobileGoal, 64); //Is there actually a need for this?
 		else
 			setSpeed(leftMobileGoal, 0);
