@@ -8,11 +8,11 @@
 	- working
 
 	Issues/Ideas:
-	- inaccurate +/- 4%
+	-
 */
 void driveInches(float distance) {
 
-	const float max = distance < 0 ? -127 : 127; //Try this at full speed
+	const float max = distance < 0 ? -127 : 127;
 	const float ticks = fabs(distance / (WHEEL_DIAMETER * PI * DRIVE_RATIO) * TICKS); //will always be positive
 
 	float leftTicks = 0;
@@ -29,7 +29,7 @@ void driveInches(float distance) {
 		rightTicks = abs(nMotorEncoder[rightDrive]);
 		average = ( leftTicks + rightTicks ) / 2.0;
 
-		speed = max;// * atan(0.005 *(ticks-average));
+		speed = max;
 
 		if(leftTicks < rightTicks) {
 			setSpeed(leftDrive, speed);
@@ -43,8 +43,6 @@ void driveInches(float distance) {
 
 	}
 
- 	//setDrive(max < 0 ? 127 : -127);
-  //delay(50);
   setDrive(0);
 
 }

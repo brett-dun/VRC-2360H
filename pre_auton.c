@@ -1,9 +1,12 @@
 
 void pre_auton() {
 
-	//bStopTasksBetweenModes = true; //Set this to true - check to see if we can delete this line
-
 	if(LCD_CONNECTED) {
+
+		clearLCD(true);
+		displayLCDCenteredString(0, "PLUG IN");
+		displayLCDCenteredString(1, "BATTERY #2");
+		while( SensorValue[powerExpander] < 500 ); //No battery is attached
 
 		skillsEnabled = ynQuestion("Run Skills?");
 		delay(500);
@@ -51,11 +54,10 @@ void pre_auton() {
 	addSlave(leftDrive, leftMiddleDrive);
 	addSlave(rightDrive, rightMiddleDrive);
 
-	addSlave(rightDRFB, leftDRFB);
+	addSlave(leftDRFB, rightDRFB);
 
 	addSlave(leftMobileGoal, rightMobileGoal);
 
-	nMotorEncoder[rightDRFB] = 0;
-	nMotorEncoder[chainBar] = 0;
+	nMotorEncoder[leftDRFB] = 0;
 
 }

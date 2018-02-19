@@ -46,18 +46,18 @@ task pidTask() {
 
 	//double reverse four bar
 	drfb.KP = 10.;
-	drfb.KI = 0.1;
+	drfb.KI = 0;
 	drfb.KD = 1.;
 
 	//chain bar
-	cb.KP = 1.3;
+	cb.KP = 5.;
 	cb.KI = 0.;
-	cb.KD = 0.;
+	cb.KD = 1.;
 
 	while(true) {
 
 		drfb.prevError = drfb.error; //Set the current error to the previous error
-		drfb.error = drfb.target - nMotorEncoder[rightDRFB] / 627.2 * (1.0/7.0) * 360.0 + 40;
+		drfb.error = drfb.target - (nMotorEncoder[leftDRFB] / 627.2 * (1.0/7.0) * 360.0) + 50;
 		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
 		//degrees - degrees
 
@@ -69,11 +69,11 @@ task pidTask() {
 		drfb.output = drfb.output > 127 ? 127 : (drfb.output < -127 ? -127 : drfb.output);
 
 		if(drfb.enabled)
-			setSpeedImmediate(rightDRFB, drfb.output);
+			setSpeedImmediate(leftDRFB, drfb.output);
 
 
 		cb.prevError = cb.error; //Set the current error to the previous error
-		cb.error = cb.target - abs(nMotorEncoder[chainBar]) / 627.2 * (1.0/5.0) * 360.0;
+		cb.error = cb.target - ((SensorValue[potentiometer]-2310)/(4070.-2310.)*90);
 
 		cb.proportion = cb.error * cb.KP; //Calculate the proportion
 		cb.integral += cb.prevError * cb.KI;

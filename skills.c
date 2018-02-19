@@ -16,8 +16,8 @@ task mobileGoalIn() {
 }
 
 task skillsTask1() {
-	setDRFBAngle(-25);
-	delay(500);
+	setDRFBAngle(-35);
+	delay(500); //try to reduce this
 	startTask( mobileGoalOut );
 }
 
@@ -28,19 +28,15 @@ task skillsTask2() {
 
 
 void skills() {
-	//auto4(); //20 point zone
-
-	//driveInches( 12 ); return; //testing
 
 	startTask( pidTask );
 
 	//This is the same as the 20 point autonomous but faster
 	startTask( skillsTask1 ); //Task: raise DRFB, MGL out
-	delay( 1000 );
+	delay( 1000 ); //try to shorten this
 	driveInches( 40 ); //drive forward
-	delay( 500 );
+	delay( 500 ); //try to shorten this
 	startTask( mobileGoalIn ); //Task: MGL in
-	//delay( 500 ); //give time for MGL to be lifted off of the ground
 	driveInches( -22 ); //drive backward
 	startTask( skillsTask2 );
 	turnDegrees( -45 );
@@ -49,7 +45,7 @@ void skills() {
 	driveInches( 19 ); //drive forward
 	//Place mobile goal into 20 point zone
 	setSpeedImmediate(leftMobileGoal, 127);
-	delay( 1000 ); //let the mobile goal settle
+	delay( 1000 ); //let the mobile goal settle - try to shorten this
 	driveInches( -13 ); //drive backward
 	setSpeed(leftMobileGoal, 0);
 
@@ -62,7 +58,7 @@ void skills() {
 	startTask( mobileGoalOut ); //Task: MGL out
 	driveInches( 30 ); //drive forward
 	startTask( mobileGoalIn ); //Task: MGL in
-	delay(500);
+	//delay(500);
 	driveInches( -30 ); //drive backward
 	turnDegrees( -180 );
 	driveInches( 6 ); //drive forward
