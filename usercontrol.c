@@ -10,6 +10,8 @@ task usercontrol() {
 	float speedMultiplier = 0.5; //the robot will start at half speed
 	bool automaticStackingStarted = false;
 
+	startTask(ultrasonicTask);
+
 	while(true) {
 
 		if(vexRT[Btn8U]) //If button 8U is pressed
@@ -48,13 +50,6 @@ task usercontrol() {
 			else //Otherwise
 				setSpeedImmediate(chainBar, 0); //Stop the chain bar
 
-			if(vexRT[Btn6UXmtr2])
-				setSpeedImmediate(intake, 127); //intake cone
-			else if(vexRT[Btn6DXmtr2])
-				setSpeedImmediate(intake, -127); //release cone
-			else
-				setSpeedImmediate(intake, 0);
-
 		}
 
 
@@ -67,6 +62,13 @@ task usercontrol() {
 			setSpeed(leftMobileGoal, 64); //Is there actually a need for this?
 		else
 			setSpeed(leftMobileGoal, 0);
+
+		if(vexRT[Btn6UXmtr2])
+			setSpeedImmediate(intake, 127); //intake cone
+		else if(vexRT[Btn6DXmtr2])
+			setSpeedImmediate(intake, -127); //release cone
+		else
+			setSpeedImmediate(intake, 0);
 
 		delay(20);
 
