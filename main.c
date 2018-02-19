@@ -2,6 +2,7 @@
 #pragma config(Sensor, in1,    gyro,           sensorGyro)
 #pragma config(Sensor, in2,    potentiometer,  sensorPotentiometer)
 #pragma config(Sensor, in3,    powerExpander,  sensorAnalog)
+#pragma config(Sensor, dgtl7,  intakeEncoder,  sensorQuadEncoder)
 #pragma config(Sensor, dgtl9,  ultrasonic,     sensorSONAR_inch)
 #pragma config(Sensor, I2C_1,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )
 #pragma config(Sensor, I2C_2,  ,               sensorQuadEncoderOnI2CPort,    , AutoAssign )

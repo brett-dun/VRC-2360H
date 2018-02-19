@@ -52,6 +52,11 @@ task usercontrol() {
 
 		}
 
+		if(vexRT[Btn7U] && vexRT[Btn7R]) {
+			nMotorEncoder[leftDRFB] = 0;
+			nMotorEncoder[rightDRFB] = 0;
+		}
+
 
 		//Partner Controls
 		if(vexRT[Btn5UXmtr2])
