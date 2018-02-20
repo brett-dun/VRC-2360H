@@ -23,8 +23,6 @@ int getCleanUltrasonic() {
 		}
 	}
 
-	writeDebugStreamLine("%d,%d,%d,%d,%d", sorted[0], sorted[1], sorted[2], sorted[3], sorted[4]);
-
 	return sorted[3];
 
 }
@@ -37,7 +35,7 @@ task ultrasonicTask() {
 		readings[i%5] = SensorValue[ultrasonic];
 		//writeDebugStreamLine("%d", readings[i%5]);
 
-		delay(30);
+		delay(50);
 
 	}
 

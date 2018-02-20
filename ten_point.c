@@ -19,7 +19,8 @@ void auto4() { //drop cone on mobile goal, move mobile goal to five point zone
 
 	driveInches(15);
 
-	lowerMobileGoal();
+	startTask( mobileGoalOut );
+	delay(2000);
 
 	driveInches(-20);
 

@@ -16,7 +16,7 @@ void pre_auton() {
 		autonOptions[2] = "Stationary";
 		autonOptions[3] = "5 Point";
 		autonOptions[4] = "10 Point";
-		autonOptions[5] = "20 Point";
+		autonOptions[5] = "22 Point";
 
 		if(!skillsEnabled) {
 			leftStart = tfQuestion("Left Side?");
