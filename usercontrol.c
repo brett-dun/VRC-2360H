@@ -70,6 +70,8 @@ task usercontrol() {
 
 		if(vexRT[Btn6UXmtr2])
 			setSpeedImmediate(intake, 127); //intake cone
+		else if(vexRT[Btn8UXmtr2])
+			setSpeedImmediate(intake, 40);
 		else if(vexRT[Btn6DXmtr2])
 			setSpeedImmediate(intake, -127); //release cone
 		else

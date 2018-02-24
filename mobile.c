@@ -16,20 +16,33 @@ task mobileGoalIn() {
 }
 
 task autoTask1() {
-	setDRFBAngle(-35);
+	setDRFBAngle(-20);
 	delay(500); //try to reduce this
 	startTask( mobileGoalOut );
 }
 
 task autoTask2() {
-	releaseCone(2000);
+	setDRFBAngle(-40);
+	delay(500);
+	setSpeedImmediate(intake, -127);
+	delay(1500);
+	setDRFBAngle(-25);
+	delay(750);
+	setSpeedImmediate(intake, 0);
 }
 
 task autoTask3() {
-	delay(250);
+	delay(750);
 	setCBAngle(90);
 	delay(750);
-	releaseCone(2000);
+	setDRFBAngle(-35);
+	delay(750);
+
+	setSpeedImmediate(intake, -127);
+	delay(1000);
+	setDRFBAngle(-25);
+	delay(1000);
+	setSpeedImmediate(intake, 0);
 }
 
 void getMobileGoal() {
@@ -48,18 +61,21 @@ void getMobileGoal() {
 void auto1() {
 
 	getMobileGoal();
-	delay(2000); //check this
+	delay(1500); //check this
+	driveInches( 2.5 );
+	//driveInches( -2 );
 	releaseCone( 550 );
+
+
 
 	//start working on code here
 	setCBAngle( 0 );
 	delay(500);
-	setSpeedImmediate(intake, -127);
-	setDRFBAngle( -50 );
-	delay(1000);
-	setSpeedImmediate(intake, 0); //intake cone
-	setDRFBAngle( -25 );
-	delay(250);
+	setSpeedImmediate(intake, 127);
+	setDRFBAngle( -55 );
+	delay(1250);
+	setDRFBAngle( -20 );
+	setSpeedImmediate(intake, 0);
 	startTask( autoTask3 );
 
 }

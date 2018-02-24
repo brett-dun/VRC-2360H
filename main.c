@@ -28,7 +28,7 @@
 #define DRIVE_RATIO 1.0 //Ratio = Out / In
 #define TICKS 392.0 //High Torque (Normal) = 627.2; High Speed = 392.0; Turbo = 261.333; External = 360;
 #define LCD_CONNECTED true
-#define NUM_AUTON_OPTIONS 6 //1 is the minimum
+#define NUM_AUTON_OPTIONS 7 //1 is the minimum
 #define LEFT_BUTTON (nLCDButtons == 1 || vexRT[Btn7L] || vexRT[Btn8L])
 #define MIDDLE_BUTTON (nLCDButtons == 2 || vexRT[Btn7U] || vexRT[Btn7D] || vexRT[Btn8U] || vexRT[Btn8D])
 #define RIGHT_BUTTON (nLCDButtons == 4 || vexRT[Btn7R] || vexRT[Btn8R])
@@ -60,7 +60,7 @@ short autoChoice = 0; //no autonomous will run
 #include "five_point.c" // 2 cones + 5 point zone mobile goal
 #include "ten_point.c" // 2 cones + 10 point zone mobile goal
 #include "twenty_two_point.c" // 1 cone + 20 point zone mobile goal
-//#include "twenty_four_point.c" // 2 cones + 20 point zone mobile goal
+#include "twenty_four_point.c" // 2 cones + 20 point zone mobile goal
 #include "skills.c" //programming skills code
 
 #include "automatic_stacking.c" //code for automatic stacking during driver control

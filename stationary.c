@@ -4,17 +4,18 @@ void returnMobileGoal() {
 	driveInches(-20);
 
 	if(leftStart)
-		turnDegrees(93);
+		turnDegrees(180);
 	else
-		turnDegrees(-93);
+		turnDegrees(-180);
 
-	driveInches(3);
+	/*driveInches(3);
 
 	if(leftStart)
-		turnDegrees(93);
+		turnDegrees(90);
 	else
-		turnDegrees(-93);
+		turnDegrees(-90);*/
 
+	driveInches(20);
 	startTask( mobileGoalOut );
 	delay(2000);
 

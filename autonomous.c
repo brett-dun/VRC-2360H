@@ -17,6 +17,7 @@ task autonomous() {
 			case 3: auto3(); break;
 			case 4: auto4(); break;
 			case 5: auto5(); break;
+			case 6: auto6(); break;
 			default: break; //Don't run anything
 		}
 	}

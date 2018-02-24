@@ -9,7 +9,7 @@ void turnDegrees(float angle){
 	float sum = 0;
 	float angleDifference = angle;
 
-	const float speed = 48;
+	const float speed = 55;
 	float leftSpeed = rightTurn ? speed : -speed;
 	float rightSpeed = -leftSpeed;
 
@@ -28,10 +28,10 @@ void turnDegrees(float angle){
 
 	}
 
-	setSpeed(leftDrive, rightTurn ? -127: 127);
+	/*setSpeed(leftDrive, rightTurn ? -127: 127);
 	setSpeed(rightDrive, rightTurn ? 127: -127);
 
-	delay(250);
+	delay(250);*/
 
 	setDrive(0);
 }

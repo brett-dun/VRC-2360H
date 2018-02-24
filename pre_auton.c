@@ -8,6 +8,12 @@ void pre_auton() {
 		displayLCDCenteredString(1, "BATTERY #2");
 		while( SensorValue[powerExpander] < 500 );//No battery is attached
 
+		playTone(440, 100);
+		delay(100);
+		playTone(440, 100);
+		delay(100);
+		playTone(440, 100);
+
 		skillsEnabled = ynQuestion("Run Skills?");
 		delay(500);
 
@@ -17,6 +23,7 @@ void pre_auton() {
 		autonOptions[3] = "5 Point";
 		autonOptions[4] = "10 Point";
 		autonOptions[5] = "22 Point";
+		autonOptions[6] = "24 Point";
 
 		if(!skillsEnabled) {
 			leftStart = tfQuestion("Left Side?");
@@ -36,7 +43,8 @@ void pre_auton() {
 		2 = stationary
 		3 = 5 point
 		4 = 10 point
-		5 = 20 point
+		5 = 22 point
+		6 = 24 point
 		*/
 		autoChoice = 4;
 	}
