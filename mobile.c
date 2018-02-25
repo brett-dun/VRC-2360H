@@ -25,9 +25,8 @@ task autoTask2() {
 	setDRFBAngle(-40);
 	delay(500);
 	setSpeedImmediate(intake, -127);
-	delay(1500);
-	setDRFBAngle(-25);
-	delay(750);
+	delay(1000);
+	setDRFBAngle(-20);
 	setSpeedImmediate(intake, 0);
 }
 
@@ -63,8 +62,13 @@ void auto1() {
 	getMobileGoal();
 	delay(1500); //check this
 	driveInches( 2.5 );
-	//driveInches( -2 );
-	releaseCone( 550 );
+
+	setDRFBAngle(-40);
+	delay(500);
+	setSpeedImmediate(intake, -127);
+	delay(500);
+	setDRFBAngle(-20);
+	setSpeedImmediate(intake, 0);
 
 
 

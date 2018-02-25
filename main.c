@@ -56,11 +56,11 @@ short autoChoice = 0; //no autonomous will run
 #include "ultrasonic_task.c" //normalize ultrasonic values
 
 #include "mobile.c" // 2 cones + mobile goal
-#include "stationary.c" // 1 cone on stationary + 5 point zone mobile goal
+#include "stationary.c" // 1 cone on stationary + 5 point zone mobile goal - doesn't work
 #include "five_point.c" // 2 cones + 5 point zone mobile goal
 #include "ten_point.c" // 2 cones + 10 point zone mobile goal
 #include "twenty_two_point.c" // 1 cone + 20 point zone mobile goal
-#include "twenty_four_point.c" // 2 cones + 20 point zone mobile goal
+#include "twenty_four_point.c" // 2 cones + 20 point zone mobile goal - doesn't work
 #include "skills.c" //programming skills code
 
 #include "automatic_stacking.c" //code for automatic stacking during driver control
