@@ -1,16 +1,9 @@
 
 task usercontrol() {
 
-	clearLCD();
-	displayLCDCenteredString(0, "2630H");
-	displayLCDCenteredString(1, "HELIX");
-
 	enable(); //Enable the smart motors
 
 	float speedMultiplier = 0.5; //the robot will start at half speed
-	bool automaticStackingStarted = false;
-
-	startTask(ultrasonicTask);
 
 	while(true) {
 
@@ -23,39 +16,6 @@ task usercontrol() {
 
 		setSpeed(leftDrive, vexRT[Ch3] * speedMultiplier); //Set leftDrive speed
 		setSpeed(rightDrive, vexRT[Ch2] * speedMultiplier); //Set rightDrive speed
-
-
-
-		if(vexRT[Btn7L] && !automaticStackingStarted) {
-			startTask(pidTask);
-			startTask(automaticStacking);
-			automaticStackingStarted = true;
-		} else if(!vexRT[Btn7L]) {
-
-			stopTask(automaticStacking);
-			stopTask(pidTask);
-			automaticStackingStarted = false;
-
-			if(vexRT[Btn6U]) //If button 6U is pressed
-				setSpeedImmediate(leftDRFB, 127);
-			else if(vexRT[Btn6D]) //If button 6D is pressed
-				setSpeedImmediate(leftDRFB, -127);
-			else //Otherwise
-				setSpeedImmediate(leftDRFB, 0);
-
-			if(vexRT[Btn5U])//If button 5U is pressed
-				setSpeedImmediate(chainBar, 127); //Raise the chain bar
-			else if(vexRT[Btn5D]) //If button 5D is pressed
-				setSpeedImmediate(chainBar, -127); //Lower the chain bar
-			else //Otherwise
-				setSpeedImmediate(chainBar, 0); //Stop the chain bar
-
-		}
-
-		if(vexRT[Btn7U] && vexRT[Btn7R]) {
-			nMotorEncoder[leftDRFB] = 0;
-			nMotorEncoder[rightDRFB] = 0;
-		}
 
 
 		//Partner Controls
