@@ -9,7 +9,7 @@ void turnDegrees(float angle){
 	float sum = 0;
 	float angleDifference = angle;
 
-	const float speed = 55;
+	const float speed = 45;
 	float leftSpeed = rightTurn ? speed : -speed;
 	float rightSpeed = -leftSpeed;
 

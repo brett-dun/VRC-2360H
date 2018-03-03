@@ -1,8 +1,6 @@
 
 void skills() {
 
-	auto5(); //first mobile goal into the 20 point zone
-
 	//start working on the code here
 
 	turnDegrees( -90 );
@@ -45,7 +43,7 @@ void skills() {
 	driveInches( sqrt(2 * 12*12) ); //drive forward
 	turnDegrees( 90 );
 	driveInches( sqrt(2 * 24*24) );//drive forward
-	startTask( MobileGoalUp ); //Task: MGL in
+	startTask( mobileGoalUp ); //Task: MGL in
 	delay( 500 );
 	turnDegrees( -180 );
 	driveInches( sqrt(2 * 24*24) + 6 ); //stop suddenly
