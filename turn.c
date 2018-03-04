@@ -30,6 +30,10 @@ void turn(float angle) {
 		integral += prevError * KI;
 		derivative = (error - prevError) * KD; //Calculate the derivative
 
+		//add some bounds to the integral
+		integral = integral > 127 ? 127 : (integral < -127 ? -127 : integral);
+		integral = (prevError <= 0. && error >= 0.) || (prevError >= 0. && error <= 0.) ? 0 : integral;
+
 		output = proportion + integral + derivative; //Calculate the output
 		output = output > 127 ? 127 : (output < -127 ? -127 : output);
 

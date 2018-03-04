@@ -3,9 +3,9 @@
 //distance in inches
 void drive(float distance) {
 
-	const float KP = 6.; //Proportional constant
+	const float KP = 5.; //Proportional constant
 	const float KI = 0.; //Integral constant
-	const float KD = 12.;//4 //Derivative constant
+	const float KD = 6.;//4 //Derivative constant
 
 	int leftOutput = 0; //Output for the left motor
 	float leftError = 0; //Error on the left side
@@ -35,6 +35,10 @@ void drive(float distance) {
 		proportion = error * KP; //Calculate the proportion
 		integral += prevError * KI;
 		derivative = (error - prevError) * KD; //Calculate the derivative
+
+		//add some bounds to the integral
+		integral = integral > 127 ? 127 : (integral < -127 ? -127 : integral);
+		integral = (prevError <= 0. && error >= 0.) || (prevError >= 0. && error <= 0.) ? 0 : integral;
 
 		output = proportion + integral + derivative; //Calculate the output
 		output = output > 127 ? 127 : (output < -127 ? -127 : output);

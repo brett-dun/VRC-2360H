@@ -26,21 +26,19 @@ task usercontrol() {
 		}*/
 
 		//Partner Controls
-		if(vexRT[Btn6U])
+		if(vexRT[Btn5U])
 			setSpeed(leftMobileGoal, 127);
-		else if(vexRT[Btn6D])
+		else if(vexRT[Btn5D])
 			setSpeed(leftMobileGoal, -127);
 		else
 			setSpeed(leftMobileGoal, 0);
 
-		/*if(vexRT[Btn6U])
-			setSpeedImmediate(intake, 127); //intake cone
-		else if(vexRT[Btn8U])
-			setSpeedImmediate(intake, 40);
+		if(vexRT[Btn6U])
+			setSpeedImmediate(claw, 127); //intake cone
 		else if(vexRT[Btn6D])
-			setSpeedImmediate(intake, -127); //release cone
+			setSpeedImmediate(claw, -127); //release cone
 		else
-			setSpeedImmediate(intake, 0);*/
+			setSpeedImmediate(claw, 0);
 
 		delay(20);
 
