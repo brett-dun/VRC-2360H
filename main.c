@@ -34,7 +34,7 @@ void squareRobot() {
 #include "controller_layout.c" //contains the controller layout
 
 #include "set_drive.c"
-#include "drive_inches.c"
+#include "drive_inches.c" //arctan drive function
 #include "drive.c" //PID drive function
 #include "turn_degrees.c" //arctan turn function
 #include "turn.c" //PID turn function

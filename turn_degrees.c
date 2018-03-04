@@ -19,7 +19,8 @@ void turnDegrees(float angle){
 
 		previous = current;
 		current = SensorValue[in1] / 10.0;
-		sum += current - previous;
+		if( fabs(current - previous) < 180 )
+			sum += current - previous;
 
 		angleDifference = fabs(angle) - fabs(sum);
 

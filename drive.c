@@ -3,6 +3,9 @@
 //distance in inches
 void drive(float distance) {
 
+	const int direction = distance > 0 ? 1 : -1;
+	distance = fabs(distance);
+
 	const float KP = 5.; //Proportional constant
 	const float KI = 0.; //Integral constant
 	const float KD = 6.;//4 //Derivative constant
@@ -27,7 +30,6 @@ void drive(float distance) {
 
 		leftError = distance - ( abs(nMotorEncoder(leftDrive)) / TICKS * WHEEL_DIAMETER * PI * DRIVE_RATIO ); //Calculate the new error for the left side
 		rightError = distance - ( abs(nMotorEncoder(rightDrive)) / TICKS * WHEEL_DIAMETER * PI * DRIVE_RATIO ); //Calculate the new error for the right side
-
 
 		prevError = error; //Set the current error to the previous error
 		error = (leftError + rightError) / 2.0; //Calculate the new error
@@ -57,13 +59,13 @@ void drive(float distance) {
 
 
 		//Exits loop when the robot has stopped and is within one inch of the target
-		if(getMotorVelocity(leftDrive) == 0 && getMotorVelocity(rightDrive) == 0 && leftError < 0.5 && rightError < 0.5) {
+		if(getMotorVelocity(leftDrive) == 0 && getMotorVelocity(rightDrive) == 0 && fabs(error) < 0.75) {
 			setDrive(0, true);
 			return;
 		}
 
 
-		setDrive(leftOutput, rightOutput); //Set the motors to their speeds
+		setDrive(leftOutput*direction, rightOutput*direction); //Set the motors to their speeds
 		delay(20); //Wait for 20 ms
 
 	}

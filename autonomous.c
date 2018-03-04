@@ -7,29 +7,57 @@ task clawTask() {
 void first() {
 
 	setMGLAngle( 120 ); //mobile goal lift out
-	drive( 40 ); //drive forward
+	driveInches( 40 ); //drive forward
+
 	setMGLAngle( 35 ); //move into position to drop cone
+	delay(750);
 
-	drive( -30 ); //drive backward
+	driveInches( -22 ); //drive backward
+
+	turnDegrees( -20 );
 	startTask( clawTask );
+	driveInches( -15 );
 
-	turn( 135 );
-	drive( 19 ); //drive forward
-	turnDegrees( 90 );
+	turnDegrees( -30 );
+	driveInches( -13 );
 
-	driveInches( 21 ); //drive forward
+	turnDegrees( -85 );
+
+	driveInches( 20 ); //drive forward
 	//Place mobile goal into 20 point zone
-	disableMGLPID();
-	setSpeedImmediate(leftMobileGoal, 127);
-	delay( 1000 ); //let the mobile goal settle - try to shorten this
-	driveInches( -10 ); //drive backward
-	setSpeed(leftMobileGoal, 0);
+	setMGLAngle( 100 );
+	delay( 300 );
+	driveInches( -16 ); //drive backward
 
-	setMGLAngle(0);
+	setMGLAngle(25);
 
 }
 
 void second() {
+
+	turnDegrees( -90 );
+	driveInches( 13 );
+
+	turnDegrees( -20 );
+	driveInches( 12 );
+
+	setMGLAngle( 120 );
+	turnDegrees( -20 );
+	driveInches( 27 );
+
+	setMGLAngle( 45 );
+	delay(750);
+
+	//this here really slows it down a lot
+	driveInches( -35 );
+	turnDegrees( -200 );
+
+	driveInches( 5 );
+	turnDegrees( -30 );
+
+	setMGLAngle( 110 );
+	driveInches( 4 );
+	driveInches( -4 );
 
 }
 
