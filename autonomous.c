@@ -4,6 +4,7 @@ task clawTask() {
 	openClaw(300);
 }
 
+//red into red 20 point
 void first() {
 
 	setMGLAngle( 120 ); //mobile goal lift out
@@ -12,16 +13,16 @@ void first() {
 	setMGLAngle( 35 ); //move into position to drop cone
 	delay(750);
 
-	driveInches( -22 ); //drive backward
+	driveInches( -24 ); //drive backward //22
 
-	turnDegrees( -20 );
+	turnDegrees( -20 , 0);
 	startTask( clawTask );
 	driveInches( -15 );
 
-	turnDegrees( -30 );
-	driveInches( -13 );
+	turnDegrees( -10 , 1);
+	driveInches( -17 );
 
-	turnDegrees( -85 );
+	turnDegrees( -90 , 0); //-85
 
 	driveInches( 20 ); //drive forward
 	//Place mobile goal into 20 point zone
@@ -33,35 +34,55 @@ void first() {
 
 }
 
+//red into center of red 10
 void second() {
 
-	turnDegrees( -90 );
-	driveInches( 13 );
+	turnDegrees( -90 , 0);
+	driveInches( 15 );
 
-	turnDegrees( -20 );
-	driveInches( 12 );
+	turnDegrees( -20 , 0);
+	driveInches( 14 );
 
 	setMGLAngle( 120 );
-	turnDegrees( -20 );
-	driveInches( 27 );
+	turnDegrees( -20 , 0);
+	driveInches( 29 );
 
 	setMGLAngle( 45 );
 	delay(750);
 
 	//this here really slows it down a lot
 	driveInches( -35 );
-	turnDegrees( -200 );
+	turnDegrees( -170 , 0);
 
-	driveInches( 5 );
-	turnDegrees( -30 );
-
+	driveInches( 22 );
+	setMGLAngle( 90 );
+	turnDegrees( -25 , 1);
 	setMGLAngle( 110 );
-	driveInches( 4 );
-	driveInches( -4 );
+	driveInches( 2 );
+
+	driveInches( -8 );
 
 }
 
+//blue into red 10 point
 void third() {
+
+	//setMGLAngle( 60 );
+	turnDegrees( -195 , 0);
+
+	setMGLAngle( 120 );
+	driveInches( 12 );
+
+	setMGLAngle( 45 ); //move into position to drop cone
+	delay(750);
+
+	turnDegrees( 175 , 0);
+
+	driveInches( 20 );
+	setMGLAngle( 110 );
+	driveInches( 3 );
+	driveInches( -6 );
+
 
 }
 
@@ -97,7 +118,7 @@ task autonomous() {
 
 	first();
 	second();
-	third();
+	//third();
 	fourth();
 	fifth();
 	sixth();
