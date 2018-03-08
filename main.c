@@ -15,15 +15,13 @@
 
 #pragma competitionControl(Competition)
 
+float motorPower = 0;
 
 //CONSTANTS
 #define WHEEL_DIAMETER 4.0 //Inches
 #define DRIVE_RATIO 1.0 //Ratio = Out / In
 #define TICKS 392.0 //High Torque (Normal) = 627.2; High Speed = 392.0; Turbo = 261.333; External = 360;
 
-void squareRobot() {
-
-}
 
 //supporting files
 #include "vex.c" //include vex supporting code
@@ -34,9 +32,7 @@ void squareRobot() {
 
 #include "set_drive.c"
 #include "drive_inches.c" //arctan drive function
-#include "drive.c" //PID drive function
 #include "turn_degrees.c" //arctan turn function
-#include "turn.c" //PID turn function
 #include "claw.c"
 #include "pid_task.c"
 

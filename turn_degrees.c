@@ -1,6 +1,6 @@
 #pragma systemFile //This prevents "Unreference variable" and "Unreferenced function" warnings
 
-void turnDegrees(float angle, int sharp) {
+void turnDegrees(float angle, int sharp = 0) {
 	//this should be rewritten at some point
 
 	bool rightTurn = angle > 0;
@@ -29,7 +29,8 @@ void turnDegrees(float angle, int sharp) {
 		angleDifference = fabs(angle) - fabs(sum); //calculate the difference between the desired angle and the target angle
 
 		float power = atan(K * fabs(angleDifference)); //power multiplier to be sent to the motors
-		leftPower = leftSpeed * power;
+		motorPower = power;
+		/*leftPower = leftSpeed * power;
 		rightPower = rightSpeed * power;
 
 		if( (leftPower < 25) && (leftPower > 0) && sharp )
@@ -40,10 +41,10 @@ void turnDegrees(float angle, int sharp) {
 		if( (rightPower < 25) && (rightPower > 0) && sharp )
 			rightPower = 24;
 		else if( (rightPower > -25) && (rightPower < 0) && sharp )
-			rightPower = -24;
+			rightPower = -24;*/
 
-		setSpeedImmediate(leftDrive, leftPower);
-		setSpeedImmediate(rightDrive, rightPower);
+		setSpeedImmediate(leftDrive, fabs(power) < 0.33 && sharp ? leftSpeed / 3.0 : leftSpeed * power);
+		setSpeedImmediate(rightDrive, fabs(power) < 0.33 && sharp ? rightSpeed / 3.0 : rightSpeed * power);
 
 	}
 

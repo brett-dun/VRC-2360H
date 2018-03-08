@@ -23,7 +23,7 @@ void driveInches(float distance) {
 	nMotorEncoder[leftDrive] = 0;
 	nMotorEncoder[rightDrive] = 0;
 
-	while(leftTicks < ticks || rightTicks < ticks) {
+	while( (leftTicks < ticks || rightTicks < ticks) /*&& (getMotorVelocity(leftDrive) || getMotorVelocity(rightDrive) )*/ ) {
 
 		leftTicks = abs(nMotorEncoder[leftDrive]);
 		rightTicks = abs(nMotorEncoder[rightDrive]);

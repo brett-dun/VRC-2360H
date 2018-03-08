@@ -15,14 +15,14 @@ void first() {
 
 	driveInches( -24 ); //drive backward //22
 
-	turnDegrees( -20 , 0);
+	turnDegrees( -20 );
 	startTask( clawTask );
 	driveInches( -15 );
 
-	turnDegrees( -10 , 1);
+	turnDegrees( -10 );
 	driveInches( -17 );
 
-	turnDegrees( -90 , 0); //-85
+	turnDegrees( -90 ); //-85
 
 	driveInches( 20 ); //drive forward
 	//Place mobile goal into 20 point zone
@@ -37,50 +37,59 @@ void first() {
 //red into center of red 10
 void second() {
 
-	turnDegrees( -90 , 0);
-	driveInches( 15 );
+	turnDegrees( -90 );
+	driveInches( 16 );
 
-	turnDegrees( -20 , 0);
-	driveInches( 14 );
+	turnDegrees( -20 );
+	driveInches( 16 );
 
 	setMGLAngle( 120 );
-	turnDegrees( -20 , 0);
+	turnDegrees( -25 );
 	driveInches( 29 );
 
 	setMGLAngle( 45 );
 	delay(750);
+	//turnDegrees( -5, 1);
 
-	//this here really slows it down a lot
-	driveInches( -35 );
-	turnDegrees( -170 , 0);
+	driveInches( -39 );
+	turnDegrees( -170 );
 
 	driveInches( 22 );
 	setMGLAngle( 90 );
-	turnDegrees( -25 , 1);
+	turnDegrees( -35 );
 	setMGLAngle( 110 );
-	driveInches( 2 );
+	delay(300);
+	//driveInches( 2 );
+	driveInches( -4 );
 
-	driveInches( -8 );
 
 }
 
 //blue into red 10 point
 void third() {
 
-	//setMGLAngle( 60 );
-	turnDegrees( -195 , 0);
+	setMGLAngle( 35 );
+	driveInches( 3 );
+	turnDegrees( -140 );
 
+	setMGLAngle( 45 );
+	driveInches( 8 );
+
+	turnDegrees( -35 );
 	setMGLAngle( 120 );
-	driveInches( 12 );
+	delay(500);
+	driveInches( 14 );
 
-	setMGLAngle( 45 ); //move into position to drop cone
+	setMGLAngle( 45 );
 	delay(750);
 
-	turnDegrees( 175 , 0);
+	driveInches( -14 );
+	turnDegrees( 175 );
 
-	driveInches( 20 );
+	driveInches( 12 );
 	setMGLAngle( 110 );
-	driveInches( 3 );
+	delay(300);
+	//driveInches( 3 );
 	driveInches( -6 );
 
 
@@ -88,23 +97,39 @@ void third() {
 
 void fourth() {
 
+	setMGLAngle(0);
+	turnDegrees( -180 );
+
+	setMGLAngle(120);
+	driveInches( 46 );
+
+	setMGLAngle(45);
+	driveInches( 22 );
+
+	turnDegrees( -45 );
+	driveInches( 15 );
+
+	turnDegrees( 45 );
+	driveInches( 20 );
+
+	setMGLAngle( 100 );
+	delay( 300 );
+	driveInches( -16 ); //drive backward
+
+	setMGLAngle(25);
+
 }
 
 void fifth() {
-
+	//second();
 }
 
 void sixth() {
-
+	//third();
 }
 
 void seventh() {
-
-}
-
-//are we going for all 8?
-void eighth() {
-
+	//fourth();
 }
 
 void park() {
@@ -118,12 +143,11 @@ task autonomous() {
 
 	first();
 	second();
-	//third();
+	third();
 	fourth();
 	fifth();
 	sixth();
 	seventh();
-	eighth();
 	park();
 
 }
