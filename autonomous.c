@@ -44,7 +44,7 @@ void second() {
 	driveInches( 16 );
 
 	setMGLAngle( 120 );
-	turnDegrees( -25 );
+	turnDegrees( -22.5 );
 	driveInches( 29 );
 
 	setMGLAngle( 45 );
@@ -75,7 +75,7 @@ void third() {
 	setMGLAngle( 45 );
 	driveInches( 8 );
 
-	turnDegrees( -35 );
+	turnDegrees( -37.5 );
 	setMGLAngle( 120 );
 	delay(500);
 	driveInches( 14 );
@@ -83,10 +83,10 @@ void third() {
 	setMGLAngle( 45 );
 	delay(750);
 
-	driveInches( -14 );
+	driveInches( -16 );
 	turnDegrees( 175 );
 
-	driveInches( 12 );
+	driveInches( 10 );
 	setMGLAngle( 110 );
 	delay(300);
 	//driveInches( 3 );
@@ -98,18 +98,18 @@ void third() {
 void fourth() {
 
 	setMGLAngle(0);
-	turnDegrees( -180 );
+	turnDegrees( -175 );
 
 	setMGLAngle(120);
 	driveInches( 46 );
 
 	setMGLAngle(45);
-	driveInches( 22 );
+	driveInches( 24 );
 
 	turnDegrees( -45 );
-	driveInches( 15 );
+	driveInches( 20 );
 
-	turnDegrees( 45 );
+	turnDegrees( 40 );
 	driveInches( 20 );
 
 	setMGLAngle( 100 );
@@ -121,33 +121,64 @@ void fourth() {
 }
 
 void fifth() {
-	//second();
+	second();
 }
 
 void sixth() {
-	//third();
+	third();
 }
 
 void seventh() {
-	//fourth();
+	//use code from fourth but put it into the 10 instead of 20
+	setMGLAngle(0);
+	turnDegrees( -177.5 );
+
+	setMGLAngle(120);
+	driveInches( 46 );
+
+	setMGLAngle(45);
+	driveInches( 48 );
+
+	setMGLAngle( 100 );
+	delay( 300 );
+	driveInches( -16 ); //drive backward
+
 }
 
 void park() {
 
+	turnDegrees( -45 );
+	driveInches( -50 );
+
+}
+
+void skills() {
+
+	writeDebugStreamLine("Battery Voltage: %f", nAvgBatteryLevel/1000.);
+	float startTime = nSysTime;
+
+	first();
+	writeDebugStreamLine("first - %f", (nSysTime-startTime)/1000.);
+	second();
+	writeDebugStreamLine("second - %f", (nSysTime-startTime)/1000.);
+	third();
+	writeDebugStreamLine("third - %f", (nSysTime-startTime)/1000.);
+	fourth();
+	writeDebugStreamLine("fourth - %f", (nSysTime-startTime)/1000.);
+	fifth();
+	writeDebugStreamLine("fifth - %f", (nSysTime-startTime)/1000.);
+	sixth();
+	writeDebugStreamLine("sixth - %f", (nSysTime-startTime)/1000.);
+	seventh();
+	writeDebugStreamLine("seventh - %f", (nSysTime-startTime)/1000.);
+	park();
+	writeDebugStreamLine("DONE - %f", (nSysTime-startTime)/1000.);
 }
 
 task autonomous() {
 
 	enable(); //Enable the smart motors
 	startTask(pidTask);
-
-	first();
-	second();
-	third();
-	fourth();
-	fifth();
-	sixth();
-	seventh();
-	park();
+	skills();
 
 }

@@ -29,19 +29,6 @@ void turnDegrees(float angle, int sharp = 0) {
 		angleDifference = fabs(angle) - fabs(sum); //calculate the difference between the desired angle and the target angle
 
 		float power = atan(K * fabs(angleDifference)); //power multiplier to be sent to the motors
-		motorPower = power;
-		/*leftPower = leftSpeed * power;
-		rightPower = rightSpeed * power;
-
-		if( (leftPower < 25) && (leftPower > 0) && sharp )
-			leftPower = 24;
-		else if( (leftPower > -25) && (leftPower < 0) && sharp )
-			leftPower = -24;
-
-		if( (rightPower < 25) && (rightPower > 0) && sharp )
-			rightPower = 24;
-		else if( (rightPower > -25) && (rightPower < 0) && sharp )
-			rightPower = -24;*/
 
 		setSpeedImmediate(leftDrive, fabs(power) < 0.33 && sharp ? leftSpeed / 3.0 : leftSpeed * power);
 		setSpeedImmediate(rightDrive, fabs(power) < 0.33 && sharp ? rightSpeed / 3.0 : rightSpeed * power);

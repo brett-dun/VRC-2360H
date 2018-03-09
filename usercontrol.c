@@ -1,7 +1,21 @@
 
+task userTask() {
+	skills();
+}
+
+
 task usercontrol() {
 
 	enable(); //Enable the smart motors
+
+	startTask(pidTask);
+	startTask(userTask);
+
+	while( !(vexRT[Btn5U] && vexRT[Btn5D] && vexRT[Btn6U] && vexRT[Btn6D]) )
+		delay(20);
+
+	stopTask(userTask);
+	stopTask(pidTask);
 
 	float speedMultiplier = 0.5; //the robot will start at half speed
 
