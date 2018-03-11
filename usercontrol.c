@@ -1,21 +1,21 @@
 
-task userTask() {
+/*task userTask() {
 	skills();
-}
+}*/
 
 
 task usercontrol() {
 
 	enable(); //Enable the smart motors
 
-	startTask(pidTask);
-	startTask(userTask);
+	//startTask(pidTask);
+	/*startTask(userTask);
 
 	while( !(vexRT[Btn5U] && vexRT[Btn5D] && vexRT[Btn6U] && vexRT[Btn6D]) )
 		delay(20);
 
 	stopTask(userTask);
-	stopTask(pidTask);
+	stopTask(pidTask);*/
 
 	float speedMultiplier = 0.5; //the robot will start at half speed
 
@@ -40,16 +40,16 @@ task usercontrol() {
 		}*/
 
 		//Partner Controls
-		if(vexRT[Btn5U])
+		if(vexRT[Btn5UXmtr2])
 			setSpeed(leftMobileGoal, 127);
-		else if(vexRT[Btn5D])
+		else if(vexRT[Btn5DXmtr2])
 			setSpeed(leftMobileGoal, -127);
 		else
 			setSpeed(leftMobileGoal, 0);
 
-		if(vexRT[Btn6U])
+		if(vexRT[Btn6UXmtr2])
 			setSpeedImmediate(claw, 127); //intake cone
-		else if(vexRT[Btn6D])
+		else if(vexRT[Btn6DXmtr2])
 			setSpeedImmediate(claw, -127); //release cone
 		else
 			setSpeedImmediate(claw, 0);

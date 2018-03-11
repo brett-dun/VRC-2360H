@@ -16,7 +16,7 @@
 #pragma competitionControl(Competition)
 #pragma DebuggerWindows("debugStream")
 
-//CONSTANTS
+//CONSTANTSv
 #define WHEEL_DIAMETER 4.0 //Inches
 #define DRIVE_RATIO 1.0 //Ratio = Out / In
 #define TICKS 392.0 //High Torque (Normal) = 627.2; High Speed = 392.0; Turbo = 261.333; External = 360;
