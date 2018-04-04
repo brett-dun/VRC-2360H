@@ -29,6 +29,11 @@ const char LEFT_ARROW = 200;
 #endif
 
 
+#ifndef LCD_CONNECTED
+	#define LCD_CONNECTED false
+#endif
+
+
 string autonOptions[NUM_AUTON_OPTIONS];
 
 

@@ -7,13 +7,13 @@
 	Issues/Ideas:
 	-
 */
-void intakeCone(int time, bool reversed = false) {
-	clearTimer(T1);
-	while(time1[T1] < time)
+void intakeCone(int32 time, bool reversed = false) {
+	int32 endTime = nSysTime + time;
+	while(nSysTime < endTime)
 		setSpeed(intake, reversed ? -127 : 127, true);
 	setSpeedImmediate(intake, 0);
 }
 
-void releaseCone(int time) {
+void releaseCone(int32 time) {
 	intakeCone(time, true);
 }

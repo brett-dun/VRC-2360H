@@ -7,7 +7,7 @@
 	Issues/Ideas:
 	-
 */
-void setDrive(float speed, bool immediate = true) {
+void setDrive(int16 speed, bool immediate = true) {
 	setSpeed(leftDrive, speed, immediate);
 	setSpeed(rightDrive, speed, immediate);
 }
@@ -19,7 +19,7 @@ void setDrive(float speed, bool immediate = true) {
 	Issues/Ideas:
 	-
 */
-void setDrive(float leftSpeed, float rightSpeed, bool immediate = true) {
+void setDrive(int16 leftSpeed, int16 rightSpeed, bool immediate = true) {
 	setSpeed(leftDrive, leftSpeed, immediate);
 	setSpeed(rightDrive, rightSpeed, immediate);
 }

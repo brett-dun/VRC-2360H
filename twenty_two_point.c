@@ -7,16 +7,16 @@ void auto5() {
 	startTask( autoTask2 );
 
 	if(leftStart)
-		turnDegrees( 135 );
+		turnDegrees( -45 );
 	else
-		turnDegrees( -135 );
+		turnDegrees( 45 );
 
-	driveInches( 19 ); //drive forward
+	driveInches( -19 );
 
 	if(leftStart)
-		turnDegrees( 90 );
-	else
 		turnDegrees( -90 );
+	else
+		turnDegrees( 90 );
 
 	driveInches( 21 ); //drive forward
 	//Place mobile goal into 20 point zone

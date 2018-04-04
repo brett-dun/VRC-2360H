@@ -3,39 +3,53 @@
 /*
 	distance > 0 >>> forward
 	distance < 0 >>> backward
-
-	Status:
-	- working
-
-	Issues/Ideas:
-	-
 */
-void driveInches(float distance) {
+void driveInches(const float distance, const bool fast = false) {
 
-	const float max = distance < 0 ? -127 : 127;
-	const float ticks = fabs(distance / (WHEEL_DIAMETER * PI * DRIVE_RATIO) * TICKS); //will always be positive
+	const int8 DIRECTION = distance < 0 ? -1 : 1;
+	const float MAX_SPEED = 127. / 8.5 * 7.8 * DIRECTION;
+	const float MIN_SPEED = fast ? MAX_SPEED : 16. * DIRECTION ;
+	const float K1 = 0.001;
+	const float K2 = 0.1;
+	const float TARGET = fabs(distance / (WHEEL_DIAMETER * PI * DRIVE_RATIO) * TICKS); //will always be positive
 
 	float leftTicks = 0;
 	float rightTicks = 0;
 	float average = 0;
 	float speed = 0;
 
+	//reset encoders to zero
 	nMotorEncoder[leftDrive] = 0;
 	nMotorEncoder[rightDrive] = 0;
 
-	while(leftTicks < ticks || rightTicks < ticks) {
+	//writeDebugStreamLine("%f", TARGET);
+
+	while( true ) {
+
+		//if we have passed the target
+		if( average >= TARGET )
+			break;
+
+		//if the robot has nearly reached its target but is stopped
+		if( !getMotorVelocity(leftDrive) && !getMotorVelocity(rightDrive) && fabs(TARGET-average) <= 0.5 / (WHEEL_DIAMETER * PI * DRIVE_RATIO) * TICKS )
+			break;
 
 		leftTicks = abs(nMotorEncoder[leftDrive]);
 		rightTicks = abs(nMotorEncoder[rightDrive]);
 		average = ( leftTicks + rightTicks ) / 2.0;
 
-		speed = max;
+		speed = atan(K1 * (TARGET-average)) / (PI/2) * (MAX_SPEED-MIN_SPEED); //generate a bounded speed
+		speed += MIN_SPEED; //add the minimum speed
+		speed *= (8.5 / nAvgBatteryLevel * 1000.); //multiply by battery voltage factor
 
+		//writeDebugStreamLine("%f", speed);
+
+		//adjustments for if one side gets ahead
 		if(leftTicks < rightTicks) {
 			setSpeed(leftDrive, speed);
-			setSpeed(rightDrive, speed - atan(0.1 *(average-leftTicks)) / (PI/2) * speed);
+			setSpeed(rightDrive, speed - atan(K2 *(average-leftTicks)) / (PI/2) * speed);
 		} else {
-			setSpeed(leftDrive, speed - atan(0.1 *(average-rightTicks)) / (PI/2) * speed);
+			setSpeed(leftDrive, speed - atan(K2 *(average-rightTicks)) / (PI/2) * speed);
 			setSpeed(rightDrive, speed);
 		}
 
@@ -43,6 +57,6 @@ void driveInches(float distance) {
 
 	}
 
-  setDrive(0);
+  setDrive(0); //stop the drive
 
 }

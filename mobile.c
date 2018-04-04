@@ -16,17 +16,17 @@ task mobileGoalIn() {
 }
 
 task autoTask1() {
-	setDRFBAngle(-20);
+	//setDRFBAngle(-20);
 	delay(500); //try to reduce this
-	startTask( mobileGoalOut );
+	setMGLAngle(40);
 }
 
 task autoTask2() {
-	setDRFBAngle(-40);
+	//setDRFBAngle(-40);
 	delay(500);
 	setSpeedImmediate(intake, -127);
 	delay(1000);
-	setDRFBAngle(-20);
+	//setDRFBAngle(-20);
 	setSpeedImmediate(intake, 0);
 }
 
@@ -34,12 +34,12 @@ task autoTask3() {
 	delay(750);
 	setCBAngle(90);
 	delay(750);
-	setDRFBAngle(-35);
+	//setDRFBAngle(-35);
 	delay(750);
 
 	setSpeedImmediate(intake, -127);
 	delay(1000);
-	setDRFBAngle(-25);
+	//setDRFBAngle(-25);
 	delay(1000);
 	setSpeedImmediate(intake, 0);
 }
@@ -53,7 +53,7 @@ void getMobileGoal() {
 	delay(1000); //try to shorten this
 	driveInches( 40 ); //drive forward
 	delay(500); //try to shorten this
-	startTask( mobileGoalIn ); //Task: MGL in
+	setMGLAngle(0);
 
 }
 
@@ -63,11 +63,11 @@ void auto1() {
 	delay(1500); //check this
 	driveInches( 2.5 );
 
-	setDRFBAngle(-40);
+	//setDRFBAngle(-40);
 	delay(500);
 	setSpeedImmediate(intake, -127);
 	delay(500);
-	setDRFBAngle(-20);
+	//setDRFBAngle(-20);
 	setSpeedImmediate(intake, 0);
 
 
@@ -76,9 +76,9 @@ void auto1() {
 	setCBAngle( 0 );
 	delay(500);
 	setSpeedImmediate(intake, 127);
-	setDRFBAngle( -55 );
+	//setDRFBAngle( -55 );
 	delay(1250);
-	setDRFBAngle( -20 );
+	//setDRFBAngle( -20 );
 	setSpeedImmediate(intake, 0);
 	startTask( autoTask3 );
 

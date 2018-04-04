@@ -6,7 +6,8 @@ void pre_auton() {
 		clearLCD(true);
 		displayLCDCenteredString(0, "PLUG IN");
 		displayLCDCenteredString(1, "BATTERY #2");
-		while( SensorValue[powerExpander] < 500 );//No battery is attached
+		while( SensorValue[powerExpander] < 500 ) //No battery is attached
+			delay(20);
 
 		playTone(440, 100);
 		delay(100);
@@ -46,7 +47,7 @@ void pre_auton() {
 		5 = 22 point
 		6 = 24 point
 		*/
-		autoChoice = 4;
+		autoChoice = 5;
 	}
 
 	/* Let's try to see how it works without calibration

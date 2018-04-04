@@ -23,15 +23,21 @@ typedef struct {
 
 PIDController drfb;
 PIDController cb;
+PIDController mgl;
 
-void setDRFBAngle(float angle) {
+void setDRFBAngle(const float angle) {
 	drfb.enabled = true;
 	drfb.target = angle;
 }
 
-void setCBAngle(float angle) {
+void setCBAngle(const float angle) {
 	cb.enabled = true;
 	cb.target = angle;
+}
+
+void setMGLAngle(const float angle) {
+	mgl.enabled = true;
+	mgl.target = angle;
 }
 
 void disableDRFBPID() {
@@ -40,6 +46,10 @@ void disableDRFBPID() {
 
 void disableCBPID() {
 	cb.enabled = false;
+}
+
+void disableMGLPID() {
+	mgl.enabled = false;
 }
 
 task pidTask() {
@@ -54,10 +64,14 @@ task pidTask() {
 	cb.KI = 0.;
 	cb.KD = 1.;
 
+	mgl.KP = 30.;
+	mgl.KI = 0.;
+	mgl.KD = 20.;
+
 	while(true) {
 
 		drfb.prevError = drfb.error; //Set the current error to the previous error
-		drfb.error = drfb.target - (nMotorEncoder[leftDRFB] / 627.2 * (1.0/7.0) * 360.0) + 50;
+		drfb.error = drfb.target - (nMotorEncoder[leftDRFB] / 392. * (1.0/7.0) * 360.0) + 50;
 		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
 		//degrees - degrees
 
@@ -84,6 +98,25 @@ task pidTask() {
 
 		if(cb.enabled)
 			setSpeedImmediate(chainBar, cb.output);
+
+		mgl.prevError = mgl.error; //Set the current error to the previous error
+		mgl.error = mgl.target + (nMotorEncoder[leftMobileGoal] / 392. * (1.0/5.0) * 360.0); //change this angle
+		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
+		//degrees - degrees
+
+		mgl.proportion = mgl.error * mgl.KP; //Calculate the proportion
+		mgl.integral += mgl.prevError * mgl.KI;
+		mgl.derivative = (mgl.error - mgl.prevError) * mgl.KD; //Calculate the derivative
+
+		//add some bounds to the integral
+		mgl.integral = mgl.integral > 127 ? 127 : (mgl.integral < -127 ? -127 : mgl.integral);
+		mgl.integral = (mgl.prevError <= 0. && mgl.error >= 0.) || (mgl.prevError >= 0. && mgl.error <= 0.) ? 0 : mgl.integral;
+
+		mgl.output = mgl.proportion + mgl.integral + mgl.derivative; //Calculate the output
+		mgl.output = mgl.output > 127 ? 127 : (mgl.output < -127 ? -127 : mgl.output);
+
+		if(mgl.enabled)
+			setSpeedImmediate(leftMobileGoal, mgl.output);
 
 
 		delay(20); //Wait for 20 ms
