@@ -28,37 +28,64 @@ void auto2() {
 
 	startTask(pidTask);
 
-	driveInches( 6 );
-
-	setDRFBAngle(10); //check this
+	setDRFBAngle(15);
+	driveInches(14);
 	setCBAngle(0);
 
 	delay(500);
 
-	driveInches( 5 );
+	setSpeedImmediate(intake, -127);
+	delay(250);
+	setDRFBAngle(25);
+	delay(100);
+	setSpeedImmediate(intake, 0);
 
-	releaseCone(1000); //Drop cone onto stationary goal
+	driveInches(-18);
 
-	driveInches( -5 ); //check this
-	setDRFBAngle(-35);
+	//check these angles
+	if(leftStart)
+		turnDegrees(-105);
+	else
+		turnDegrees(105);
+
+	getMobileGoal();
+	delay(950); //check this
+
+	//drop first cone
+	setDRFBAngle(-40);
+	setSpeedImmediate(intake, -127);
+	//delay(200);
+	setDRFBAngle(-20);
+	delay(250);
+	setSpeedImmediate(intake, 0);
+
+	//pick up second cone
+	setCBAngle(0);
+	delay(400);
+	//setDRFBAngle(-30);
+	//startTask(autoTask4);
+	driveInches(8);
+	setDRFBAngle(-42);
+	setSpeedImmediate(intake, 127);
+	delay(750);
+	setSpeedImmediate(intake, 0);
+	setDRFBAngle( -15 );
 	setCBAngle(90);
-	startTask( mobileGoalOut );
+	delay(500);
+
+	startTask(autoTask3);
+
+	driveInches(-30);
 
 	if(leftStart)
-		turnDegrees( -135 );
+		turnDegrees(205);
 	else
-		turnDegrees( 135 );
+		turnDegrees(-205);
 
-	driveInches( 12*sqrt(2) );
+	setMGLAngle(120);
+	delay(750);
 
-	if(leftStart)
-		turnDegrees( 45 );
-	else
-		turnDegrees( -45 );
-
-	driveInches( 36 );
-	startTask( mobileGoalIn );
-
-	returnMobileGoal();
+	driveInches(-20);
+	setMGLAngle(70);
 
 }

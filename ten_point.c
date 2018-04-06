@@ -3,18 +3,19 @@ void auto4() { //drop cone on mobile goal, move mobile goal to five point zone
 
 	auto1();
 
-	driveInches(-30);
+	driveInches(-45);
 
 	if(leftStart)
-		turnDegrees(192.5); //190
+		turnDegrees(210);
 	else
-		turnDegrees(-192.5);
+		turnDegrees(-210);
 
-	driveInches(9);
-	delay(100);
-	startTask( mobileGoalOut );
-	delay(2000);
+	driveInches(8, true);
 
-	driveInches(-20);
+	setMGLAngle(120);
+	delay(750);
+
+	driveInches(-10);
+	//setDRFBAngle(-40);
 
 }

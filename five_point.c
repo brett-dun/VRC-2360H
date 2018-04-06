@@ -3,16 +3,17 @@ void auto3() {
 
 	auto1();
 
-	driveInches(-30);
+	driveInches(-40);
 
 	if(leftStart)
-		turnDegrees(190);
+		turnDegrees(205);
 	else
-		turnDegrees(-190);
+		turnDegrees(-205);
 
-	startTask( mobileGoalOut );
-	delay(2000);
+	setMGLAngle(120);
+	delay(750);
 
 	driveInches(-20);
+	setMGLAngle(70);
 
 }

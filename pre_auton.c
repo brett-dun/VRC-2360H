@@ -21,10 +21,9 @@ void pre_auton() {
 		autonOptions[0] = "None";
 		autonOptions[1] = "Mobile";
 		autonOptions[2] = "Stationary";
-		autonOptions[3] = "5 Point";
-		autonOptions[4] = "10 Point";
-		autonOptions[5] = "22 Point";
-		autonOptions[6] = "24 Point";
+		autonOptions[3] = "5+6 Point";
+		autonOptions[4] = "10+6 Point";
+		autonOptions[5] = "20+4 Point";
 
 		if(!skillsEnabled) {
 			leftStart = tfQuestion("Left Side?");
@@ -64,6 +63,7 @@ void pre_auton() {
 	addSlave(rightDrive, rightMiddleDrive);
 
 	addSlave(leftDRFB, rightDRFB);
+	setSlewRate(leftDRFB, 10);
 
 	addSlave(leftMobileGoal, rightMobileGoal);
 

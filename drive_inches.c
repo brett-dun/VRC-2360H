@@ -8,7 +8,7 @@ void driveInches(const float distance, const bool fast = false) {
 
 	const int8 DIRECTION = distance < 0 ? -1 : 1;
 	const float MAX_SPEED = 127. / 8.5 * 7.8 * DIRECTION;
-	const float MIN_SPEED = fast ? MAX_SPEED : 16. * DIRECTION ;
+	const float MIN_SPEED = fast ? MAX_SPEED : 32. * DIRECTION ;
 	const float K1 = 0.001;
 	const float K2 = 0.1;
 	const float TARGET = fabs(distance / (WHEEL_DIAMETER * PI * DRIVE_RATIO) * TICKS); //will always be positive
@@ -22,7 +22,10 @@ void driveInches(const float distance, const bool fast = false) {
 	nMotorEncoder[leftDrive] = 0;
 	nMotorEncoder[rightDrive] = 0;
 
-	//writeDebugStreamLine("%f", TARGET);
+	if(fast) {
+		setSlewRate(leftDrive, 5);
+		setSlewRate(rightDrive, 5);
+	}
 
 	while( true ) {
 
@@ -42,8 +45,6 @@ void driveInches(const float distance, const bool fast = false) {
 		speed += MIN_SPEED; //add the minimum speed
 		speed *= (8.5 / nAvgBatteryLevel * 1000.); //multiply by battery voltage factor
 
-		//writeDebugStreamLine("%f", speed);
-
 		//adjustments for if one side gets ahead
 		if(leftTicks < rightTicks) {
 			setSpeed(leftDrive, speed);
@@ -57,6 +58,8 @@ void driveInches(const float distance, const bool fast = false) {
 
 	}
 
+	setSlewRate(leftDrive, 10);
+	setSlewRate(rightDrive, 10);
   setDrive(0); //stop the drive
 
 }

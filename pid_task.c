@@ -35,6 +35,11 @@ void setCBAngle(const float angle) {
 	cb.target = angle;
 }
 
+/*
+Fully Retracted = 0
+Extended for 20 Point Zone = 105
+Fully Extended = 120
+*/
 void setMGLAngle(const float angle) {
 	mgl.enabled = true;
 	mgl.target = angle;
@@ -71,7 +76,8 @@ task pidTask() {
 	while(true) {
 
 		drfb.prevError = drfb.error; //Set the current error to the previous error
-		drfb.error = drfb.target - (nMotorEncoder[leftDRFB] / 392. * (1.0/7.0) * 360.0) + 50;
+		drfb.error = drfb.target + (nMotorEncoder[leftDRFB] / 627.2 * (1.0/7.0) * 360.0) + 50;
+		temp1 = drfb.error;
 		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
 		//degrees - degrees
 
@@ -100,7 +106,7 @@ task pidTask() {
 			setSpeedImmediate(chainBar, cb.output);
 
 		mgl.prevError = mgl.error; //Set the current error to the previous error
-		mgl.error = mgl.target + (nMotorEncoder[leftMobileGoal] / 392. * (1.0/5.0) * 360.0); //change this angle
+		mgl.error = mgl.target + (nMotorEncoder[rightMobileGoal] / 627.2 * (1.0/5.0) * 360.); //change this angle
 		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
 		//degrees - degrees
 

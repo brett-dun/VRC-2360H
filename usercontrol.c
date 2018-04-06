@@ -6,6 +6,8 @@ task usercontrol() {
 	displayLCDCenteredString(1, "HELIX");
 
 	enable(); //Enable the smart motors
+	setSlewRate(leftDrive, 10);
+	setSlewRate(rightDrive, 10);
 
 	float speedMultiplier = 0.5; //the robot will start at half speed
 
@@ -22,9 +24,9 @@ task usercontrol() {
 		setSpeed(rightDrive, vexRT[Ch2] * speedMultiplier); //Set rightDrive speed
 
 		if(vexRT[Btn6U]) //If button 6U is pressed
-			setSpeedImmediate(leftDRFB, 127);
+			setSpeed(leftDRFB, 127);
 		else if(vexRT[Btn6D]) //If button 6D is pressed
-			setSpeedImmediate(leftDRFB, -127);
+			setSpeed(leftDRFB, -127);
 		else //Otherwise
 			setSpeedImmediate(leftDRFB, 0);
 
@@ -48,7 +50,7 @@ task usercontrol() {
 		else if(vexRT[Btn5DXmtr2])
 			setSpeed(leftMobileGoal, 127);
 		else if(vexRT[Btn7DXmtr2])
-			setSpeed(leftMobileGoal, 64); //Is there actually a need for this?
+			setSpeed(leftMobileGoal, 64);
 		else
 			setSpeed(leftMobileGoal, 0);
 

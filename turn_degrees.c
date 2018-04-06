@@ -45,6 +45,5 @@ void turnDegrees(float angle) {
 	}
 
 	setDrive(0);
-	delay(250);
 
 }
