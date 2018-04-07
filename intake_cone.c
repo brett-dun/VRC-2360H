@@ -7,8 +7,8 @@
 	Issues/Ideas:
 	-
 */
-void intakeCone(int32 time, bool reversed = false) {
-	int32 endTime = nSysTime + time;
+void intakeCone(uint32 time, bool reversed = false) {
+	uint32 endTime = nSysTime + time;
 	while(nSysTime < endTime)
 		setSpeed(intake, reversed ? -127 : 127, true);
 	setSpeedImmediate(intake, 0);

@@ -2,8 +2,8 @@
 task usercontrol() {
 
 	clearLCD();
-	displayLCDCenteredString(0, "2630H");
-	displayLCDCenteredString(1, "HELIX");
+	displayLCDCenteredString(0, leftStart ? "Left" : "Right");
+	displayLCDCenteredString(1, autonOptions[autoChoice]);
 
 	enable(); //Enable the smart motors
 	setSlewRate(leftDrive, 10);
@@ -23,9 +23,9 @@ task usercontrol() {
 		setSpeed(leftDrive, vexRT[Ch3] * speedMultiplier); //Set leftDrive speed
 		setSpeed(rightDrive, vexRT[Ch2] * speedMultiplier); //Set rightDrive speed
 
-		if(vexRT[Btn6U]) //If button 6U is pressed
+		if(vexRT[Btn6U] || (vexRT[Btn8UXmtr2] && !vexRT[Btn6D]) ) //If button 6U is pressed
 			setSpeed(leftDRFB, 127);
-		else if(vexRT[Btn6D]) //If button 6D is pressed
+		else if(vexRT[Btn6D] || (vexRT[Btn8DXmtr2] && !vexRT[Btn6U]) ) //If button 6D is pressed
 			setSpeed(leftDRFB, -127);
 		else //Otherwise
 			setSpeedImmediate(leftDRFB, 0);
@@ -56,8 +56,6 @@ task usercontrol() {
 
 		if(vexRT[Btn6UXmtr2])
 			setSpeedImmediate(intake, 127); //intake cone
-		else if(vexRT[Btn8UXmtr2])
-			setSpeedImmediate(intake, 40);
 		else if(vexRT[Btn6DXmtr2])
 			setSpeedImmediate(intake, -127); //release cone
 		else

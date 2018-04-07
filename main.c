@@ -28,17 +28,15 @@ const float DRIVE_RATIO = 1.0; //Ratio = Out / In
 const float TICKS  = 392.0; //High Torque (Normal) = 627.2; High Speed = 392.0; Turbo = 261.333; External = 360;
 #define LCD_CONNECTED true
 #define NUM_AUTON_OPTIONS 6
-#define LEFT_BUTTON (nLCDButtons == 1 || vexRT[Btn7L] || vexRT[Btn8L])
-#define MIDDLE_BUTTON (nLCDButtons == 2 || vexRT[Btn7U] || vexRT[Btn7D] || vexRT[Btn8U] || vexRT[Btn8D])
-#define RIGHT_BUTTON (nLCDButtons == 4 || vexRT[Btn7R] || vexRT[Btn8R])
+#define LEFT_BUTTON (nLCDButtons == 1 || vexRT[Btn7L] || vexRT[Btn8L] || vexRT[Btn7LXmtr2] || vexRT[Btn8LXmtr2])
+#define MIDDLE_BUTTON (nLCDButtons == 2 || vexRT[Btn7U] || vexRT[Btn7D] || vexRT[Btn8U] || vexRT[Btn8D] || vexRT[Btn7UXmtr2] || vexRT[Btn7DXmtr2] || vexRT[Btn8UXmtr2] || vexRT[Btn8DXmtr2])
+#define RIGHT_BUTTON (nLCDButtons == 4 || vexRT[Btn7R] || vexRT[Btn8R] || vexRT[Btn7RXmtr2] || vexRT[Btn8RXmtr2])
 
 
 //variables
 bool skillsEnabled = false; //skills will not run
 bool leftStart = true; //will not start on left side
 short autoChoice = 0; //no autonomous will run
-
-float temp1 = 0;
 
 
 //supporting files
@@ -57,10 +55,10 @@ float temp1 = 0;
 #include "pid_task.c" //pid task for double reverse four bar and chain bar
 
 #include "mobile.c" // 2 cones + mobile goal
-#include "stationary.c" // 1 cone on stationary + 5 point zone mobile goal - doesn't work
-#include "five_point.c" // 2 cones + 5 point zone mobile goal
-#include "ten_point.c" // 2 cones + 10 point zone mobile goal
-#include "twenty_four_point.c" // 2 cones + 20 point zone mobile goal - doesn't work
+#include "stationary.c" // 1 cone on stationary + 1 cone on 5 point zone mobile goal (doesn't work)
+#include "five_point.c" // 3 cones + 5 point zone mobile goal
+#include "ten_point.c" // 3 cones + 10 point zone mobile goal
+#include "twenty_four_point.c" // 2 cones + 20 point zone mobile goal
 #include "skills.c" //programming skills code
 
 #include "pre_auton.c" //include pre-autonomous code

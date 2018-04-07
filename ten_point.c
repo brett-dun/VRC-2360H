@@ -3,7 +3,7 @@ void auto4() { //drop cone on mobile goal, move mobile goal to five point zone
 
 	auto1();
 
-	driveInches(-45);
+	driveInches(-35, true);
 
 	if(leftStart)
 		turnDegrees(210);
@@ -15,7 +15,6 @@ void auto4() { //drop cone on mobile goal, move mobile goal to five point zone
 	setMGLAngle(120);
 	delay(750);
 
-	driveInches(-10);
-	//setDRFBAngle(-40);
+	driveInches(-20);
 
 }

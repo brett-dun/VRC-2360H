@@ -2,14 +2,14 @@
 void auto5() { //drop cone on mobile goal, move mobile goal to five point zone
 
 	auto1(true);
-	driveInches(-45, true); //drive backward //check this
+	driveInches(-46.5, true); //drive backward //check this
 
 	if(leftStart)
 		turnDegrees(155);
 	else
 		turnDegrees(-155);
 
-	driveInches(4, true); //drive forward
+	driveInches(3, true); //drive forward
 
 	if(leftStart)
 		turnDegrees(90);

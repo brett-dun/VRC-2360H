@@ -77,7 +77,6 @@ task pidTask() {
 
 		drfb.prevError = drfb.error; //Set the current error to the previous error
 		drfb.error = drfb.target + (nMotorEncoder[leftDRFB] / 627.2 * (1.0/7.0) * 360.0) + 50;
-		temp1 = drfb.error;
 		//degrees - ticks / (ticks/rotation) * (gr constant) * (degrees/rotation)
 		//degrees - degrees
 

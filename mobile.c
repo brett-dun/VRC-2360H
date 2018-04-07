@@ -1,11 +1,4 @@
 
-task mobileGoalOut() {
-	setSpeedImmediate(leftMobileGoal, 127);
-	setSpeedImmediate(rightMobileGoal, 127);
-	delay(2000);
-	setSpeedImmediate(leftMobileGoal, 0);
-	setSpeedImmediate(rightMobileGoal, 0);
-}
 
 task autoTask1() {
 	setDRFBAngle(-20);
@@ -21,15 +14,11 @@ task autoTask3() {
 	setDRFBAngle(-30);
 	delay(750);
 	setSpeedImmediate(intake, -127);
-	//delay(200);
+	delay(50);
 	setDRFBAngle(-10);
 	delay(250);
 	setSpeedImmediate(intake, 0);
 
-}
-
-task autoTask4() {
-	driveInches(9);
 }
 
 void getMobileGoal() {
@@ -53,7 +42,6 @@ void auto1(bool twoCones = false) {
 	//drop first cone
 	setDRFBAngle(-40);
 	setSpeedImmediate(intake, -127);
-	//delay(200);
 	setDRFBAngle(-20);
 	delay(250);
 	setSpeedImmediate(intake, 0);
@@ -61,12 +49,10 @@ void auto1(bool twoCones = false) {
 	//pick up second cone
 	setCBAngle(0);
 	delay(400);
-	//setDRFBAngle(-30);
-	//startTask(autoTask4);
-	driveInches(8);
-	setDRFBAngle(-42);
+	driveInches(8.5);
+	setDRFBAngle(-44);
 	setSpeedImmediate(intake, 127);
-	delay(750);
+	delay(850);
 	setSpeedImmediate(intake, 0);
 	setDRFBAngle( -15 );
 	setCBAngle(90);
@@ -79,7 +65,6 @@ void auto1(bool twoCones = false) {
 		setDRFBAngle(-35);
 		delay(750);
 		setSpeedImmediate(intake, -127);
-		//delay(200);
 		setDRFBAngle(-20);
 		delay(250);
 		setSpeedImmediate(intake, 0);
@@ -87,8 +72,7 @@ void auto1(bool twoCones = false) {
 		//pick up third cone
 		setCBAngle(0);
 		delay(400);
-		//setDRFBAngle(-30);
-		driveInches(8);
+		driveInches(9);
 		setDRFBAngle(-42);
 		setSpeedImmediate(intake, 127);
 		delay(750);
